@@ -7,224 +7,132 @@
 
 <style>
 *{box-sizing:border-box}
-
 body{
-margin:0;
-padding:20px;
-background:#f3f4f6;
-font:14px Arial,Helvetica,sans-serif;
-color:#111827
+ margin:0;padding:20px;background:#f3f4f6;
+ font:14px Arial,Helvetica,sans-serif;color:#111827
 }
-
-.wrap{
-max-width:1100px;
-margin:auto
+.wrap{max-width:1100px;margin:auto}
+.box,.client-card{
+ background:#fff;padding:25px;border-radius:14px;
+ box-shadow:0 4px 20px #0001
 }
-
-.grid{
-display:grid;
-grid-template-columns:360px 1fr;
-gap:20px
-}
-
-.box,.card{
-background:#fff;
-padding:22px;
-border-radius:12px;
-box-shadow:0 4px 20px #0001
-}
-
+.grid{display:grid;grid-template-columns:370px 1fr;gap:20px}
+h1{margin-top:0}
+h2,h3{margin-top:0}
 label{
-display:block;
-font-weight:bold;
-font-size:12px;
-margin:10px 0 5px
+ display:block;font-size:12px;font-weight:bold;
+ margin:12px 0 5px
 }
-
 input,select{
-width:100%;
-padding:9px;
-border:1px solid #ccc;
-border-radius:6px
+ width:100%;padding:10px;border:1px solid #d1d5db;
+ border-radius:7px;background:#fff
 }
-
-input[type=color]{
-height:40px;
-padding:3px
+input[type=color]{height:42px;padding:3px}
+input[type=file]{padding:7px}
+button{
+ cursor:pointer;font-family:inherit
 }
-
-input[type=range]{
-padding:0
+.primary{
+ width:100%;padding:13px;border:0;border-radius:7px;
+ background:#2563eb;color:#fff;font-weight:bold;
+ margin-top:15px
 }
-
-.layouts{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:6px;
-margin-top:8px
-}
-
-.layout{
-padding:10px;
-border:1px solid #ccc;
-background:#fff;
-border-radius:6px;
-cursor:pointer
-}
-
-.layout.active{
-background:#eff6ff;
-border:2px solid #2563eb;
-color:#1d4ed8
-}
-
-.blue{
-width:100%;
-padding:12px;
-background:#2563eb;
-color:#fff;
-border:0;
-border-radius:7px;
-font-weight:bold;
-margin-top:15px;
-cursor:pointer
-}
-
-.blue:hover{
-background:#1d4ed8
-}
-
+.primary:hover{background:#1d4ed8}
 .preview{
-padding:35px;
-border:1px solid #ddd;
-border-radius:8px;
-overflow:auto;
-min-height:220px;
-background:#fff
+ background:#fff;border:1px solid #ddd;border-radius:9px;
+ padding:35px;min-height:220px;overflow:auto
 }
-
-.actions{
-display:flex;
-gap:8px
-}
-
+.actions{display:flex;gap:8px}
 .actions button{
-flex:1;
-padding:11px;
-background:#111827;
-color:#fff;
-border:0;
-border-radius:6px;
-margin-top:8px;
-cursor:pointer
+ flex:1;padding:11px;border:0;border-radius:7px;
+ background:#111827;color:#fff;margin-top:10px
 }
-
-.link{
-display:none;
-margin-top:15px;
-padding:12px;
-background:#eff6ff;
-border-radius:7px
+.layouts{
+ display:grid;grid-template-columns:1fr 1fr;gap:7px
 }
-
-.link input{
-margin-top:7px
+.layout{
+ padding:10px;border:1px solid #ccc;
+ background:#fff;border-radius:7px
 }
-
-.client{
-display:none
+.layout.active{
+ background:#eff6ff;border:2px solid #2563eb;
+ color:#1d4ed8
 }
-
-.card{
-max-width:800px;
-margin:30px auto
+.logo-box{
+ border:2px dashed #d1d5db;border-radius:8px;
+ padding:15px;text-align:center;margin-top:8px
 }
-
-.sig{
-border:1px solid #ddd;
-padding:30px;
-overflow:auto;
-background:#fff
+.logo-preview{
+ max-width:220px;max-height:120px;
+ display:block;margin:12px auto
 }
-
-.tabs{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:6px
+.divider{
+ height:1px;background:#e5e7eb;
+ margin:20px 0
 }
-
-.tab{
-padding:10px;
-border:1px solid #ccc;
-background:#fff;
-border-radius:6px;
-cursor:pointer
-}
-
-.tab.active{
-background:#111827;
-color:#fff
-}
-
-.guide{
-background:#f9fafb;
-border:1px solid #ddd;
-padding:18px;
-margin-top:10px;
-border-radius:7px
-}
-
-.guide li{
-margin-bottom:10px;
-line-height:1.45
-}
-
 .msg{
-text-align:center;
-color:#087f5b;
-display:none;
-margin-top:8px
+ display:none;text-align:center;color:#047857;
+ margin-top:10px
 }
-
-.logoBox{
-border:2px dashed #ccc;
-padding:15px;
-border-radius:8px;
-text-align:center;
-margin-top:8px
+.linkbox{
+ display:none;background:#eff6ff;
+ padding:15px;border-radius:8px;margin-top:15px
 }
-
-.logoPreview{
-max-width:220px;
-max-height:120px;
-display:none;
-margin:12px auto
+.client{display:none}
+.client-wrap{max-width:800px;margin:30px auto}
+.client-sig{
+ border:1px solid #ddd;border-radius:9px;
+ padding:30px;overflow:auto;background:#fff
 }
-
-.small{
-font-size:12px;
-color:#6b7280;
-line-height:1.4
+.tabs{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:7px;margin-top:15px
 }
+.tab{
+ padding:11px;border:1px solid #ccc;
+ background:#fff;border-radius:7px;font-weight:bold
+}
+.tab.active{background:#111827;color:#fff}
+.guide{
+ background:#f9fafb;border:1px solid #ddd;
+ padding:18px;border-radius:8px;margin-top:10px
+}
+.guide li{margin-bottom:10px;line-height:1.45}
+.tip{
+ background:#eff6ff;color:#1e40af;
+ padding:12px;border-radius:7px;margin-top:15px
+}
+.client-logo-area{
+ border:1px solid #ddd;padding:15px;
+ border-radius:8px;margin:15px 0;
+ background:#fafafa
+}
+.client-logo-preview{
+ max-width:220px;max-height:120px;
+ display:none;margin:12px auto
+}
+.small{font-size:12px;color:#6b7280;line-height:1.5}
 
 @media(max-width:800px){
-.grid{
-grid-template-columns:1fr
-}
+ .grid{grid-template-columns:1fr}
+ .actions{flex-direction:column}
+ .tabs{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= BUILDER ================= -->
+<!-- =====================================================
+     BUILDER
+===================================================== -->
 
 <div id="builder" class="wrap">
 
 <h1>Email Signature Builder</h1>
 
-<p style="text-align:center;color:#777">
-Create the client's signature and send them their private client link.
+<p class="small">
+Create the client's signature, then create a private client page link.
 </p>
 
 <div class="grid">
@@ -236,150 +144,162 @@ Create the client's signature and send them their private client link.
 <h3>Client Information</h3>
 
 <label>Full Name</label>
-<input id="n" placeholder="John Ade">
+<input id="name" placeholder="John Ade">
 
 <label>Job Title</label>
-<input id="t" placeholder="Managing Director">
+<input id="title" placeholder="Managing Director">
 
 <label>Company</label>
-<input id="c" placeholder="ABC Consulting">
+<input id="company" placeholder="ABC Consulting Ltd">
 
 <label>Phone</label>
-<input id="p" placeholder="+234 800 123 4567">
+<input id="phone" placeholder="+234 800 123 4567">
 
 <label>Email</label>
-<input id="e" placeholder="john@abc.com">
+<input id="email" placeholder="john@abc.com">
 
 <label>Website</label>
-<input id="w" placeholder="https://abc.com">
+<input id="website" placeholder="https://abc.com">
 
 <label>Location</label>
-<input id="l" placeholder="Lagos, Nigeria">
+<input id="location" placeholder="Lagos, Nigeria">
 
+
+<div class="divider"></div>
 
 <h3>Social Links</h3>
 
 <label>WhatsApp</label>
-<input id="wa" placeholder="https://wa.me/2348001234567">
+<input id="whatsapp" placeholder="https://wa.me/2348001234567">
 
 <label>LinkedIn</label>
-<input id="li" placeholder="https://linkedin.com/in/username">
+<input id="linkedin" placeholder="https://linkedin.com/in/username">
 
 <label>Instagram</label>
-<input id="ig" placeholder="https://instagram.com/username">
+<input id="instagram" placeholder="https://instagram.com/username">
 
 <label>Facebook</label>
-<input id="fb" placeholder="https://facebook.com/username">
+<input id="facebook" placeholder="https://facebook.com/username">
 
 <label>TikTok</label>
-<input id="tt" placeholder="https://tiktok.com/@username">
+<input id="tiktok" placeholder="https://tiktok.com/@username">
 
 <label>X / Twitter</label>
-<input id="tw" placeholder="https://x.com/username">
+<input id="twitter" placeholder="https://x.com/username">
 
+
+<div class="divider"></div>
 
 <h3>Company Logo</h3>
 
-<div class="logoBox">
+<p class="small">
+You can upload a logo or use a public logo URL.
+</p>
 
+<label>Upload Logo</label>
 <input
-type="file"
-id="logoFile"
-accept="image/png,image/jpeg,image/webp"
+ type="file"
+ id="builderLogo"
+ accept="image/png,image/jpeg,image/webp"
+>
+
+<img
+ id="builderLogoPreview"
+ class="logo-preview"
+ alt="Logo preview"
+>
+
+<label>OR Logo URL</label>
+<input
+ id="builderLogoUrl"
+ placeholder="https://example.com/logo.png"
+>
+
+<label>Logo Width</label>
+<input
+ type="range"
+ id="logoWidth"
+ min="60"
+ max="250"
+ value="140"
 >
 
 <p class="small">
-Upload PNG, JPG or WebP.
+Logo size: <strong><span id="logoSize">140</span>px</strong>
 </p>
 
-<img id="logoPreview" class="logoPreview">
-
-</div>
-
-<label>Or Logo URL</label>
-<input id="logoUrl" placeholder="https://example.com/logo.png">
-
-<label>Logo Website Link</label>
-<input id="logoLink" placeholder="https://example.com">
-
-<label>Logo Width</label>
-
+<label>Logo Link</label>
 <input
-type="range"
-id="logoWidth"
-min="50"
-max="300"
-value="140"
+ id="logoLink"
+ placeholder="https://yourcompany.com"
 >
 
-<div class="small">
-Logo size:
-<strong><span id="logoSize">140</span>px</strong>
-</div>
 
+<div class="divider"></div>
 
 <h3>Appearance</h3>
 
 <label>Primary Color</label>
-<input type="color" id="pc" value="#111827">
+<input type="color" id="primary" value="#111827">
 
 <label>Accent Color</label>
-<input type="color" id="ac" value="#2563eb">
+<input type="color" id="accent" value="#2563eb">
 
+<label>Font</label>
+<select id="font">
+<option value="Arial,Helvetica,sans-serif">Arial</option>
+<option value="Helvetica,Arial,sans-serif">Helvetica</option>
+<option value="Verdana,sans-serif">Verdana</option>
+<option value="Tahoma,sans-serif">Tahoma</option>
+<option value="Georgia,serif">Georgia</option>
+</select>
 
 <label>Main Divider</label>
-
 <select id="mainDivider">
 <option value="yes">Show</option>
 <option value="no">Hide</option>
 </select>
 
-
 <label>Social Divider</label>
-
 <select id="socialDivider">
 <option value="yes">Show</option>
 <option value="no">Hide</option>
 </select>
 
 
-<label>Social Icons</label>
-
-<select id="socialShow">
-<option value="yes">Show</option>
-<option value="no">Hide</option>
-</select>
-
+<div class="divider"></div>
 
 <h3>Layout</h3>
 
 <div class="layouts">
 
-<button class="layout active" data-x="classic">
+<button class="layout active" data-layout="classic">
 Classic
 </button>
 
-<button class="layout" data-x="modern">
+<button class="layout" data-layout="modern">
 Modern
 </button>
 
-<button class="layout" data-x="minimal">
+<button class="layout" data-layout="minimal">
 Minimal
 </button>
 
-<button class="layout" data-x="executive">
+<button class="layout" data-layout="executive">
 Executive
 </button>
 
-<button class="layout" data-x="compact">
+<button class="layout" data-layout="compact">
 Compact
 </button>
 
 </div>
 
-
-<button class="blue" onclick="makeLink()">
-CREATE CLIENT LINK
+<button
+ class="primary"
+ onclick="createClientLink()"
+>
+CREATE CLIENT PAGE
 </button>
 
 </div>
@@ -395,30 +315,33 @@ CREATE CLIENT LINK
 
 <div class="actions">
 
-<button onclick="copySig()">
+<button onclick="copySignature()">
 COPY SIGNATURE
 </button>
 
-<button onclick="downloadSig()">
+<button onclick="downloadSignature()">
 DOWNLOAD HTML
 </button>
 
 </div>
 
-<div id="notice" class="msg"></div>
+<div id="builderMessage" class="msg"></div>
 
 
-<div id="linkbox" class="link">
+<div id="linkBox" class="linkbox">
 
-<strong>Client link ready</strong>
+<strong>Client link created</strong>
 
-<p>
-Send this link to your client by WhatsApp or email.
+<p class="small">
+Copy this link and send it to your client by WhatsApp or email.
 </p>
 
-<input id="clientlink" readonly>
+<input id="clientLink" readonly>
 
-<button class="blue" onclick="copyLink()">
+<button
+ class="primary"
+ onclick="copyClientLink()"
+>
 COPY CLIENT LINK
 </button>
 
@@ -430,61 +353,121 @@ COPY CLIENT LINK
 </div>
 
 
-<!-- ================= CLIENT PAGE ================= -->
+<!-- =====================================================
+     CLIENT PAGE
+===================================================== -->
 
 <div id="client" class="client">
 
-<div class="card">
+<div class="client-wrap">
+
+<div class="client-card">
 
 <div style="text-align:center">
 
-<h2 id="clientBrand">
-YOUR BUSINESS NAME
+<h2 id="clientBusiness">
+Your Business
 </h2>
 
-<p style="color:#777">
+<p class="small">
 Professional email signature
 </p>
 
 </div>
 
-<h1>
-Your email signature is ready
-</h1>
+<h1>Your email signature is ready</h1>
 
-<p>
-Copy your signature below and follow the installation guide.
+<p class="small">
+Copy your signature below and install it in your email application.
 </p>
 
 
-<div id="clientsig" class="sig"></div>
+<!-- CLIENT LOGO UPLOAD -->
+
+<div class="client-logo-area">
+
+<strong>Want to use your own picture or logo?</strong>
+
+<p class="small">
+Optional. Upload an image below and it will be used in your signature.
+</p>
+
+<input
+ type="file"
+ id="clientLogo"
+ accept="image/png,image/jpeg,image/webp"
+>
+
+<img
+ id="clientLogoPreview"
+ class="client-logo-preview"
+ alt="Client logo"
+>
+
+<label>Resize Logo</label>
+
+<input
+ type="range"
+ id="clientLogoSize"
+ min="60"
+ max="250"
+ value="140"
+>
+
+<p class="small">
+Logo size:
+<strong>
+<span id="clientLogoSizeValue">140</span>px
+</strong>
+</p>
+
+</div>
 
 
-<button class="blue" onclick="copyClient()">
+<!-- CLIENT SIGNATURE -->
+
+<div id="clientSignature" class="client-sig"></div>
+
+<button
+ class="primary"
+ onclick="copyClientSignature()"
+>
 COPY SIGNATURE
 </button>
 
-<div id="copied" class="msg">
+<div id="clientMessage" class="msg">
 ✓ Signature copied successfully
 </div>
 
 
-<h2 style="margin-top:35px">
-How to install your signature
-</h2>
+<div class="divider"></div>
 
+<h2>How to install your signature</h2>
+
+<p class="small">
+Choose your email platform.
+</p>
 
 <div class="tabs">
 
-<button class="tab active" onclick="guide('g',this)">
+<button
+ class="tab active"
+ onclick="showGuide('gmail',this)"
+>
 Gmail
 </button>
 
-<button class="tab" onclick="guide('o',this)">
+<button
+ class="tab"
+ onclick="showGuide('outlook',this)"
+>
 Outlook
 </button>
 
-<button class="tab" onclick="guide('a',this)">
+<button
+ class="tab"
+ onclick="showGuide('apple',this)"
+>
 Apple Mail
 </button>
 
@@ -493,7 +476,7 @@ Apple Mail
 
 <!-- GMAIL -->
 
-<div id="g" class="guide">
+<div id="gmail" class="guide">
 
 <h3>Gmail</h3>
 
@@ -501,35 +484,36 @@ Apple Mail
 
 <li>Open Gmail on your computer.</li>
 
-<li>Click Settings → See all settings.</li>
+<li>Click the Settings gear.</li>
 
-<li>Stay on the General tab.</li>
+<li>Click <strong>See all settings</strong>.</li>
 
-<li>Find the Signature section.</li>
+<li>Stay on the <strong>General</strong> tab.</li>
+
+<li>Scroll down to <strong>Signature</strong>.</li>
 
 <li>Create a new signature.</li>
 
 <li>Click inside the signature editor.</li>
 
-<li>Paste your copied signature.</li>
+<li>Paste the copied signature.</li>
 
-<li>Choose whether Gmail should automatically use the signature for new emails and replies.</li>
+<li>Select when Gmail should automatically use it.</li>
 
-<li>Scroll down and click Save Changes.</li>
+<li>Scroll down and click <strong>Save Changes</strong>.</li>
 
 </ol>
 
-<p>
-<strong>Tip:</strong>
-Send yourself a test email.
-</p>
+<div class="tip">
+<strong>Tip:</strong> Send yourself a test email after installing it.
+</div>
 
 </div>
 
 
 <!-- OUTLOOK -->
 
-<div id="o" class="guide" style="display:none">
+<div id="outlook" class="guide" style="display:none">
 
 <h3>Outlook</h3>
 
@@ -539,33 +523,32 @@ Send yourself a test email.
 
 <li>Open Settings.</li>
 
-<li>Go to Mail → Compose and reply.</li>
+<li>Go to <strong>Mail → Compose and reply</strong>.</li>
 
-<li>Find Email signature.</li>
+<li>Find <strong>Email signature</strong>.</li>
 
 <li>Create a new signature.</li>
 
 <li>Click inside the editor.</li>
 
-<li>Paste your copied signature.</li>
+<li>Paste the copied signature.</li>
 
-<li>Choose whether to automatically use it for new emails and replies.</li>
+<li>Select whether it should be used for new emails and replies.</li>
 
-<li>Save.</li>
+<li>Save your changes.</li>
 
 </ol>
 
-<p>
-<strong>Tip:</strong>
-Outlook web and desktop can have slightly different menus.
-</p>
+<div class="tip">
+<strong>Tip:</strong> Outlook web and desktop may have slightly different menus.
+</div>
 
 </div>
 
 
 <!-- APPLE -->
 
-<div id="a" class="guide" style="display:none">
+<div id="apple" class="guide" style="display:none">
 
 <h3>Apple Mail</h3>
 
@@ -573,24 +556,25 @@ Outlook web and desktop can have slightly different menus.
 
 <li>Open Mail on your Mac.</li>
 
-<li>Click Mail → Settings.</li>
+<li>Click <strong>Mail → Settings</strong>.</li>
 
-<li>Open Signatures.</li>
+<li>Open the <strong>Signatures</strong> tab.</li>
 
 <li>Select your email account.</li>
 
-<li>Click + to create a signature.</li>
+<li>Click the <strong>+</strong> button.</li>
 
 <li>Paste your copied signature.</li>
 
-<li>Select the signature for the appropriate account.</li>
+<li>Select the signature for that account.</li>
 
 </ol>
 
-<p>
-<strong>Tip:</strong>
-Send yourself a test email after installation.
-</p>
+<div class="tip">
+<strong>Tip:</strong> Send yourself a test email to check the result.
+</div>
+
+</div>
 
 </div>
 
@@ -601,471 +585,514 @@ Send yourself a test email after installation.
 
 <script>
 
-/* ============================
-BASIC SETTINGS
-============================ */
+/* =====================================================
+   VARIABLES
+===================================================== */
 
-let layout="classic";
-let logoData="";
-
-const $=id=>document.getElementById(id);
-
-const v=id=>{
-const el=$(id);
-return el ? el.value.trim() : "";
-};
+let selectedLayout = "classic";
+let builderLogoData = "";
+let clientLogoData = "";
+let clientData = null;
 
 
-/* ============================
-LAYOUT
-============================ */
+/* =====================================================
+   HELPERS
+===================================================== */
 
-document.querySelectorAll(".layout").forEach(button=>{
+const $ = id => document.getElementById(id);
 
-button.onclick=()=>{
+function val(id){
+    const el = $(id);
+    return el ? el.value.trim() : "";
+}
 
-document.querySelectorAll(".layout")
-.forEach(x=>x.classList.remove("active"));
+function escapeHTML(str){
+    return String(str || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
 
-button.classList.add("active");
 
-layout=button.dataset.x;
+/* =====================================================
+   NORMALIZE URL
+===================================================== */
 
-preview();
+function safeURL(url){
 
-};
+    if(!url) return "";
 
+    url = url.trim();
+
+    if(
+        url.startsWith("http://") ||
+        url.startsWith("https://") ||
+        url.startsWith("mailto:") ||
+        url.startsWith("tel:")
+    ){
+        return url;
+    }
+
+    return "https://" + url;
+}
+
+
+/* =====================================================
+   GET BUILDER DATA
+===================================================== */
+
+function getData(){
+
+    return {
+
+        name: val("name"),
+        title: val("title"),
+        company: val("company"),
+        phone: val("phone"),
+        email: val("email"),
+        website: val("website"),
+        location: val("location"),
+
+        whatsapp: val("whatsapp"),
+        linkedin: val("linkedin"),
+        instagram: val("instagram"),
+        facebook: val("facebook"),
+        tiktok: val("tiktok"),
+        twitter: val("twitter"),
+
+        primary: val("primary"),
+        accent: val("accent"),
+        font: val("font"),
+
+        mainDivider: val("mainDivider") === "yes",
+        socialDivider: val("socialDivider") === "yes",
+
+        logo:
+            builderLogoData ||
+            val("builderLogoUrl"),
+
+        logoLink: val("logoLink"),
+
+        logoWidth:
+            parseInt(val("logoWidth")) || 140
+    };
+}
+
+
+/* =====================================================
+   LOGO UPLOAD
+===================================================== */
+
+$("builderLogo").addEventListener("change",function(){
+
+    const file = this.files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        builderLogoData = e.target.result;
+
+        $("builderLogoPreview").src = builderLogoData;
+
+        $("builderLogoPreview").style.display = "block";
+
+        updatePreview();
+    };
+
+    reader.readAsDataURL(file);
 });
 
 
-/* ============================
-LOGO UPLOAD
-============================ */
+/* =====================================================
+   CLIENT LOGO UPLOAD
+===================================================== */
 
-$("logoFile").addEventListener("change",function(){
+$("clientLogo").addEventListener("change",function(){
 
-const file=this.files[0];
+    const file = this.files[0];
 
-if(!file)return;
+    if(!file) return;
 
-const reader=new FileReader();
+    const reader = new FileReader();
 
-reader.onload=function(e){
+    reader.onload = function(e){
 
-logoData=e.target.result;
+        clientLogoData = e.target.result;
 
-$("logoPreview").src=logoData;
+        $("clientLogoPreview").src = clientLogoData;
 
-$("logoPreview").style.display="block";
+        $("clientLogoPreview").style.display = "block";
 
-preview();
+        if(clientData){
 
-};
+            clientData.logo = clientLogoData;
 
-reader.readAsDataURL(file);
+            clientData.logoWidth =
+                parseInt($("clientLogoSize").value) || 140;
 
+            renderClient();
+        }
+    };
+
+    reader.readAsDataURL(file);
 });
 
 
-/* ============================
-LOGO SIZE
-============================ */
+/* =====================================================
+   LOGO SIZE
+===================================================== */
 
 $("logoWidth").addEventListener("input",function(){
 
-$("logoSize").textContent=this.value;
+    $("logoSize").textContent = this.value;
 
-preview();
+    updatePreview();
+});
+
+
+$("clientLogoSize").addEventListener("input",function(){
+
+    $("clientLogoSizeValue").textContent = this.value;
+
+    if(clientData){
+
+        clientData.logoWidth =
+            parseInt(this.value) || 140;
+
+        renderClient();
+    }
+});
+
+
+/* =====================================================
+   LAYOUT BUTTONS
+===================================================== */
+
+document.querySelectorAll(".layout").forEach(button=>{
+
+    button.addEventListener("click",function(){
+
+        document.querySelectorAll(".layout")
+        .forEach(x=>x.classList.remove("active"));
+
+        this.classList.add("active");
+
+        selectedLayout =
+            this.dataset.layout;
+
+        updatePreview();
+    });
 
 });
 
 
-/* ============================
-LIVE UPDATE
-============================ */
-
-document.querySelectorAll("input,select")
-.forEach(x=>{
-
-x.addEventListener("input",preview);
-x.addEventListener("change",preview);
-
-});
-
-
-/* ============================
-DATA
-============================ */
-
-function data(){
-
-return{
-
-n:v("n"),
-t:v("t"),
-c:v("c"),
-p:v("p"),
-e:v("e"),
-w:v("w"),
-l:v("l"),
-
-wa:v("wa"),
-li:v("li"),
-ig:v("ig"),
-fb:v("fb"),
-tt:v("tt"),
-tw:v("tw"),
-
-pc:v("pc"),
-ac:v("ac"),
-
-mainDivider:v("mainDivider")==="yes",
-socialDivider:v("socialDivider")==="yes",
-socialShow:v("socialShow")==="yes",
-
-logo:logoData || v("logoUrl"),
-logoLink:v("logoLink"),
-logoWidth:v("logoWidth")
-
-};
-
-}
-
-
-/* ============================
-LOGO HTML
-============================ */
+/* =====================================================
+   LOGO HTML
+===================================================== */
 
 function logoHTML(s){
 
-if(!s.logo)return"";
+    if(!s.logo) return "";
 
-let img=`
-
+    const image = `
 <img
-src="${s.logo}"
-width="${s.logoWidth}"
-alt="${s.c || "Company Logo"}"
-style="
-display:block;
-width:${s.logoWidth}px;
-max-width:${s.logoWidth}px;
-height:auto;
-border:0;
-"
+ src="${escapeHTML(s.logo)}"
+ width="${s.logoWidth}"
+ alt="${escapeHTML(s.company || "Company Logo")}"
+ style="
+ display:block;
+ width:${s.logoWidth}px;
+ max-width:${s.logoWidth}px;
+ height:auto;
+ border:0;
+ "
 >
 `;
 
-if(s.logoLink){
+    if(s.logoLink){
 
-img=`
-
-<a
-href="${s.logoLink}"
-target="_blank"
-style="text-decoration:none"
->
-${img}
-</a>
-
-`;
-
-}
-
-return`
-
+        return `
 <td
-valign="top"
-style="
-padding-right:20px;
-vertical-align:top;
-"
+ valign="middle"
+ style="
+ vertical-align:middle;
+ padding-right:20px;
+ "
 >
-${img}
+<a
+ href="${escapeHTML(safeURL(s.logoLink))}"
+ target="_blank"
+ style="text-decoration:none"
+>
+${image}
+</a>
 </td>
-
 `;
+    }
 
+    return `
+<td
+ valign="middle"
+ style="
+ vertical-align:middle;
+ padding-right:20px;
+ "
+>
+${image}
+</td>
+`;
 }
 
 
-/* ============================
-CONTACT
-============================ */
+/* =====================================================
+   CONTACT
+===================================================== */
 
 function contactHTML(s){
 
-let html="";
+    let html = "";
 
-if(s.p){
+    if(s.phone){
 
-html+=`
-
-<div style="
-font-size:12px;
-line-height:20px;
-">
+        html += `
+<div style="font-size:12px;line-height:20px">
 <a
-href="tel:${s.p}"
-style="color:#555;text-decoration:none"
+ href="tel:${escapeHTML(s.phone)}"
+ style="color:#555;text-decoration:none"
 >
-${s.p}
+${escapeHTML(s.phone)}
 </a>
 </div>
-
 `;
+    }
 
-}
+    if(s.email){
 
-if(s.e){
-
-html+=`
-
-<div style="
-font-size:12px;
-line-height:20px;
-">
+        html += `
+<div style="font-size:12px;line-height:20px">
 <a
-href="mailto:${s.e}"
-style="color:#555;text-decoration:none"
+ href="mailto:${escapeHTML(s.email)}"
+ style="color:#555;text-decoration:none"
 >
-${s.e}
+${escapeHTML(s.email)}
 </a>
 </div>
-
 `;
+    }
 
-}
+    if(s.website){
 
-if(s.w){
-
-html+=`
-
-<div style="
-font-size:12px;
-line-height:20px;
-">
+        html += `
+<div style="font-size:12px;line-height:20px">
 <a
-href="${s.w}"
-target="_blank"
-style="
-color:${s.ac};
-text-decoration:none
-"
+ href="${escapeHTML(safeURL(s.website))}"
+ target="_blank"
+ style="
+ color:${s.accent};
+ text-decoration:none
+ "
 >
-${s.w}
+${escapeHTML(s.website)}
 </a>
 </div>
-
 `;
+    }
 
-}
+    if(s.location){
 
-if(s.l){
-
-html+=`
-
-<div style="
-font-size:12px;
-line-height:20px;
-color:#777
-">
-${s.l}
+        html += `
+<div
+ style="
+ font-size:12px;
+ line-height:20px;
+ color:#777
+ "
+>
+${escapeHTML(s.location)}
 </div>
-
 `;
+    }
 
+    return html;
 }
 
-return html;
 
-}
-
-
-/* ============================
-SOCIAL ICONS
-============================ */
+/* =====================================================
+   SOCIAL ICONS
+   ICON ONLY — NO SOCIAL NAMES
+===================================================== */
 
 function socialHTML(s){
 
-if(!s.socialShow)return"";
+    const items = [
 
-const socials=[
+        {
+            url:s.whatsapp,
+            icon:"https://cdn.simpleicons.org/whatsapp/25D366",
+            alt:"WhatsApp"
+        },
 
-[
-s.wa,
-"https://cdn.simpleicons.org/whatsapp/25D366",
-"WhatsApp"
-],
+        {
+            url:s.linkedin,
+            icon:"https://cdn.simpleicons.org/linkedin/0077B5",
+            alt:"LinkedIn"
+        },
 
-[
-s.li,
-"https://cdn.simpleicons.org/linkedin/0077B5",
-"LinkedIn"
-],
+        {
+            url:s.instagram,
+            icon:"https://cdn.simpleicons.org/instagram/E4405F",
+            alt:"Instagram"
+        },
 
-[
-s.ig,
-"https://cdn.simpleicons.org/instagram/E4405F",
-"Instagram"
-],
+        {
+            url:s.facebook,
+            icon:"https://cdn.simpleicons.org/facebook/1877F2",
+            alt:"Facebook"
+        },
 
-[
-s.fb,
-"https://cdn.simpleicons.org/facebook/1877F2",
-"Facebook"
-],
+        {
+            url:s.tiktok,
+            icon:"https://cdn.simpleicons.org/tiktok/000000",
+            alt:"TikTok"
+        },
 
-[
-s.tt,
-"https://cdn.simpleicons.org/tiktok/000000",
-"TikTok"
-],
+        {
+            url:s.twitter,
+            icon:"https://cdn.simpleicons.org/x/000000",
+            alt:"X"
+        }
 
-[
-s.tw,
-"https://cdn.simpleicons.org/x/000000",
-"X"
-]
+    ];
 
-];
+    let icons = "";
 
-let icons="";
+    items.forEach(item=>{
 
-socials.forEach(item=>{
+        if(!item.url) return;
 
-if(!item[0])return;
-
-icons+=`
-
+        icons += `
 <a
-href="${item[0]}"
-target="_blank"
-style="
-display:inline-block;
-text-decoration:none;
-margin-right:7px;
-"
+ href="${escapeHTML(safeURL(item.url))}"
+ target="_blank"
+ style="
+ display:inline-block;
+ margin-right:7px;
+ text-decoration:none;
+ "
 >
 <img
-src="${item[1]}"
-width="20"
-height="20"
-alt="${item[2]}"
-style="
-display:block;
-border:0;
-"
+ src="${item.icon}"
+ width="20"
+ height="20"
+ alt="${item.alt}"
+ style="
+ display:block;
+ width:20px;
+ height:20px;
+ border:0;
+ "
 >
 </a>
-
 `;
+    });
 
-});
+    if(!icons) return "";
 
-if(!icons)return"";
+    let divider = "";
 
-let divider="";
+    if(s.socialDivider){
 
-if(s.socialDivider){
-
-divider=`
-
+        divider = `
 <div
-style="
-height:1px;
-background:#dddddd;
-margin:10px 0;
-width:100%;
-"
->
-</div>
-
+ style="
+ height:1px;
+ background:${s.accent};
+ width:100%;
+ max-width:320px;
+ margin:10px 0;
+ "
+></div>
 `;
+    }
 
-}
-
-return`
-
+    return `
 ${divider}
-
-<div>
+<div style="margin-top:7px">
 ${icons}
 </div>
-
 `;
-
 }
 
 
-/* ============================
-CLASSIC
-============================ */
+/* =====================================================
+   CLASSIC
+===================================================== */
 
 function classic(s){
 
-return`
-
+    return `
 <table
-cellpadding="0"
-cellspacing="0"
-border="0"
-style="
-font-family:Arial,Helvetica,sans-serif;
-color:${s.pc};
-"
+ cellpadding="0"
+ cellspacing="0"
+ border="0"
+ style="
+ font-family:${s.font};
+ color:${s.primary};
+ "
 >
-
 <tr>
 
 ${logoHTML(s)}
 
-<td valign="top">
+<td valign="middle">
 
-<div style="
-font-size:20px;
-line-height:25px;
-font-weight:bold;
-color:${s.pc};
-">
-${s.n || "Your Name"}
+<div
+ style="
+ font-size:20px;
+ line-height:24px;
+ font-weight:bold;
+ color:${s.primary}
+ "
+>
+${escapeHTML(s.name || "Your Name")}
 </div>
 
-<div style="
-font-size:13px;
-line-height:19px;
-color:#666;
-">
-${s.t}
+<div
+ style="
+ font-size:13px;
+ line-height:19px;
+ color:#666
+ "
+>
+${escapeHTML(s.title)}
 </div>
 
-<div style="
-font-size:14px;
-line-height:20px;
-font-weight:bold;
-color:${s.pc};
-">
-${s.c}
+<div
+ style="
+ font-size:14px;
+ line-height:20px;
+ font-weight:bold;
+ color:${s.primary}
+ "
+>
+${escapeHTML(s.company)}
 </div>
 
-
-${
-s.mainDivider
-?
-
-`
-<div style="
-height:2px;
-width:60px;
-background:${s.ac};
-margin:9px 0;
-">
-</div>
-`
-
-:""
-}
-
+${s.mainDivider ? `
+<div
+ style="
+ height:2px;
+ width:60px;
+ background:${s.accent};
+ margin:9px 0
+ "
+></div>
+` : ""}
 
 ${contactHTML(s)}
 
@@ -1074,61 +1101,63 @@ ${socialHTML(s)}
 </td>
 
 </tr>
-
 </table>
-
 `;
-
 }
 
 
-/* ============================
-MODERN
-============================ */
+/* =====================================================
+   MODERN
+===================================================== */
 
 function modern(s){
 
-return`
-
+    return `
 <table
-cellpadding="0"
-cellspacing="0"
-border="0"
-style="font-family:Arial,Helvetica,sans-serif"
+ cellpadding="0"
+ cellspacing="0"
+ border="0"
+ style="font-family:${s.font}"
 >
-
 <tr>
 
-${logoHTML(s)}
+<td
+ style="
+ padding-right:25px;
+ vertical-align:top
+ "
+>
 
-<td style="
-padding-right:22px;
-vertical-align:top;
-">
-
-<div style="
-font-size:21px;
-font-weight:bold;
-color:${s.pc};
-">
-${s.n || "Your Name"}
+<div
+ style="
+ font-size:21px;
+ font-weight:bold;
+ color:${s.primary}
+ "
+>
+${escapeHTML(s.name || "Your Name")}
 </div>
 
-<div style="
-font-size:13px;
-color:${s.ac};
-margin-top:4px;
-">
-${s.t}${s.c?" · "+s.c:""}
+<div
+ style="
+ font-size:13px;
+ color:${s.accent};
+ margin-top:4px
+ "
+>
+${escapeHTML(s.title)}
+${s.company ? " · " + escapeHTML(s.company) : ""}
 </div>
 
 </td>
 
-<td style="
-border-left:2px solid ${s.ac};
-padding-left:22px;
-vertical-align:top;
-">
+<td
+ style="
+ border-left:2px solid ${s.accent};
+ padding-left:25px;
+ vertical-align:top
+ "
+>
 
 ${contactHTML(s)}
 
@@ -1137,68 +1166,60 @@ ${socialHTML(s)}
 </td>
 
 </tr>
-
 </table>
-
 `;
-
 }
 
 
-/* ============================
-MINIMAL
-============================ */
+/* =====================================================
+   MINIMAL
+===================================================== */
 
 function minimal(s){
 
-return`
-
+    return `
 <table
-cellpadding="0"
-cellspacing="0"
-border="0"
-style="font-family:Arial,Helvetica,sans-serif"
+ cellpadding="0"
+ cellspacing="0"
+ border="0"
+ style="font-family:${s.font}"
 >
-
 <tr>
 
 ${logoHTML(s)}
 
 <td>
 
-<div style="
-font-size:17px;
-font-weight:bold;
-color:${s.pc};
-">
-${s.n || "Your Name"}
+<div
+ style="
+ font-size:17px;
+ font-weight:bold;
+ color:${s.primary}
+ "
+>
+${escapeHTML(s.name || "Your Name")}
 </div>
 
-<div style="
-font-size:12px;
-color:#777;
-margin-top:3px;
-">
-${s.t}${s.c?" · "+s.c:""}
+<div
+ style="
+ font-size:12px;
+ color:#777;
+ margin-top:3px
+ "
+>
+${escapeHTML(s.title)}
+${s.company ? " · " + escapeHTML(s.company) : ""}
 </div>
 
-
-${
-s.mainDivider
-?
-
-`
-<div style="
-height:1px;
-background:#ddd;
-margin:9px 0;
-">
-</div>
-`
-
-:""
-}
-
+${s.mainDivider ? `
+<div
+ style="
+ height:1px;
+ background:#ddd;
+ margin:9px 0
+ "
+></div>
+` : ""}
 
 ${contactHTML(s)}
 
@@ -1207,79 +1228,72 @@ ${socialHTML(s)}
 </td>
 
 </tr>
-
 </table>
-
 `;
-
 }
 
 
-/* ============================
-EXECUTIVE
-============================ */
+/* =====================================================
+   EXECUTIVE
+===================================================== */
 
 function executive(s){
 
-return`
-
+    return `
 <table
-cellpadding="0"
-cellspacing="0"
-border="0"
-style="font-family:Arial,Helvetica,sans-serif"
+ cellpadding="0"
+ cellspacing="0"
+ border="0"
+ style="font-family:${s.font}"
 >
-
 <tr>
 
 ${logoHTML(s)}
 
 <td>
 
-<div style="
-font-size:24px;
-line-height:28px;
-font-weight:bold;
-color:${s.pc};
-">
-${s.n || "Your Name"}
+<div
+ style="
+ font-size:24px;
+ line-height:28px;
+ font-weight:bold;
+ color:${s.primary}
+ "
+>
+${escapeHTML(s.name || "Your Name")}
 </div>
 
-<div style="
-font-size:13px;
-color:${s.ac};
-margin-top:4px;
-">
-${s.t}
+<div
+ style="
+ font-size:13px;
+ color:${s.accent};
+ margin-top:4px
+ "
+>
+${escapeHTML(s.title)}
 </div>
 
-<div style="
-font-size:14px;
-font-weight:bold;
-color:${s.pc};
-margin-top:2px;
-">
-${s.c}
+<div
+ style="
+ font-size:14px;
+ font-weight:bold;
+ color:${s.primary};
+ margin-top:2px
+ "
+>
+${escapeHTML(s.company)}
 </div>
 
-
-${
-s.mainDivider
-?
-
-`
-<div style="
-height:3px;
-width:70px;
-background:${s.ac};
-margin:12px 0;
-">
-</div>
-`
-
-:""
-}
-
+${s.mainDivider ? `
+<div
+ style="
+ height:3px;
+ width:70px;
+ background:${s.accent};
+ margin:12px 0
+ "
+></div>
+` : ""}
 
 ${contactHTML(s)}
 
@@ -1288,410 +1302,499 @@ ${socialHTML(s)}
 </td>
 
 </tr>
-
 </table>
-
 `;
-
 }
 
 
-/* ============================
-COMPACT
-============================ */
+/* =====================================================
+   COMPACT
+===================================================== */
 
 function compact(s){
 
-return`
-
+    return `
 <table
-cellpadding="0"
-cellspacing="0"
-border="0"
-style="font-family:Arial,Helvetica,sans-serif"
+ cellpadding="0"
+ cellspacing="0"
+ border="0"
+ style="font-family:${s.font}"
 >
-
 <tr>
 
 ${logoHTML(s)}
 
 <td>
 
-<div style="
-font-size:15px;
-color:${s.pc};
-">
+<div
+ style="
+ font-size:15px;
+ color:${s.primary}
+ "
+>
 
 <strong>
-${s.n || "Your Name"}
+${escapeHTML(s.name || "Your Name")}
 </strong>
 
-${
-s.t
-?
-`
+${s.title ? `
 <span style="color:#777">
-&nbsp;|&nbsp;${s.t}
+&nbsp;|&nbsp;${escapeHTML(s.title)}
 </span>
-`
-:""
-}
+` : ""}
 
 </div>
 
+<div
+ style="
+ font-size:11px;
+ color:#666;
+ margin-top:5px
+ "
+>
 
-<div style="
-font-size:11px;
-color:#666;
-margin-top:5px;
-">
+${escapeHTML(s.company)}
 
-${s.c}
+${s.phone ? " · " + escapeHTML(s.phone) : ""}
 
-${s.p?" · "+s.p:""}
+${s.email ? " · " + escapeHTML(s.email) : ""}
 
-${s.e?" · "+s.e:""}
-
-${s.w?" · "+s.w:""}
+${s.website ? " · " + escapeHTML(s.website) : ""}
 
 </div>
-
 
 ${socialHTML(s)}
 
 </td>
 
 </tr>
-
 </table>
-
 `;
-
 }
 
 
-/* ============================
-BUILD SIGNATURE
-============================ */
+/* =====================================================
+   CREATE SIGNATURE
+===================================================== */
 
-function sig(s){
+function makeSignature(s){
 
-if(layout==="modern")return modern(s);
+    switch(s.layout || selectedLayout){
 
-if(layout==="minimal")return minimal(s);
+        case "modern":
+            return modern(s);
 
-if(layout==="executive")return executive(s);
+        case "minimal":
+            return minimal(s);
 
-if(layout==="compact")return compact(s);
+        case "executive":
+            return executive(s);
 
-return classic(s);
+        case "compact":
+            return compact(s);
 
+        default:
+            return classic(s);
+    }
 }
 
 
-/* ============================
-PREVIEW
-============================ */
+/* =====================================================
+   PREVIEW
+===================================================== */
 
-function preview(){
+function updatePreview(){
 
-$("preview").innerHTML=sig(data());
+    const data = getData();
 
+    data.layout = selectedLayout;
+
+    $("preview").innerHTML =
+        makeSignature(data);
 }
 
 
-/* ============================
-COPY
-============================ */
+/* =====================================================
+   LIVE UPDATE
+===================================================== */
 
-async function copyHTML(el,msg){
+document
+.querySelectorAll("#builder input,#builder select")
+.forEach(element=>{
 
-const html=el.innerHTML;
-const text=el.innerText;
+    element.addEventListener("input",updatePreview);
 
-try{
+    element.addEventListener("change",updatePreview);
 
-await navigator.clipboard.write([
-
-new ClipboardItem({
-
-"text/html":
-new Blob([html],{type:"text/html"}),
-
-"text/plain":
-new Blob([text],{type:"text/plain"})
-
-})
-
-]);
-
-msg.textContent="✓ Signature copied successfully";
-msg.style.display="block";
-
-setTimeout(()=>{
-msg.style.display="none"
-},2500);
-
-}catch(e){
-
-const range=document.createRange();
-
-range.selectNodeContents(el);
-
-const selection=window.getSelection();
-
-selection.removeAllRanges();
-
-selection.addRange(range);
-
-document.execCommand("copy");
-
-selection.removeAllRanges();
-
-msg.textContent="✓ Signature copied successfully";
-msg.style.display="block";
-
-}
-
-}
+});
 
 
-function copySig(){
+/* =====================================================
+   COPY HTML
+===================================================== */
 
-copyHTML(
-$("preview"),
-$("notice")
-);
+async function copyHTML(element,messageElement){
 
-}
+    const html = element.innerHTML;
+    const text = element.innerText;
 
+    try{
 
-function copyClient(){
+        await navigator.clipboard.write([
 
-copyHTML(
-$("clientsig"),
-$("copied")
-);
+            new ClipboardItem({
 
-}
+                "text/html":
+                    new Blob(
+                        [html],
+                        {type:"text/html"}
+                    ),
 
+                "text/plain":
+                    new Blob(
+                        [text],
+                        {type:"text/plain"}
+                    )
 
-/* ============================
-CREATE CLIENT LINK
-============================ */
+            })
 
-function makeLink(){
+        ]);
 
-const payload={
+        showMessage(
+            messageElement,
+            "✓ Signature copied successfully"
+        );
 
-d:data(),
-x:layout
+    }catch(error){
 
-};
+        const range =
+            document.createRange();
 
-const encoded=
-btoa(
-unescape(
-encodeURIComponent(
-JSON.stringify(payload)
-)
-)
-);
+        range.selectNodeContents(element);
 
-const base=
-location.href.split("?")[0];
+        const selection =
+            window.getSelection();
 
-const url=
-base+
-"?client="+
-encodeURIComponent(encoded);
+        selection.removeAllRanges();
 
-$("clientlink").value=url;
+        selection.addRange(range);
 
-$("linkbox").style.display="block";
+        document.execCommand("copy");
 
+        selection.removeAllRanges();
+
+        showMessage(
+            messageElement,
+            "✓ Signature copied successfully"
+        );
+    }
 }
 
 
-/* ============================
-COPY CLIENT LINK
-============================ */
+function copySignature(){
 
-function copyLink(){
-
-navigator.clipboard
-.writeText(
-$("clientlink").value
-);
-
-$("notice").textContent=
-"✓ Client link copied";
-
-$("notice").style.display="block";
-
-setTimeout(()=>{
-
-$("notice").style.display="none";
-
-},2500);
-
+    copyHTML(
+        $("preview"),
+        $("builderMessage")
+    );
 }
 
 
-/* ============================
-DOWNLOAD
-============================ */
+function copyClientSignature(){
 
-function downloadSig(){
+    copyHTML(
+        $("clientSignature"),
+        $("clientMessage")
+    );
+}
 
-const html=`
 
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(element,text){
+
+    element.textContent = text;
+
+    element.style.display = "block";
+
+    setTimeout(()=>{
+
+        element.style.display = "none";
+
+    },2500);
+}
+
+
+/* =====================================================
+   DOWNLOAD
+===================================================== */
+
+function downloadSignature(){
+
+    const data = getData();
+
+    data.layout = selectedLayout;
+
+    const signature =
+        makeSignature(data);
+
+    const html = `
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
 <meta charset="UTF-8">
-
 <title>Email Signature</title>
-
 </head>
-
 <body>
-
-${sig(data())}
-
+${signature}
 </body>
-
 </html>
-
 `;
 
-const blob=
-new Blob(
-[html],
-{type:"text/html"}
-);
+    const blob =
+        new Blob(
+            [html],
+            {type:"text/html"}
+        );
 
-const url=
-URL.createObjectURL(blob);
+    const url =
+        URL.createObjectURL(blob);
 
-const a=
-document.createElement("a");
+    const a =
+        document.createElement("a");
 
-a.href=url;
+    a.href = url;
 
-a.download=
-"email-signature.html";
+    a.download =
+        "email-signature.html";
 
-document.body.appendChild(a);
+    document.body.appendChild(a);
 
-a.click();
+    a.click();
 
-a.remove();
+    a.remove();
 
-URL.revokeObjectURL(url);
-
+    URL.revokeObjectURL(url);
 }
 
 
-/* ============================
-GUIDES
-============================ */
+/* =====================================================
+   CREATE CLIENT LINK
+===================================================== */
 
-function guide(id,button){
+function createClientLink(){
 
-document
-.querySelectorAll(".guide")
-.forEach(x=>{
-x.style.display="none";
-});
+    const data = getData();
 
-$(id).style.display="block";
+    data.layout = selectedLayout;
 
-document
-.querySelectorAll(".tab")
-.forEach(x=>{
-x.classList.remove("active");
-});
+    /*
+       Use URL-safe encoded JSON.
 
-button.classList.add("active");
+       This avoids the old atob/escape/decode
+       combination that was causing the client
+       link error.
+    */
 
+    const json =
+        JSON.stringify(data);
+
+    const encoded =
+        encodeURIComponent(json);
+
+    const base =
+        window.location.href.split("?")[0];
+
+    const url =
+        base + "?client=" + encoded;
+
+    $("clientLink").value = url;
+
+    $("linkBox").style.display = "block";
+
+    showMessage(
+        $("builderMessage"),
+        "✓ Client page created"
+    );
 }
 
 
-/* ============================
-LOAD CLIENT PAGE
-============================ */
+/* =====================================================
+   COPY CLIENT LINK
+===================================================== */
 
-function loadClient(){
+async function copyClientLink(){
 
-const q=
-new URLSearchParams(
-location.search
-).get("client");
+    const link =
+        $("clientLink").value;
 
-if(!q)return;
+    try{
 
-try{
+        await navigator.clipboard.writeText(link);
 
-const decoded=
-decodeURIComponent(q);
+        showMessage(
+            $("builderMessage"),
+            "✓ Client link copied"
+        );
 
-const payload=
-JSON.parse(
-decodeURIComponent(
-escape(
-atob(decoded)
-)
-)
-);
+    }catch(e){
 
-layout=payload.x || "classic";
+        $("clientLink").select();
 
-$("builder").style.display="none";
+        document.execCommand("copy");
 
-$("client").style.display="block";
+        showMessage(
+            $("builderMessage"),
+            "✓ Client link copied"
+        );
+    }
+}
 
-const clientData=payload.d;
 
-$("clientsig").innerHTML=
-sig(clientData);
+/* =====================================================
+   LOAD CLIENT PAGE
+===================================================== */
 
-$("clientBrand").textContent=
-clientData.c ||
-"Professional Business";
+function loadClientPage(){
 
-}catch(error){
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
 
-$("builder").innerHTML=`
+    const encoded =
+        params.get("client");
 
-<div class="box">
+    if(!encoded){
 
-<h2>Client link error</h2>
+        updatePreview();
+
+        return;
+    }
+
+    try{
+
+        const json =
+            decodeURIComponent(encoded);
+
+        const data =
+            JSON.parse(json);
+
+        clientData = data;
+
+        $("builder").style.display = "none";
+
+        $("client").style.display = "block";
+
+        $("clientBusiness").textContent =
+            data.company || "Your Business";
+
+        /*
+           Restore logo from builder if supplied.
+        */
+
+        if(data.logo){
+
+            clientLogoData = data.logo;
+
+            $("clientLogoPreview").src =
+                data.logo;
+
+            $("clientLogoPreview").style.display =
+                "block";
+        }
+
+        $("clientLogoSize").value =
+            data.logoWidth || 140;
+
+        $("clientLogoSizeValue").textContent =
+            data.logoWidth || 140;
+
+        renderClient();
+
+    }catch(error){
+
+        /*
+           Do not show the old 1/0 error.
+           Give a clear message instead.
+        */
+
+        document.body.innerHTML = `
+
+<div style="
+max-width:600px;
+margin:80px auto;
+padding:30px;
+font-family:Arial;
+text-align:center
+">
+
+<h2>Client link could not be opened</h2>
 
 <p>
-This client link is invalid or incomplete.
-Please return to the builder and create a new client link.
+This link is incomplete or has been changed.
+Please ask the sender to create a new client link.
 </p>
 
 </div>
 
 `;
 
+    }
 }
 
+
+/* =====================================================
+   RENDER CLIENT
+===================================================== */
+
+function renderClient(){
+
+    if(!clientData) return;
+
+    const signature =
+        makeSignature(clientData);
+
+    $("clientSignature").innerHTML =
+        signature;
 }
 
 
-/* ============================
-START
-============================ */
+/* =====================================================
+   CLIENT GUIDES
+===================================================== */
 
-preview();
+function showGuide(id,button){
 
-loadClient();
+    document
+    .querySelectorAll(".guide")
+    .forEach(guide=>{
+
+        guide.style.display = "none";
+
+    });
+
+    $(id).style.display = "block";
+
+    document
+    .querySelectorAll(".tab")
+    .forEach(tab=>{
+
+        tab.classList.remove("active");
+
+    });
+
+    button.classList.add("active");
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadClientPage();
 
 </script>
 
