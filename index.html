@@ -1,1 +1,1424 @@
-https://chatgpt.com/backend-api/estuary/content?id=file_00000000939482109b7d0faad9a9591f&fn=index.html&cd=attachment&ts=496844&p=fs&cid=1&sig=75006931fde31ac5bde90816e43073bdb6476988b16fb6772f6d5a2944f15954&v=0
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Professional email signature builder with client pages and installation guides.">
+<title>Email Signature Builder</title>
+
+<style>
+:root{
+  --primary:#2563eb;
+  --dark:#111827;
+  --muted:#6b7280;
+  --light:#f3f4f6;
+  --border:#e5e7eb;
+  --white:#ffffff;
+  --success:#16a34a;
+  --danger:#dc2626;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Inter,Arial,Helvetica,sans-serif;
+  background:#f8fafc;
+  color:var(--dark);
+}
+
+button,input,textarea,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  min-height:100vh;
+}
+
+/* HEADER */
+.header{
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  padding:16px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:800;
+  font-size:20px;
+}
+
+.logo-mark{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:var(--primary);
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-weight:800;
+}
+
+.nav{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.nav button{
+  border:0;
+  background:transparent;
+  padding:9px 13px;
+  border-radius:8px;
+  color:#4b5563;
+}
+
+.nav button:hover,
+.nav button.active{
+  background:#eff6ff;
+  color:var(--primary);
+}
+
+/* PAGES */
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.container{
+  max-width:1250px;
+  margin:auto;
+  padding:32px 20px 60px;
+}
+
+.hero{
+  text-align:center;
+  padding:30px 10px;
+}
+
+.hero h1{
+  font-size:42px;
+  margin:0 0 12px;
+  letter-spacing:-1.5px;
+}
+
+.hero p{
+  color:var(--muted);
+  max-width:650px;
+  margin:auto;
+  line-height:1.7;
+}
+
+/* BUILDER */
+.builder{
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:24px;
+  align-items:start;
+}
+
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:22px;
+  box-shadow:0 5px 20px rgba(0,0,0,.04);
+}
+
+.card h2{
+  margin-top:0;
+  font-size:20px;
+}
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid #d1d5db;
+  border-radius:9px;
+  outline:none;
+  background:#fff;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+textarea{
+  resize:vertical;
+  min-height:70px;
+}
+
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.color-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.color-row input[type=color]{
+  width:55px;
+  height:42px;
+  padding:3px;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+.btn{
+  border:0;
+  border-radius:9px;
+  padding:11px 15px;
+  font-weight:700;
+}
+
+.btn-primary{
+  background:var(--primary);
+  color:#fff;
+}
+
+.btn-secondary{
+  background:#eef2ff;
+  color:#3730a3;
+}
+
+.btn-dark{
+  background:#111827;
+  color:#fff;
+}
+
+.btn-success{
+  background:var(--success);
+  color:#fff;
+}
+
+.btn-danger{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.btn:hover{
+  opacity:.9;
+}
+
+/* PREVIEW */
+.preview-card{
+  min-height:500px;
+}
+
+.preview-area{
+  background:#f3f4f6;
+  border-radius:12px;
+  padding:40px 25px;
+  overflow:auto;
+}
+
+.preview-label{
+  font-size:13px;
+  color:var(--muted);
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+.email-paper{
+  background:#fff;
+  padding:35px;
+  min-width:650px;
+  border-radius:8px;
+  box-shadow:0 4px 20px rgba(0,0,0,.05);
+}
+
+.signature-table{
+  border-collapse:collapse;
+}
+
+.signature-table td{
+  vertical-align:top;
+}
+
+.signature-name{
+  font-size:20px;
+  font-weight:800;
+}
+
+.signature-title{
+  margin-top:3px;
+  color:#6b7280;
+  font-size:14px;
+}
+
+.signature-company{
+  font-weight:700;
+  margin-top:4px;
+}
+
+.signature-contact{
+  font-size:13px;
+  line-height:1.8;
+}
+
+.signature-contact a{
+  text-decoration:none;
+}
+
+.photo{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #fff;
+}
+
+.socials{
+  margin-top:10px;
+}
+
+.socials a{
+  display:inline-block;
+  margin-right:7px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:700;
+}
+
+/* CODE */
+.code-box{
+  background:#111827;
+  color:#d1d5db;
+  border-radius:10px;
+  padding:15px;
+  margin-top:15px;
+  overflow:auto;
+  max-height:300px;
+  font-size:12px;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+/* CLIENT */
+.client-wrap{
+  max-width:800px;
+  margin:auto;
+}
+
+.client-header{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.client-header h1{
+  margin-bottom:8px;
+}
+
+.client-header p{
+  color:var(--muted);
+}
+
+.client-preview{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:30px;
+  overflow:auto;
+}
+
+/* GUIDE */
+.guide{
+  max-width:900px;
+  margin:auto;
+}
+
+.guide-section{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:24px;
+  margin-bottom:18px;
+}
+
+.guide-section h2{
+  margin-top:0;
+}
+
+.guide-section ol{
+  line-height:1.9;
+}
+
+.tip{
+  background:#eff6ff;
+  border-left:4px solid var(--primary);
+  padding:13px 15px;
+  border-radius:6px;
+  color:#1e3a8a;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  bottom:25px;
+  right:25px;
+  background:#111827;
+  color:#fff;
+  padding:13px 18px;
+  border-radius:9px;
+  opacity:0;
+  transform:translateY(15px);
+  transition:.25s;
+  pointer-events:none;
+  z-index:100;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* FOOTER */
+.footer{
+  text-align:center;
+  color:#6b7280;
+  font-size:13px;
+  padding:30px 20px;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .builder{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .header{
+    flex-direction:column;
+    gap:12px;
+  }
+}
+
+@media(max-width:600px){
+  .grid-2{
+    grid-template-columns:1fr;
+  }
+
+  .email-paper{
+    padding:20px;
+    min-width:560px;
+  }
+
+  .preview-area{
+    padding:15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+  <div class="logo">
+    <div class="logo-mark">ES</div>
+    Email Signature Builder
+  </div>
+
+  <nav class="nav">
+    <button class="active" onclick="showPage('builder',this)">Builder</button>
+    <button onclick="showPage('client',this)">Client Page</button>
+    <button onclick="showPage('guide',this)">Installation Guide</button>
+  </nav>
+</header>
+
+
+<!-- ================= BUILDER ================= -->
+
+<section id="builder" class="page active">
+
+<div class="container">
+
+  <div class="hero">
+    <h1>Create Your Email Signature</h1>
+    <p>
+      Build a professional email signature, preview it instantly,
+      then copy the signature for Gmail, Outlook or Apple Mail.
+    </p>
+  </div>
+
+  <div class="builder">
+
+    <!-- FORM -->
+
+    <div class="card">
+
+      <h2>Personal Information</h2>
+
+      <div class="form-group">
+        <label>Full Name</label>
+        <input id="name" value="John Smith" oninput="updateSignature()">
+      </div>
+
+      <div class="form-group">
+        <label>Job Title</label>
+        <input id="title" value="Marketing Director" oninput="updateSignature()">
+      </div>
+
+      <div class="form-group">
+        <label>Company</label>
+        <input id="company" value="Your Company" oninput="updateSignature()">
+      </div>
+
+      <div class="grid-2">
+
+        <div class="form-group">
+          <label>Email</label>
+          <input id="email" value="john@company.com" oninput="updateSignature()">
+        </div>
+
+        <div class="form-group">
+          <label>Phone</label>
+          <input id="phone" value="+234 800 000 0000" oninput="updateSignature()">
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <label>Website</label>
+        <input id="website" value="https://www.company.com" oninput="updateSignature()">
+      </div>
+
+      <div class="form-group">
+        <label>Address</label>
+        <textarea id="address" oninput="updateSignature()">Lagos, Nigeria</textarea>
+      </div>
+
+      <h2>Branding</h2>
+
+      <div class="form-group">
+        <label>Profile Photo / Logo URL</label>
+        <input
+          id="photo"
+          placeholder="https://example.com/logo.png"
+          oninput="updateSignature()"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Brand Color</label>
+        <div class="color-row">
+          <input type="color" id="brandColor" value="#2563eb" oninput="updateSignature()">
+          <input type="text" id="brandColorText" value="#2563eb" oninput="syncColorText()">
+        </div>
+      </div>
+
+      <h2>Social Links</h2>
+
+      <div class="form-group">
+        <label>LinkedIn</label>
+        <input id="linkedin" placeholder="https://linkedin.com/in/yourname" oninput="updateSignature()">
+      </div>
+
+      <div class="form-group">
+        <label>Instagram</label>
+        <input id="instagram" placeholder="https://instagram.com/yourname" oninput="updateSignature()">
+      </div>
+
+      <div class="form-group">
+        <label>Facebook</label>
+        <input id="facebook" placeholder="https://facebook.com/yourpage" oninput="updateSignature()">
+      </div>
+
+      <div class="form-group">
+        <label>X / Twitter</label>
+        <input id="twitter" placeholder="https://x.com/yourname" oninput="updateSignature()">
+      </div>
+
+      <div class="form-group">
+        <label>YouTube</label>
+        <input id="youtube" placeholder="https://youtube.com/@yourchannel" oninput="updateSignature()">
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" onclick="copySignature()">
+          Copy Signature
+        </button>
+
+        <button class="btn btn-secondary" onclick="copyHTML()">
+          Copy HTML
+        </button>
+
+        <button class="btn btn-dark" onclick="downloadHTML()">
+          Download HTML
+        </button>
+
+        <button class="btn btn-danger" onclick="resetBuilder()">
+          Reset
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- PREVIEW -->
+
+    <div class="card preview-card">
+
+      <div class="preview-label">
+        LIVE EMAIL SIGNATURE PREVIEW
+      </div>
+
+      <div class="preview-area">
+
+        <div class="email-paper">
+
+          <div id="signaturePreview"></div>
+
+        </div>
+
+      </div>
+
+      <div class="preview-label" style="margin-top:20px">
+        GENERATED EMAIL HTML
+      </div>
+
+      <div class="code-box" id="htmlCode"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- ================= CLIENT PAGE ================= -->
+
+<section id="client" class="page">
+
+<div class="container">
+
+  <div class="client-wrap">
+
+    <div class="client-header">
+
+      <h1>Your Email Signature</h1>
+
+      <p>
+        Copy your signature below and install it in your email application.
+      </p>
+
+    </div>
+
+    <div class="client-preview">
+
+      <div id="clientSignature"></div>
+
+    </div>
+
+    <div class="actions">
+
+      <button class="btn btn-primary" onclick="copySignature()">
+        Copy Signature
+      </button>
+
+      <button class="btn btn-secondary" onclick="copyHTML()">
+        Copy HTML
+      </button>
+
+      <button class="btn btn-dark" onclick="showPage('guide')">
+        Installation Guide
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- ================= INSTALLATION GUIDE ================= -->
+
+<section id="guide" class="page">
+
+<div class="container">
+
+<div class="guide">
+
+<div class="hero">
+  <h1>Installation Guide</h1>
+  <p>
+    Follow the instructions for your email application.
+  </p>
+</div>
+
+
+<div class="guide-section">
+
+<h2>Gmail</h2>
+
+<ol>
+  <li>Open Gmail on your computer.</li>
+  <li>Click the Settings gear icon.</li>
+  <li>Select <strong>See all settings</strong>.</li>
+  <li>Stay on the <strong>General</strong> tab.</li>
+  <li>Scroll to the <strong>Signature</strong> section.</li>
+  <li>Click <strong>Create new</strong>.</li>
+  <li>Give the signature a name.</li>
+  <li>Click inside the signature editor.</li>
+  <li>Paste the copied signature.</li>
+  <li>Choose the signature under the settings for new emails and replies if desired.</li>
+  <li>Scroll down and click <strong>Save Changes</strong>.</li>
+</ol>
+
+<div class="tip">
+<strong>Tip:</strong> Use the “Copy Signature” button rather than copying the source code.
+</div>
+
+</div>
+
+
+<div class="guide-section">
+
+<h2>Outlook on the Web / New Outlook</h2>
+
+<ol>
+  <li>Open Outlook.</li>
+  <li>Open <strong>Settings</strong>.</li>
+  <li>Go to <strong>Mail → Compose and reply</strong>.</li>
+  <li>Create a new email signature.</li>
+  <li>Paste the rendered signature into the signature editor.</li>
+  <li>Choose when Outlook should automatically add the signature.</li>
+  <li>Save your changes.</li>
+</ol>
+
+<div class="tip">
+<strong>Important:</strong> Do not paste the raw HTML source into the normal signature editor.
+Use the rendered signature copied from the Builder.
+</div>
+
+</div>
+
+
+<div class="guide-section">
+
+<h2>Classic Outlook for Windows</h2>
+
+<ol>
+  <li>Open Outlook.</li>
+  <li>Go to <strong>File → Options</strong>.</li>
+  <li>Select <strong>Mail</strong>.</li>
+  <li>Click <strong>Signatures</strong>.</li>
+  <li>Create a new signature.</li>
+  <li>Paste the copied signature into the editor.</li>
+  <li>Select the signature for new messages and/or replies.</li>
+  <li>Click <strong>OK</strong> to save.</li>
+</ol>
+
+</div>
+
+
+<div class="guide-section">
+
+<h2>Apple Mail — macOS</h2>
+
+<ol>
+  <li>Open the Mail application.</li>
+  <li>Go to <strong>Mail → Settings</strong> (or Preferences on older versions).</li>
+  <li>Select <strong>Signatures</strong>.</li>
+  <li>Select the email account.</li>
+  <li>Click the <strong>+</strong> button to create a signature.</li>
+  <li>Paste the rendered signature.</li>
+  <li>Make sure the signature is assigned to the correct email account.</li>
+</ol>
+
+<div class="tip">
+<strong>Tip:</strong> If Apple Mail changes the formatting, copy the rendered signature again rather than the HTML source.
+</div>
+
+</div>
+
+
+<div class="guide-section">
+
+<h2>Important: Images & Logos</h2>
+
+<p>
+For logos and profile photos to work reliably in email, use an
+<strong>HTTPS image URL</strong> that is publicly accessible.
+</p>
+
+<p>Example:</p>
+
+<code>
+https://yourdomain.com/assets/logo.png
+</code>
+
+<p>
+Do not use local paths such as:
+</p>
+
+<code>
+C:\Users\You\logo.png
+</code>
+
+<p>or:</p>
+
+<code>
+./images/logo.png
+</code>
+
+</div>
+
+
+<div class="guide-section">
+
+<h2>Need Help?</h2>
+
+<p>
+If a signature looks different in an email client, check the following:
+</p>
+
+<ul>
+  <li>Images are hosted on HTTPS.</li>
+  <li>The image URL is publicly accessible.</li>
+  <li>You copied the rendered signature instead of the raw source code.</li>
+  <li>Your email client hasn't stripped formatting.</li>
+  <li>Your company email security system isn't blocking external images.</li>
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<footer class="footer">
+  Email Signature Builder
+</footer>
+
+</div>
+
+<div class="toast" id="toast">
+  Copied successfully!
+</div>
+
+
+<script>
+
+/* ===============================
+   PAGE NAVIGATION
+================================ */
+
+function showPage(pageId, button){
+
+  document.querySelectorAll('.page')
+    .forEach(page => page.classList.remove('active'));
+
+  const page = document.getElementById(pageId);
+
+  if(page){
+    page.classList.add('active');
+  }
+
+  document.querySelectorAll('.nav button')
+    .forEach(btn => btn.classList.remove('active'));
+
+  if(button){
+    button.classList.add('active');
+  }
+
+  if(pageId === 'client'){
+    updateClient();
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+}
+
+
+/* ===============================
+   HELPERS
+================================ */
+
+function value(id){
+
+  const el = document.getElementById(id);
+
+  return el ? el.value.trim() : '';
+
+}
+
+
+function escapeHTML(text){
+
+  return String(text || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+
+}
+
+
+function cleanURL(url){
+
+  if(!url) return '';
+
+  url = url.trim();
+
+  if(!/^https?:\/\//i.test(url)){
+    return 'https://' + url;
+  }
+
+  return url;
+}
+
+
+/* ===============================
+   BUILD SIGNATURE HTML
+================================ */
+
+function buildSignatureHTML(){
+
+  const name = value('name');
+  const title = value('title');
+  const company = value('company');
+  const email = value('email');
+  const phone = value('phone');
+  const website = value('website');
+  const address = value('address');
+  const photo = value('photo');
+
+  const linkedin = value('linkedin');
+  const instagram = value('instagram');
+  const facebook = value('facebook');
+  const twitter = value('twitter');
+  const youtube = value('youtube');
+
+  const color = value('brandColor') || '#2563eb';
+
+  let socialHTML = '';
+
+  if(linkedin){
+    socialHTML += `
+      <a href="${escapeHTML(cleanURL(linkedin))}"
+         style="color:${color};text-decoration:none;margin-right:10px;">
+         LinkedIn
+      </a>`;
+  }
+
+  if(instagram){
+    socialHTML += `
+      <a href="${escapeHTML(cleanURL(instagram))}"
+         style="color:${color};text-decoration:none;margin-right:10px;">
+         Instagram
+      </a>`;
+  }
+
+  if(facebook){
+    socialHTML += `
+      <a href="${escapeHTML(cleanURL(facebook))}"
+         style="color:${color};text-decoration:none;margin-right:10px;">
+         Facebook
+      </a>`;
+  }
+
+  if(twitter){
+    socialHTML += `
+      <a href="${escapeHTML(cleanURL(twitter))}"
+         style="color:${color};text-decoration:none;margin-right:10px;">
+         X
+      </a>`;
+  }
+
+  if(youtube){
+    socialHTML += `
+      <a href="${escapeHTML(cleanURL(youtube))}"
+         style="color:${color};text-decoration:none;margin-right:10px;">
+         YouTube
+      </a>`;
+  }
+
+
+  const photoHTML = photo
+    ? `
+      <td style="padding:0 18px 0 0;vertical-align:top;">
+        <img
+          src="${escapeHTML(photo)}"
+          alt="${escapeHTML(name)}"
+          width="90"
+          height="90"
+          style="width:90px;height:90px;border-radius:50%;object-fit:cover;display:block;border:0;"
+        >
+      </td>`
+    : '';
+
+
+  const companyHTML = company
+    ? `<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:${color};margin-top:3px;">
+        ${escapeHTML(company)}
+       </div>`
+    : '';
+
+
+  const emailHTML = email
+    ? `<a href="mailto:${escapeHTML(email)}"
+          style="color:#374151;text-decoration:none;">
+          ${escapeHTML(email)}
+       </a>`
+    : '';
+
+
+  const phoneHTML = phone
+    ? `<a href="tel:${escapeHTML(phone.replace(/\s+/g,''))}"
+          style="color:#374151;text-decoration:none;">
+          ${escapeHTML(phone)}
+       </a>`
+    : '';
+
+
+  const websiteHTML = website
+    ? `<a href="${escapeHTML(cleanURL(website))}"
+          style="color:${color};text-decoration:none;">
+          ${escapeHTML(website.replace(/^https?:\/\//i,''))}
+       </a>`
+    : '';
+
+
+  const contactParts = [];
+
+  if(emailHTML) contactParts.push(emailHTML);
+  if(phoneHTML) contactParts.push(phoneHTML);
+  if(websiteHTML) contactParts.push(websiteHTML);
+
+  return `
+<table cellpadding="0"
+       cellspacing="0"
+       border="0"
+       style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;">
+
+  <tr>
+
+    ${photoHTML}
+
+    <td style="vertical-align:top;">
+
+      <div style="
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:20px;
+        line-height:24px;
+        font-weight:bold;
+        color:#111827;
+      ">
+        ${escapeHTML(name)}
+      </div>
+
+      <div style="
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:14px;
+        line-height:20px;
+        color:#6b7280;
+        margin-top:2px;
+      ">
+        ${escapeHTML(title)}
+      </div>
+
+      ${companyHTML}
+
+      <div style="
+        height:1px;
+        line-height:1px;
+        font-size:1px;
+        background:${color};
+        width:100%;
+        margin:10px 0;
+      ">
+        &nbsp;
+      </div>
+
+      <div style="
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:13px;
+        line-height:21px;
+        color:#374151;
+      ">
+
+        ${contactParts.join(' &nbsp;|&nbsp; ')}
+
+        ${
+          address
+          ? `<br>${escapeHTML(address)}`
+          : ''
+        }
+
+      </div>
+
+      ${
+        socialHTML
+        ? `<div style="
+             margin-top:9px;
+             font-family:Arial,Helvetica,sans-serif;
+             font-size:12px;
+             line-height:18px;
+           ">
+             ${socialHTML}
+           </div>`
+        : ''
+      }
+
+    </td>
+
+  </tr>
+
+</table>
+`.trim();
+
+}
+
+
+/* ===============================
+   UPDATE PREVIEW
+================================ */
+
+function updateSignature(){
+
+  const html = buildSignatureHTML();
+
+  document.getElementById('signaturePreview').innerHTML = html;
+
+  document.getElementById('htmlCode').textContent = html;
+
+  updateClient();
+
+  localStorage.setItem(
+    'emailSignatureData',
+    JSON.stringify(getFormData())
+  );
+}
+
+
+/* ===============================
+   CLIENT PAGE
+================================ */
+
+function updateClient(){
+
+  const target = document.getElementById('clientSignature');
+
+  if(target){
+    target.innerHTML = buildSignatureHTML();
+  }
+
+}
+
+
+/* ===============================
+   FORM DATA
+================================ */
+
+function getFormData(){
+
+  return {
+    name:value('name'),
+    title:value('title'),
+    company:value('company'),
+    email:value('email'),
+    phone:value('phone'),
+    website:value('website'),
+    address:value('address'),
+    photo:value('photo'),
+    brandColor:value('brandColor'),
+    linkedin:value('linkedin'),
+    instagram:value('instagram'),
+    facebook:value('facebook'),
+    twitter:value('twitter'),
+    youtube:value('youtube')
+  };
+
+}
+
+
+function loadSavedData(){
+
+  try{
+
+    const saved = localStorage.getItem('emailSignatureData');
+
+    if(!saved) return;
+
+    const data = JSON.parse(saved);
+
+    Object.keys(data).forEach(key => {
+
+      const el = document.getElementById(key);
+
+      if(el && data[key] !== undefined){
+        el.value = data[key];
+      }
+
+    });
+
+    const color = document.getElementById('brandColor');
+
+    if(color){
+      document.getElementById('brandColorText').value = color.value;
+    }
+
+  }catch(error){
+
+    console.warn('Could not load saved signature.');
+
+  }
+
+}
+
+
+/* ===============================
+   COLOR
+================================ */
+
+function syncColorText(){
+
+  const text = document.getElementById('brandColorText').value;
+
+  if(/^#[0-9A-Fa-f]{6}$/.test(text)){
+
+    document.getElementById('brandColor').value = text;
+
+    updateSignature();
+
+  }
+
+}
+
+
+/* ===============================
+   COPY RENDERED SIGNATURE
+================================ */
+
+async function copySignature(){
+
+  const html = buildSignatureHTML();
+
+  try{
+
+    const blob = new Blob(
+      [html],
+      {type:'text/html'}
+    );
+
+    const plain = document.getElementById('signaturePreview').innerText;
+
+    const item = new ClipboardItem({
+      'text/html': blob,
+      'text/plain': new Blob(
+        [plain],
+        {type:'text/plain'}
+      )
+    });
+
+    await navigator.clipboard.write([item]);
+
+    showToast('Signature copied!');
+
+  }catch(error){
+
+    /* Fallback */
+
+    const range = document.createRange();
+
+    const element = document.getElementById('signaturePreview');
+
+    range.selectNodeContents(element);
+
+    const selection = window.getSelection();
+
+    selection.removeAllRanges();
+
+    selection.addRange(range);
+
+    document.execCommand('copy');
+
+    selection.removeAllRanges();
+
+    showToast('Signature copied!');
+
+  }
+
+}
+
+
+/* ===============================
+   COPY HTML
+================================ */
+
+async function copyHTML(){
+
+  const html = buildSignatureHTML();
+
+  try{
+
+    await navigator.clipboard.writeText(html);
+
+    showToast('HTML copied!');
+
+  }catch(error){
+
+    const textarea = document.createElement('textarea');
+
+    textarea.value = html;
+
+    document.body.appendChild(textarea);
+
+    textarea.select();
+
+    document.execCommand('copy');
+
+    textarea.remove();
+
+    showToast('HTML copied!');
+
+  }
+
+}
+
+
+/* ===============================
+   DOWNLOAD HTML
+================================ */
+
+function downloadHTML(){
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Email Signature</title>
+</head>
+<body>
+${buildSignatureHTML()}
+</body>
+</html>
+`;
+
+  const blob = new Blob(
+    [html],
+    {type:'text/html'}
+  );
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+
+  a.href = url;
+  a.download = 'email-signature.html';
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+  showToast('HTML file downloaded!');
+
+}
+
+
+/* ===============================
+   RESET
+================================ */
+
+function resetBuilder(){
+
+  if(!confirm('Reset your signature?')) return;
+
+  localStorage.removeItem('emailSignatureData');
+
+  location.reload();
+
+}
+
+
+/* ===============================
+   TOAST
+================================ */
+
+function showToast(message){
+
+  const toast = document.getElementById('toast');
+
+  toast.textContent = message;
+
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  },2200);
+
+}
+
+
+/* ===============================
+   START
+================================ */
+
+loadSavedData();
+
+updateSignature();
+
+</script>
+
+</body>
+</html>
