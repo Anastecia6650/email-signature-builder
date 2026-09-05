@@ -1,10 +1,16 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Professional email signature builder with shareable client pages.">
-<title>Email Signature Builder</title><style>
-*{box-sizing:border-box}
+<meta name="theme-color" content="#111827">
+<title>Email Signature Builder</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
 
 :root{
   --bg:#f4f6f8;
@@ -16,9 +22,11 @@
   --primary-hover:#27303f;
   --success:#067647;
   --danger:#b42318;
+  --danger-bg:#fee4e2;
 }
 
-html,body{
+html,
+body{
   margin:0;
   padding:0;
   min-height:100%;
@@ -30,7 +38,10 @@ body{
   font-family:Arial,Helvetica,sans-serif;
 }
 
-button,input,textarea,select{
+button,
+input,
+textarea,
+select{
   font:inherit;
 }
 
@@ -38,9 +49,22 @@ button{
   cursor:pointer;
 }
 
+button:disabled{
+  cursor:not-allowed;
+  opacity:.6;
+}
+
+a{
+  color:inherit;
+}
+
 .app{
   min-height:100vh;
 }
+
+/* ============================================================
+   TOP BAR
+============================================================ */
 
 .topbar{
   position:sticky;
@@ -90,12 +114,24 @@ button{
   flex-wrap:wrap;
 }
 
+/* ============================================================
+   BUTTONS
+============================================================ */
+
 .btn{
   border:0;
   border-radius:8px;
   padding:10px 14px;
   font-weight:700;
   font-size:13px;
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    transform .05s ease;
+}
+
+.btn:active{
+  transform:translateY(1px);
 }
 
 .btn-primary{
@@ -113,15 +149,23 @@ button{
   border:1px solid #d0d5dd;
 }
 
+.btn-secondary:hover{
+  background:#f9fafb;
+}
+
 .btn-success{
   background:var(--success);
   color:#fff;
 }
 
 .btn-danger{
-  background:#fee4e2;
+  background:var(--danger-bg);
   color:var(--danger);
 }
+
+/* ============================================================
+   BUILDER
+============================================================ */
 
 .container{
   width:min(1450px,100%);
@@ -187,7 +231,9 @@ label{
   color:#344054;
 }
 
-input,textarea,select{
+input,
+textarea,
+select{
   width:100%;
   padding:10px 11px;
   border:1px solid #d0d5dd;
@@ -215,6 +261,10 @@ textarea{
   gap:9px;
 }
 
+/* ============================================================
+   LAYOUT TABS
+============================================================ */
+
 .layout-tabs{
   display:grid;
   grid-template-columns:repeat(5,1fr);
@@ -231,11 +281,19 @@ textarea{
   font-weight:700;
 }
 
+.layout-tab:hover{
+  background:#f9fafb;
+}
+
 .layout-tab.active{
   background:#111827;
   border-color:#111827;
   color:#fff;
 }
+
+/* ============================================================
+   SOCIAL EDITOR
+============================================================ */
 
 .social-item{
   display:grid;
@@ -251,6 +309,10 @@ textarea{
 .add-social{
   margin-top:3px;
 }
+
+/* ============================================================
+   NOTICES / STATUS
+============================================================ */
 
 .notice{
   background:#f2f4f7;
@@ -294,6 +356,10 @@ textarea{
   color:var(--danger);
 }
 
+/* ============================================================
+   PREVIEW
+============================================================ */
+
 .preview-card{
   min-width:0;
 }
@@ -328,6 +394,10 @@ textarea{
   box-shadow:0 8px 25px rgba(16,24,40,.05);
 }
 
+/* ============================================================
+   INSTRUCTIONS
+============================================================ */
+
 .instructions{
   margin-top:20px;
 }
@@ -354,6 +424,10 @@ textarea{
   font-size:11px;
   line-height:1.55;
 }
+
+/* ============================================================
+   MODAL
+============================================================ */
 
 .modal{
   display:none;
@@ -396,7 +470,12 @@ textarea{
   min-height:380px;
   font-family:monospace;
   font-size:11px;
+  line-height:1.5;
 }
+
+/* ============================================================
+   CLIENT PAGE
+============================================================ */
 
 .client-page{
   min-height:100vh;
@@ -469,8 +548,11 @@ textarea{
   min-height:18px;
   font-size:11px;
   margin-top:7px;
-  color:#067647;
 }
+
+/* ============================================================
+   INVALID PAGE
+============================================================ */
 
 .invalid-page{
   min-height:100vh;
@@ -502,7 +584,26 @@ textarea{
   margin:0;
 }
 
+/* ============================================================
+   EMPTY PREVIEW
+============================================================ */
+
+.empty-preview{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:250px;
+  color:#98a2b3;
+  font-size:13px;
+  text-align:center;
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
 @media(max-width:1000px){
+
   .builder-grid{
     grid-template-columns:1fr;
   }
@@ -515,8 +616,11 @@ textarea{
 }
 
 @media(max-width:650px){
+
   .topbar{
     padding:12px 15px;
+    align-items:flex-start;
+    flex-direction:column;
   }
 
   .container{
@@ -551,8 +655,19 @@ textarea{
   .client-container{
     padding:20px;
   }
+
+  .client-signature{
+    padding:18px;
+  }
 }
-</style></head><body><div id="app"></div><script>
+</style>
+</head>
+
+<body>
+
+<div id="app"></div>
+
+<script>
 "use strict";
 
 /* ============================================================
@@ -568,7 +683,6 @@ let socials = [
   {type:"Facebook",url:""},
   {type:"X",url:""}
 ];
-
 
 /* ============================================================
    BASIC HELPERS
@@ -587,7 +701,12 @@ function escapeHTML(value){
     .replace(/'/g,"&#039;");
 }
 
+/*
+  Only allow normal web URLs.
+  This prevents javascript:, data:, vbscript:, etc.
+*/
 function normalizeUrl(value){
+
   value = String(value || "").trim();
 
   if(!value){
@@ -598,6 +717,18 @@ function normalizeUrl(value){
     return "";
   }
 
+  if(/^vbscript:/i.test(value)){
+    return "";
+  }
+
+  if(/^data:/i.test(value)){
+    return "";
+  }
+
+  if(/^mailto:/i.test(value)){
+    return value;
+  }
+
   if(/^https?:\/\//i.test(value)){
     return value;
   }
@@ -605,19 +736,80 @@ function normalizeUrl(value){
   return "https://" + value;
 }
 
+function safeHttpUrl(value){
+
+  const url = normalizeUrl(value);
+
+  if(!url){
+    return "";
+  }
+
+  try{
+
+    const parsed = new URL(url);
+
+    if(
+      parsed.protocol !== "http:" &&
+      parsed.protocol !== "https:"
+    ){
+      return "";
+    }
+
+    return parsed.href;
+
+  }catch(error){
+
+    return "";
+
+  }
+}
+
 function telUrl(value){
+
   const clean = String(value || "")
     .replace(/[^\d+]/g,"");
 
-  return clean ? "tel:" + clean : "";
-}
-
-function mailUrl(value){
-  return value
-    ? "mailto:" + encodeURIComponent(value)
+  return clean
+    ? "tel:" + clean
     : "";
 }
 
+function mailUrl(value){
+
+  const email =
+    String(value || "").trim();
+
+  if(!email){
+    return "";
+  }
+
+  return "mailto:" +
+    encodeURIComponent(email);
+}
+
+function whatsappUrl(value){
+
+  let phone =
+    String(value || "")
+      .replace(/[^\d]/g,"");
+
+  if(!phone){
+    return "";
+  }
+
+  return "https://wa.me/" + phone;
+}
+
+function isValidEmail(value){
+
+  if(!value){
+    return false;
+  }
+
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+    value
+  );
+}
 
 /* ============================================================
    GET BUILDER DATA
@@ -626,34 +818,58 @@ function mailUrl(value){
 function getBuilderData(){
 
   return {
-    firstName:$("firstName")?.value.trim() || "",
-    lastName:$("lastName")?.value.trim() || "",
-    jobTitle:$("jobTitle")?.value.trim() || "",
-    company:$("company")?.value.trim() || "",
-    department:$("department")?.value.trim() || "",
 
-    email:$("email")?.value.trim() || "",
-    phone:$("phone")?.value.trim() || "",
-    mobile:$("mobile")?.value.trim() || "",
-    website:$("website")?.value.trim() || "",
-    address:$("address")?.value.trim() || "",
+    firstName:
+      $("firstName")?.value.trim() || "",
 
-    logoUrl:$("logoUrl")?.value.trim() || "",
+    lastName:
+      $("lastName")?.value.trim() || "",
 
-    mainDivider:$("mainDivider")?.value || "none",
-    socialDivider:$("socialDivider")?.value || "none",
+    jobTitle:
+      $("jobTitle")?.value.trim() || "",
 
-    layout:currentLayout,
+    company:
+      $("company")?.value.trim() || "",
 
-    socials:socials
-      .filter(item => item.url.trim())
-      .map(item => ({
-        type:item.type,
-        url:item.url.trim()
-      }))
+    department:
+      $("department")?.value.trim() || "",
+
+    email:
+      $("email")?.value.trim() || "",
+
+    phone:
+      $("phone")?.value.trim() || "",
+
+    mobile:
+      $("mobile")?.value.trim() || "",
+
+    website:
+      $("website")?.value.trim() || "",
+
+    address:
+      $("address")?.value.trim() || "",
+
+    logoUrl:
+      $("logoUrl")?.value.trim() || "",
+
+    mainDivider:
+      $("mainDivider")?.value || "none",
+
+    socialDivider:
+      $("socialDivider")?.value || "none",
+
+    layout:
+      currentLayout,
+
+    socials:
+      socials
+        .filter(item => item.url.trim())
+        .map(item => ({
+          type:item.type,
+          url:item.url.trim()
+        }))
   };
 }
-
 
 /* ============================================================
    LOGO
@@ -662,7 +878,13 @@ function getBuilderData(){
 function getLogoSource(data){
 
   if(data.logoUrl){
-    return normalizeUrl(data.logoUrl);
+
+    const publicUrl =
+      safeHttpUrl(data.logoUrl);
+
+    if(publicUrl){
+      return publicUrl;
+    }
   }
 
   if(data.uploadedLogo){
@@ -674,7 +896,8 @@ function getLogoSource(data){
 
 function logoHTML(data,style){
 
-  const src = getLogoSource(data);
+  const src =
+    getLogoSource(data);
 
   if(!src){
     return "";
@@ -688,7 +911,6 @@ function logoHTML(data,style){
 >
 `;
 }
-
 
 /* ============================================================
    DIVIDER
@@ -716,7 +938,6 @@ line-height:1px;
 `;
 }
 
-
 /* ============================================================
    CONTACT ICONS
 ============================================================ */
@@ -727,7 +948,9 @@ const contactIcons = {
 <svg xmlns="http://www.w3.org/2000/svg"
 width="16" height="16" viewBox="0 0 24 24"
 fill="none" stroke="currentColor"
-stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+stroke-width="2"
+stroke-linecap="round"
+stroke-linejoin="round">
 <rect x="3" y="5" width="18" height="14" rx="2"/>
 <polyline points="3,7 12,13 21,7"/>
 </svg>
@@ -737,7 +960,9 @@ stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 <svg xmlns="http://www.w3.org/2000/svg"
 width="16" height="16" viewBox="0 0 24 24"
 fill="none" stroke="currentColor"
-stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+stroke-width="2"
+stroke-linecap="round"
+stroke-linejoin="round">
 <path d="M22 16.92v3a2 2 0 0 1-2.18 2
 A19.79 19.79 0 0 1 3.08 5.18
 A2 2 0 0 1 5.06 3h3
@@ -755,7 +980,9 @@ A2 2 0 0 1 22 16.92z"/>
 <svg xmlns="http://www.w3.org/2000/svg"
 width="16" height="16" viewBox="0 0 24 24"
 fill="none" stroke="currentColor"
-stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+stroke-width="2"
+stroke-linecap="round"
+stroke-linejoin="round">
 <rect x="5" y="2" width="14" height="20" rx="2"/>
 <line x1="12" y1="18" x2="12.01" y2="18"/>
 </svg>
@@ -765,7 +992,9 @@ stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 <svg xmlns="http://www.w3.org/2000/svg"
 width="16" height="16" viewBox="0 0 24 24"
 fill="none" stroke="currentColor"
-stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+stroke-width="2"
+stroke-linecap="round"
+stroke-linejoin="round">
 <circle cx="12" cy="12" r="10"/>
 <line x1="2" y1="12" x2="22" y2="12"/>
 <path d="M12 2a15.3 15.3 0 0 1 0 20"/>
@@ -773,7 +1002,6 @@ stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 </svg>
 `
 };
-
 
 /* ============================================================
    CONTACT HTML
@@ -796,11 +1024,17 @@ vertical-align:middle;
 `;
 
   if(data.email){
-    html += `
+
+    const emailLink =
+      mailUrl(data.email);
+
+    if(emailLink){
+
+      html += `
 <tr>
 <td style="padding:3px 7px 3px 0;">
 <a
-href="${escapeHTML(mailUrl(data.email))}"
+href="${escapeHTML(emailLink)}"
 title="${escapeHTML(data.email)}"
 style="text-decoration:none;color:#344054;"
 >
@@ -811,14 +1045,21 @@ ${contactIcons.email}
 </td>
 </tr>
 `;
+    }
   }
 
   if(data.phone){
-    html += `
+
+    const phoneLink =
+      telUrl(data.phone);
+
+    if(phoneLink){
+
+      html += `
 <tr>
 <td style="padding:3px 7px 3px 0;">
 <a
-href="${escapeHTML(telUrl(data.phone))}"
+href="${escapeHTML(phoneLink)}"
 title="${escapeHTML(data.phone)}"
 style="text-decoration:none;color:#344054;"
 >
@@ -829,14 +1070,21 @@ ${contactIcons.phone}
 </td>
 </tr>
 `;
+    }
   }
 
   if(data.mobile){
-    html += `
+
+    const mobileLink =
+      telUrl(data.mobile);
+
+    if(mobileLink){
+
+      html += `
 <tr>
 <td style="padding:3px 7px 3px 0;">
 <a
-href="${escapeHTML(telUrl(data.mobile))}"
+href="${escapeHTML(mobileLink)}"
 title="${escapeHTML(data.mobile)}"
 style="text-decoration:none;color:#344054;"
 >
@@ -847,15 +1095,24 @@ ${contactIcons.mobile}
 </td>
 </tr>
 `;
+    }
   }
 
   if(data.website){
-    html += `
+
+    const websiteLink =
+      safeHttpUrl(data.website);
+
+    if(websiteLink){
+
+      html += `
 <tr>
 <td style="padding:3px 7px 3px 0;">
 <a
-href="${escapeHTML(normalizeUrl(data.website))}"
+href="${escapeHTML(websiteLink)}"
 title="${escapeHTML(data.website)}"
+target="_blank"
+rel="noopener noreferrer"
 style="text-decoration:none;color:#344054;"
 >
 <span style="${iconBox}">
@@ -865,9 +1122,11 @@ ${contactIcons.website}
 </td>
 </tr>
 `;
+    }
   }
 
   if(data.address){
+
     html += `
 <tr>
 <td style="
@@ -877,7 +1136,8 @@ color:#667085;
 padding:5px 0;
 line-height:1.45;
 ">
-${escapeHTML(data.address).replace(/\n/g,"<br>")}
+${escapeHTML(data.address)
+  .replace(/\r?\n/g,"<br>")}
 </td>
 </tr>
 `;
@@ -886,9 +1146,8 @@ ${escapeHTML(data.address).replace(/\n/g,"<br>")}
   return html;
 }
 
-
 /* ============================================================
-   SOCIAL ICON SVGs
+   SOCIAL ICONS
 ============================================================ */
 
 const socialIcons = {
@@ -911,7 +1170,9 @@ a2.07 2.07 0 1 1 0-4.14
 <svg xmlns="http://www.w3.org/2000/svg"
 width="17" height="17" viewBox="0 0 24 24"
 fill="none" stroke="currentColor"
-stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+stroke-width="2"
+stroke-linecap="round"
+stroke-linejoin="round">
 <rect x="3" y="3" width="18" height="18" rx="5"/>
 <circle cx="12" cy="12" r="4"/>
 <circle cx="17.5" cy="6.5" r="1"/>
@@ -942,7 +1203,7 @@ fill="currentColor">
 C0 8.05 0 12 0 12s0 3.95.5 5.8a3 3 0 0 0 2.1 2.12
 c1.85.58 9.4.58 9.4.58s7.55 0 9.4-.58
 a3 3 0 0 0 2.1-2.12c.5-1.85.5-5.8.5-5.8
-s0-3.95-.5-5.8zM9.55 15.5v-7L15.7 12l-6.15 3.5z"/>
+s0-3.95-.5-5.8zM9.55 15.5v-7L15.7 12l-6.15 3.5-6.15 3.5z"/>
 </svg>
 `,
 
@@ -1000,7 +1261,9 @@ h-.55c-.19 0-.49.07-.75.35
 <svg xmlns="http://www.w3.org/2000/svg"
 width="17" height="17" viewBox="0 0 24 24"
 fill="none" stroke="currentColor"
-stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+stroke-width="2"
+stroke-linecap="round"
+stroke-linejoin="round">
 <circle cx="12" cy="12" r="10"/>
 <line x1="2" y1="12" x2="22" y2="12"/>
 <path d="M12 2a15.3 15.3 0 0 1 0 20"/>
@@ -1009,6 +1272,23 @@ stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 `
 };
 
+/* ============================================================
+   SOCIAL URL HANDLER
+============================================================ */
+
+function getSocialUrl(item){
+
+  if(!item || !item.url){
+    return "";
+  }
+
+  if(item.type === "WhatsApp"){
+
+    return whatsappUrl(item.url);
+  }
+
+  return safeHttpUrl(item.url);
+}
 
 /* ============================================================
    SOCIAL HTML
@@ -1016,7 +1296,22 @@ stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 
 function socialHTML(data){
 
-  if(!data.socials.length){
+  if(
+    !data.socials ||
+    !data.socials.length
+  ){
+    return "";
+  }
+
+  const validSocials =
+    data.socials
+      .map(item => ({
+        ...item,
+        safeUrl:getSocialUrl(item)
+      }))
+      .filter(item => item.safeUrl);
+
+  if(!validSocials.length){
     return "";
   }
 
@@ -1024,15 +1319,15 @@ function socialHTML(data){
 <table cellpadding="0" cellspacing="0" border="0"
 style="border-collapse:collapse;">
 <tr>
-${data.socials.map(item => {
-
-  const url = normalizeUrl(item.url);
+${validSocials.map(item => {
 
   return `
 <td style="padding-right:7px;">
 <a
-href="${escapeHTML(url)}"
+href="${escapeHTML(item.safeUrl)}"
 title="${escapeHTML(item.type)}"
+target="_blank"
+rel="noopener noreferrer"
 style="
 display:inline-flex;
 align-items:center;
@@ -1057,7 +1352,6 @@ ${socialIcons[item.type] || socialIcons.Website}
 `;
 }
 
-
 /* ============================================================
    SIGNATURE GENERATOR
 ============================================================ */
@@ -1065,14 +1359,17 @@ ${socialIcons[item.type] || socialIcons.Website}
 function generateSignature(data){
 
   const name =
-    `${data.firstName} ${data.lastName}`.trim()
+    `${data.firstName} ${data.lastName}`
+      .trim()
     || "Your Name";
 
   const title =
-    data.jobTitle || "Job Title";
+    data.jobTitle
+    || "Job Title";
 
   const company =
-    data.company || "";
+    data.company
+    || "";
 
   const department =
     data.department
@@ -1100,8 +1397,23 @@ ${escapeHTML(data.department)}
   const socialDivider =
     divider(data.socialDivider);
 
-  const socials =
+  const socialsHTML =
     socialHTML(data);
+
+  const socialRow =
+    socialsHTML
+      ? `
+<tr>
+<td>
+${socialsHTML}
+</td>
+</tr>
+`
+      : "";
+
+  /* ========================================================
+     LAYOUT 1
+  ======================================================== */
 
   if(data.layout === 1){
 
@@ -1150,11 +1462,7 @@ style="border-collapse:collapse;">
 ${mainDivider}
 ${contactHTML(data)}
 ${socialDivider}
-<tr>
-<td>
-${socials}
-</td>
-</tr>
+${socialRow}
 </table>
 
 </td>
@@ -1165,6 +1473,9 @@ ${socials}
 `;
   }
 
+  /* ========================================================
+     LAYOUT 2
+  ======================================================== */
 
   if(data.layout === 2){
 
@@ -1205,7 +1516,7 @@ style="border-collapse:collapse;">
 ${mainDivider}
 ${contactHTML(data)}
 ${socialDivider}
-<tr><td>${socials}</td></tr>
+${socialRow}
 </table>
 
 </td>
@@ -1223,6 +1534,9 @@ ${logo}
 `;
   }
 
+  /* ========================================================
+     LAYOUT 3
+  ======================================================== */
 
   if(data.layout === 3){
 
@@ -1265,7 +1579,7 @@ style="border-collapse:collapse;">
 ${mainDivider}
 ${contactHTML(data)}
 ${socialDivider}
-<tr><td>${socials}</td></tr>
+${socialRow}
 </table>
 
 </td>
@@ -1275,6 +1589,9 @@ ${socialDivider}
 `;
   }
 
+  /* ========================================================
+     LAYOUT 4
+  ======================================================== */
 
   if(data.layout === 4){
 
@@ -1337,7 +1654,7 @@ style="border-collapse:collapse;">
 ${mainDivider}
 ${contactHTML(data)}
 ${socialDivider}
-<tr><td>${socials}</td></tr>
+${socialRow}
 </table>
 
 </td>
@@ -1347,6 +1664,9 @@ ${socialDivider}
 `;
   }
 
+  /* ========================================================
+     LAYOUT 5
+  ======================================================== */
 
   return `
 <table cellpadding="0" cellspacing="0" border="0"
@@ -1395,7 +1715,7 @@ style="border-collapse:collapse;">
 ${mainDivider}
 ${contactHTML(data)}
 ${socialDivider}
-<tr><td>${socials}</td></tr>
+${socialRow}
 </table>
 
 </td>
@@ -1405,7 +1725,6 @@ ${socialDivider}
 </table>
 `;
 }
-
 
 /* ============================================================
    BUILDER HTML
@@ -1418,9 +1737,13 @@ function renderBuilder(){
 <header class="topbar">
 
 <div class="brand">
-<div class="brand-icon">S</div>
+
+<div class="brand-icon">
+S
+</div>
 
 <div>
+
 <div class="brand-title">
 Email Signature Builder
 </div>
@@ -1428,17 +1751,25 @@ Email Signature Builder
 <div class="brand-subtitle">
 Create professional signatures and client pages
 </div>
+
 </div>
+
 </div>
 
 <div class="actions">
-<button class="btn btn-secondary" id="resetBtn">
+
+<button
+class="btn btn-secondary"
+id="resetBtn">
 Reset
 </button>
 
-<button class="btn btn-primary" id="headerCopyBtn">
+<button
+class="btn btn-primary"
+id="headerCopyBtn">
 Copy Signature
 </button>
+
 </div>
 
 </header>
@@ -1451,6 +1782,8 @@ Copy Signature
 
 <div class="card-inner">
 
+<!-- PERSONAL INFORMATION -->
+
 <div class="section">
 
 <div class="section-title">
@@ -1460,34 +1793,77 @@ Personal Information
 <div class="two">
 
 <div class="field">
-<label>First Name</label>
-<input id="firstName" placeholder="John">
+
+<label for="firstName">
+First Name
+</label>
+
+<input
+id="firstName"
+placeholder="John"
+autocomplete="given-name"
+>
+
 </div>
 
 <div class="field">
-<label>Last Name</label>
-<input id="lastName" placeholder="Doe">
+
+<label for="lastName">
+Last Name
+</label>
+
+<input
+id="lastName"
+placeholder="Doe"
+autocomplete="family-name"
+>
+
 </div>
 
 </div>
 
 <div class="field">
-<label>Job Title</label>
-<input id="jobTitle" placeholder="Creative Director">
+
+<label for="jobTitle">
+Job Title
+</label>
+
+<input
+id="jobTitle"
+placeholder="Creative Director"
+>
+
 </div>
 
 <div class="field">
-<label>Company</label>
-<input id="company" placeholder="Acme Corporation">
+
+<label for="company">
+Company
+</label>
+
+<input
+id="company"
+placeholder="Acme Corporation"
+>
+
 </div>
 
 <div class="field">
-<label>Department</label>
-<input id="department" placeholder="Marketing">
-</div>
+
+<label for="department">
+Department
+</label>
+
+<input
+id="department"
+placeholder="Marketing"
+>
 
 </div>
 
+</div>
+
+<!-- CONTACT -->
 
 <div class="section">
 
@@ -1496,337 +1872,810 @@ Contact Information
 </div>
 
 <div class="field">
-<label>Email</label>
-<input id="email" type="email" placeholder="john@example.com">
+
+<label for="email">
+Email
+</label>
+
+<input
+id="email"
+type="email"
+placeholder="john@example.com"
+autocomplete="email"
+>
+
 </div>
 
 <div class="field">
-<label>Phone</label>
-<input id="phone" placeholder="+234 800 000 0000">
+
+<label for="phone">
+Phone
+</label>
+
+<input
+id="phone"
+placeholder="+234 800 000 0000"
+autocomplete="tel"
+>
+
 </div>
 
 <div class="field">
-<label>Mobile</label>
-<input id="mobile" placeholder="+234 801 000 0000">
+
+<label for="mobile">
+Mobile
+</label>
+
+<input
+id="mobile"
+placeholder="+234 801 000 0000"
+autocomplete="tel"
+>
+
 </div>
 
 <div class="field">
-<label>Website</label>
-<input id="website" placeholder="https://example.com">
+
+<label for="website">
+Website
+</label>
+
+<input
+id="website"
+placeholder="https://example.com"
+inputmode="url"
+>
+
 </div>
 
 <div class="field">
-<label>Address</label>
-<textarea id="address" placeholder="123 Business Street&#10;Lagos, Nigeria"></textarea></div></div><div class="section"><div class="section-title">
+
+<label for="address">
+Address
+</label>
+
+<textarea
+id="address"
+placeholder="123 Business Street&#10;Lagos, Nigeria"
+></textarea>
+
+</div>
+
+</div>
+
+<!-- LOGO -->
+
+<div class="section">
+
+<div class="section-title">
 Logo / Image
-</div><div class="field">
-<label>Public Logo URL</label>
-<input id="logoUrl" placeholder="https://example.com/logo.png">
-</div><div class="field">
-<label>Upload Logo</label>
-<input id="logoFile" type="file" accept="image/*">
-</div><div class="small-text">
+</div>
+
+<div class="field">
+
+<label for="logoUrl">
+Public Logo URL
+</label>
+
+<input
+id="logoUrl"
+placeholder="https://example.com/logo.png"
+inputmode="url"
+>
+
+</div>
+
+<div class="field">
+
+<label for="logoFile">
+Upload Logo
+</label>
+
+<input
+id="logoFile"
+type="file"
+accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml"
+>
+
+</div>
+
+<div class="small-text">
 For a client link, use a public HTTPS logo URL.
-An uploaded local image cannot reliably be shared through a URL.
-</div></div><div class="section"><div class="section-title">
+An uploaded local image is only available on this device and
+cannot reliably be shared through a URL.
+</div>
+
+</div>
+
+<!-- LAYOUT -->
+
+<div class="section">
+
+<div class="section-title">
 Signature Layout
-</div><div class="layout-tabs"><button class="layout-tab active" data-layout="1">
+</div>
+
+<div class="layout-tabs">
+
+<button
+class="layout-tab active"
+data-layout="1">
 Layout 1
-</button><button class="layout-tab" data-layout="2">
+</button>
+
+<button
+class="layout-tab"
+data-layout="2">
 Layout 2
-</button><button class="layout-tab" data-layout="3">
+</button>
+
+<button
+class="layout-tab"
+data-layout="3">
 Layout 3
-</button><button class="layout-tab" data-layout="4">
+</button>
+
+<button
+class="layout-tab"
+data-layout="4">
 Layout 4
-</button><button class="layout-tab" data-layout="5">
+</button>
+
+<button
+class="layout-tab"
+data-layout="5">
 Layout 5
-</button></div></div><div class="section"><div class="section-title">
+</button>
+
+</div>
+
+</div>
+
+<!-- DIVIDERS -->
+
+<div class="section">
+
+<div class="section-title">
 Dividers
-</div><div class="two"><div class="field"><label>Main Divider</label>
+</div>
 
-<select id="mainDivider"><option value="none">
-None
-</option><option value="line">
-Line
-</option></select></div><div class="field"><label>Social Divider</label>
+<div class="two">
 
-<select id="socialDivider"><option value="none">
+<div class="field">
+
+<label for="mainDivider">
+Main Divider
+</label>
+
+<select id="mainDivider">
+
+<option value="none">
 None
-</option><option value="line">
+</option>
+
+<option value="line">
 Line
-</option></select></div></div></div><div class="section"><div class="section-title">
+</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<label for="socialDivider">
+Social Divider
+</label>
+
+<select id="socialDivider">
+
+<option value="none">
+None
+</option>
+
+<option value="line">
+Line
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- SOCIAL LINKS -->
+
+<div class="section">
+
+<div class="section-title">
 Social Links
-</div><div id="socialContainer"></div><button class="btn btn-secondary add-social" id="addSocialBtn">
+</div>
+
+<div id="socialContainer"></div>
+
+<button
+class="btn btn-secondary add-social"
+id="addSocialBtn">
 + Add Social Link
-</button></div><div class="section"><div class="section-title">
+</button>
+
+</div>
+
+<!-- CLIENT PAGE -->
+
+<div class="section">
+
+<div class="section-title">
 Client Signature Page
-</div><div class="notice">Create a shareable client page.
-The client information is encoded into the URL and does not require a database.
+</div>
+
+<div class="notice">
+
+Create a shareable client page.
+The client information is encoded into the URL and does not
+require a database.
+
+<br><br>
 
 <strong>
 Use the generated link exactly as provided.
-</strong></div><br><div class="actions"><button class="btn btn-primary" id="createClientBtn">
+</strong>
+
+</div>
+
+<br>
+
+<div class="actions">
+
+<button
+class="btn btn-primary"
+id="createClientBtn">
 Create Client Page
-</button><button class="btn btn-secondary" id="openClientBtn">
+</button>
+
+<button
+class="btn btn-secondary"
+id="openClientBtn">
 Open Client Page
-</button><button class="btn btn-secondary" id="copyClientBtn">
+</button>
+
+<button
+class="btn btn-secondary"
+id="copyClientBtn">
 Copy Client Link
-</button></div><div class="client-box" id="clientBox"><label>
+</button>
+
+</div>
+
+<div
+class="client-box"
+id="clientBox">
+
+<label for="clientLink">
 Client Link
-</label><input id="clientLink" class="client-link" readonly><div id="clientStatus" class="status"></div></div></div><div class="section"><div class="section-title">
+</label>
+
+<input
+id="clientLink"
+class="client-link"
+readonly
+>
+
+<div
+id="clientStatus"
+class="status">
+</div>
+
+</div>
+
+</div>
+
+<!-- EXPORT -->
+
+<div class="section">
+
+<div class="section-title">
 Export
-</div><div class="actions"><button class="btn btn-primary" id="copyHtmlBtn">
+</div>
+
+<div class="actions">
+
+<button
+class="btn btn-primary"
+id="copyHtmlBtn">
 Copy Signature
-</button><button class="btn btn-secondary" id="viewHtmlBtn">
+</button>
+
+<button
+class="btn btn-secondary"
+id="viewHtmlBtn">
 View HTML
-</button><button class="btn btn-secondary" id="downloadBtn">
+</button>
+
+<button
+class="btn btn-secondary"
+id="downloadBtn">
 Download HTML
-</button></div></div></div></section><section><div class="card preview-card"><div class="preview-header"><h2>
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- PREVIEW COLUMN -->
+
+<section>
+
+<div class="card preview-card">
+
+<div class="preview-header">
+
+<h2>
 Live Preview
-</h2><div class="actions"><button class="btn btn-secondary" id="previewCopyBtn">
+</h2>
+
+<div class="actions">
+
+<button
+class="btn btn-secondary"
+id="previewCopyBtn">
 Copy
-</button><button class="btn btn-secondary" id="previewCodeBtn">
+</button>
+
+<button
+class="btn btn-secondary"
+id="previewCodeBtn">
 HTML
-</button></div></div><div class="preview-area"><div class="signature-paper" id="preview"></div></div></div><div class="card instructions"><div class="card-inner"><div class="section-title">
+</button>
+
+</div>
+
+</div>
+
+<div class="preview-area">
+
+<div
+class="signature-paper"
+id="preview">
+</div>
+
+</div>
+
+</div>
+
+<div class="card instructions">
+
+<div class="card-inner">
+
+<div class="section-title">
 Email Installation
-</div><div class="instruction"><h3>
+</div>
+
+<div class="instruction">
+
+<h3>
 Gmail
-</h3><p>
+</h3>
+
+<p>
 Gmail → Settings → See all settings → General → Signature.
-Create or select your signature and paste the copied signature into the editor.
-</p></div><div class="instruction"><h3>
+Create or select your signature and paste the copied
+signature into the editor.
+</p>
+
+</div>
+
+<div class="instruction">
+
+<h3>
 Outlook
-</h3><p>
-Outlook → Settings → Mail → Compose and reply → Email signature.
+</h3>
+
+<p>
+Outlook → Settings → Mail → Compose and reply →
+Email signature.
 Paste the generated signature into the signature editor.
-</p></div><div class="instruction"><h3>
+</p>
+
+</div>
+
+<div class="instruction">
+
+<h3>
 Apple Mail
-</h3><p>
+</h3>
+
+<p>
 Mail → Settings → Signatures.
 Create a signature and paste the generated signature.
-</p></div></div></div></section></div></main><div class="modal" id="htmlModal"><div class="modal-content"><div class="modal-header"><h2>
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+<!-- HTML MODAL -->
+
+<div
+class="modal"
+id="htmlModal"
+role="dialog"
+aria-modal="true"
+aria-labelledby="htmlModalTitle">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h2 id="htmlModalTitle">
 Signature HTML
-</h2><button class="btn btn-secondary" id="closeModalBtn">
+</h2>
+
+<button
+class="btn btn-secondary"
+id="closeModalBtn">
 Close
-</button></div><textarea id="htmlOutput" class="code-output" readonly></textarea><br><br>
+</button>
 
-<button class="btn btn-primary" id="modalCopyBtn">
+</div>
+
+<textarea
+id="htmlOutput"
+class="code-output"
+readonly
+spellcheck="false"
+></textarea>
+
+<br>
+<br>
+
+<button
+class="btn btn-primary"
+id="modalCopyBtn">
 Copy HTML
-</button></div></div>`;
+</button>
 
-attachBuilderEvents();
-renderSocialEditor();
-renderPreview();
+</div>
+
+</div>
+`;
+
+  attachBuilderEvents();
+  renderSocialEditor();
+  renderPreview();
 }
 
 /* ============================================================
-SOCIAL EDITOR
+   SOCIAL EDITOR
 ============================================================ */
 
 function renderSocialEditor(){
 
-const container = $("socialContainer");
+  const container =
+    $("socialContainer");
 
-if(!container){
-return;
-}
-
-container.innerHTML = "";
-
-socials.forEach((social,index)=>{
-
-const row = document.createElement("div");
-
-row.className = "social-item";
-
-const select = document.createElement("select");
-
-[
-  "LinkedIn",
-  "Instagram",
-  "Facebook",
-  "X",
-  "YouTube",
-  "TikTok",
-  "WhatsApp",
-  "Website"
-].forEach(type=>{
-
-  const option =
-    document.createElement("option");
-
-  option.value = type;
-  option.textContent = type;
-
-  if(type === social.type){
-    option.selected = true;
+  if(!container){
+    return;
   }
 
-  select.appendChild(option);
+  container.innerHTML = "";
 
-});
+  socials.forEach((social,index)=>{
 
-select.addEventListener("change",function(){
+    const row =
+      document.createElement("div");
 
-  socials[index].type = this.value;
+    row.className =
+      "social-item";
 
-  renderPreview();
+    const select =
+      document.createElement("select");
 
-});
+    [
+      "LinkedIn",
+      "Instagram",
+      "Facebook",
+      "X",
+      "YouTube",
+      "TikTok",
+      "WhatsApp",
+      "Website"
+    ].forEach(type=>{
 
-const input =
-  document.createElement("input");
+      const option =
+        document.createElement("option");
 
-input.placeholder = "https://...";
-input.value = social.url;
+      option.value =
+        type;
 
-input.addEventListener("input",function(){
+      option.textContent =
+        type;
 
-  socials[index].url = this.value;
+      if(type === social.type){
+        option.selected = true;
+      }
 
-  renderPreview();
+      select.appendChild(option);
 
-});
+    });
 
-const remove =
-  document.createElement("button");
+    select.addEventListener(
+      "change",
+      function(){
 
-remove.className =
-  "btn btn-danger";
+        socials[index].type =
+          this.value;
 
-remove.textContent = "×";
+        renderPreview();
 
-remove.title = "Remove";
+      }
+    );
 
-remove.addEventListener("click",function(){
+    const input =
+      document.createElement("input");
 
-  socials.splice(index,1);
+    input.placeholder =
+      social.type === "WhatsApp"
+        ? "+2348012345678"
+        : "https://...";
 
-  renderSocialEditor();
-  renderPreview();
+    input.value =
+      social.url;
 
-});
+    input.addEventListener(
+      "input",
+      function(){
 
-row.appendChild(select);
-row.appendChild(input);
-row.appendChild(remove);
+        socials[index].url =
+          this.value;
 
-container.appendChild(row);
+        renderPreview();
 
-});
+      }
+    );
 
+    const remove =
+      document.createElement("button");
+
+    remove.className =
+      "btn btn-danger";
+
+    remove.textContent =
+      "×";
+
+    remove.title =
+      "Remove social link";
+
+    remove.setAttribute(
+      "aria-label",
+      "Remove social link"
+    );
+
+    remove.addEventListener(
+      "click",
+      function(){
+
+        socials.splice(index,1);
+
+        renderSocialEditor();
+        renderPreview();
+
+      }
+    );
+
+    row.appendChild(select);
+    row.appendChild(input);
+    row.appendChild(remove);
+
+    container.appendChild(row);
+
+  });
 }
 
 /* ============================================================
-PREVIEW
+   PREVIEW
 ============================================================ */
 
 function renderPreview(){
 
-const preview = $("preview");
+  const preview =
+    $("preview");
 
-if(!preview){
-return;
-}
+  if(!preview){
+    return;
+  }
 
-const data = getBuilderData();
+  const data =
+    getBuilderData();
 
-data.uploadedLogo =
-uploadedLogoData;
+  data.uploadedLogo =
+    uploadedLogoData;
 
-preview.innerHTML =
-generateSignature(data);
+  const hasContent =
+    data.firstName ||
+    data.lastName ||
+    data.jobTitle ||
+    data.company ||
+    data.email ||
+    data.phone ||
+    data.mobile ||
+    data.website ||
+    data.address ||
+    data.logoUrl ||
+    data.uploadedLogo ||
+    data.socials.length;
+
+  if(!hasContent){
+
+    preview.innerHTML = `
+<div class="empty-preview">
+Start entering your information to see the signature preview.
+</div>
+`;
+
+    return;
+  }
+
+  preview.innerHTML =
+    generateSignature(data);
 }
 
 /* ============================================================
-LAYOUT EVENTS
+   LAYOUT EVENTS
 ============================================================ */
 
 function attachLayoutEvents(){
 
-document
-.querySelectorAll(".layout-tab")
-.forEach(button=>{
+  document
+    .querySelectorAll(".layout-tab")
+    .forEach(button=>{
 
-  button.addEventListener("click",function(){
+      button.addEventListener(
+        "click",
+        function(){
 
-    currentLayout =
-      Number(this.dataset.layout);
+          currentLayout =
+            Number(this.dataset.layout);
 
-    document
-      .querySelectorAll(".layout-tab")
-      .forEach(btn =>
-        btn.classList.remove("active")
+          document
+            .querySelectorAll(".layout-tab")
+            .forEach(btn=>{
+              btn.classList.remove("active");
+            });
+
+          this.classList.add("active");
+
+          renderPreview();
+
+        }
       );
 
-    this.classList.add("active");
-
-    renderPreview();
-
-  });
-
-});
-
+    });
 }
 
 /* ============================================================
-COPY RICH SIGNATURE
+   COPY HTML HELPER
 ============================================================ */
 
-async function copySignature(){
+async function copyPlainText(text){
 
-const data =
-getBuilderData();
+  if(
+    navigator.clipboard &&
+    window.isSecureContext
+  ){
 
-data.uploadedLogo =
-uploadedLogoData;
+    await navigator.clipboard.writeText(
+      text
+    );
 
-const html =
-generateSignature(data);
+    return true;
+  }
 
-const text =
-$("preview")
-? $("preview").innerText
-: "";
+  const textarea =
+    document.createElement("textarea");
 
-try{
+  textarea.value =
+    text;
 
-if(
-  navigator.clipboard &&
-  window.ClipboardItem
+  textarea.style.position =
+    "fixed";
+
+  textarea.style.left =
+    "-99999px";
+
+  textarea.style.top =
+    "0";
+
+  document.body.appendChild(
+    textarea
+  );
+
+  textarea.focus();
+  textarea.select();
+
+  const result =
+    document.execCommand("copy");
+
+  textarea.remove();
+
+  return result;
+}
+
+/* ============================================================
+   COPY RICH SIGNATURE
+============================================================ */
+
+async function copyRichSignature(
+  html,
+  plain
 ){
 
-  const htmlBlob =
-    new Blob(
-      [html],
-      {type:"text/html"}
-    );
+  if(
+    navigator.clipboard &&
+    window.ClipboardItem &&
+    window.isSecureContext
+  ){
 
-  const textBlob =
-    new Blob(
-      [text],
-      {type:"text/plain"}
-    );
+    const htmlBlob =
+      new Blob(
+        [html],
+        {type:"text/html"}
+      );
 
-  const item =
-    new ClipboardItem({
-      "text/html":htmlBlob,
-      "text/plain":textBlob
-    });
+    const textBlob =
+      new Blob(
+        [plain],
+        {type:"text/plain"}
+      );
 
-  await navigator.clipboard.write([item]);
+    const item =
+      new ClipboardItem({
+        "text/html":htmlBlob,
+        "text/plain":textBlob
+      });
 
-}else{
+    await navigator.clipboard.write([
+      item
+    ]);
+
+    return true;
+  }
 
   const temp =
     document.createElement("div");
 
-  temp.innerHTML = html;
+  temp.innerHTML =
+    html;
 
-  temp.style.position = "fixed";
-  temp.style.left = "-99999px";
+  temp.style.position =
+    "fixed";
 
-  document.body.appendChild(temp);
+  temp.style.left =
+    "-99999px";
+
+  temp.style.top =
+    "0";
+
+  temp.style.background =
+    "#fff";
+
+  document.body.appendChild(
+    temp
+  );
 
   const range =
     document.createRange();
@@ -1837,360 +2686,523 @@ if(
     window.getSelection();
 
   selection.removeAllRanges();
+
   selection.addRange(range);
 
-  document.execCommand("copy");
+  let result = false;
 
-  selection.removeAllRanges();
+  try{
 
-  temp.remove();
+    result =
+      document.execCommand("copy");
 
-}
+  }finally{
 
-showStatus(
-  "Signature copied successfully.",
-  true
-);
+    selection.removeAllRanges();
+    temp.remove();
 
-}catch(error){
+  }
 
-console.error(error);
-
-showStatus(
-  "Copy failed. Use View HTML and copy the code.",
-  false
-);
-
-}
-
+  return result;
 }
 
 /* ============================================================
-STATUS
+   COPY SIGNATURE
 ============================================================ */
 
-function showStatus(message,success){
+async function copySignature(){
 
-const el =
-$("clientStatus");
+  const data =
+    getBuilderData();
 
-if(!el){
-return;
-}
+  data.uploadedLogo =
+    uploadedLogoData;
 
-el.textContent =
-message;
+  const html =
+    generateSignature(data);
 
-el.className =
-"status " +
-(success ? "success" : "error");
+  const preview =
+    $("preview");
 
+  const text =
+    preview
+      ? preview.innerText
+      : "";
+
+  try{
+
+    const success =
+      await copyRichSignature(
+        html,
+        text
+      );
+
+    if(!success){
+      throw new Error(
+        "Copy command failed."
+      );
+    }
+
+    showStatus(
+      "Signature copied successfully.",
+      true
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Copy failed. Use View HTML and copy the code manually."
+    );
+
+  }
 }
 
 /* ============================================================
-CLIENT LINK ENCODING
+   STATUS
+============================================================ */
+
+function showStatus(
+  message,
+  success
+){
+
+  const el =
+    $("clientStatus");
+
+  if(!el){
+    return;
+  }
+
+  el.textContent =
+    message;
+
+  el.className =
+    "status " +
+    (
+      success
+        ? "success"
+        : "error"
+    );
+}
+
+/* ============================================================
+   CLIENT LINK ENCODING
 ============================================================ */
 
 function encodeClientData(data){
 
-const cleanData = {
+  const cleanData = {
 
-firstName:data.firstName || "",
-lastName:data.lastName || "",
-jobTitle:data.jobTitle || "",
-company:data.company || "",
-department:data.department || "",
+    firstName:
+      data.firstName || "",
 
-email:data.email || "",
-phone:data.phone || "",
-mobile:data.mobile || "",
-website:data.website || "",
-address:data.address || "",
+    lastName:
+      data.lastName || "",
 
-logoUrl:data.logoUrl || "",
+    jobTitle:
+      data.jobTitle || "",
 
-mainDivider:data.mainDivider || "none",
-socialDivider:data.socialDivider || "none",
+    company:
+      data.company || "",
 
-layout:Number(data.layout || 1),
+    department:
+      data.department || "",
 
-socials:Array.isArray(data.socials)
-  ? data.socials.map(item=>({
-      type:String(item.type || ""),
-      url:String(item.url || "")
-    }))
-  : []
+    email:
+      data.email || "",
 
-};
+    phone:
+      data.phone || "",
 
-const json =
-JSON.stringify(cleanData);
+    mobile:
+      data.mobile || "",
 
-const bytes =
-new TextEncoder().encode(json);
+    website:
+      data.website || "",
 
-let binary = "";
+    address:
+      data.address || "",
 
-for(
-let i = 0;
-i < bytes.length;
-i++
+    logoUrl:
+      data.logoUrl || "",
+
+    mainDivider:
+      data.mainDivider || "none",
+
+    socialDivider:
+      data.socialDivider || "none",
+
+    layout:
+      Number(data.layout || 1),
+
+    socials:
+      Array.isArray(data.socials)
+        ? data.socials.map(item=>({
+            type:String(
+              item.type || ""
+            ),
+            url:String(
+              item.url || ""
+            )
+          }))
+        : []
+
+  };
+
+  const json =
+    JSON.stringify(cleanData);
+
+  const bytes =
+    new TextEncoder()
+      .encode(json);
+
+  let binary = "";
+
+  const chunkSize =
+    0x8000;
+
+  for(
+    let i = 0;
+    i < bytes.length;
+    i += chunkSize
+  ){
+
+    binary += String.fromCharCode(
+      ...bytes.subarray(
+        i,
+        i + chunkSize
+      )
+    );
+
+  }
+
+  const base64 =
+    btoa(binary);
+
+  return encodeURIComponent(
+    base64
+  );
+}
+
+function decodeClientData(
+  encoded
 ){
 
-binary +=
-  String.fromCharCode(bytes[i]);
+  try{
 
-}
+    if(!encoded){
+      return null;
+    }
 
-const base64 =
-btoa(binary);
+    const base64 =
+      decodeURIComponent(encoded);
 
-return encodeURIComponent(base64);
-}
+    const binary =
+      atob(base64);
 
-function decodeClientData(encoded){
+    const bytes =
+      new Uint8Array(
+        binary.length
+      );
 
-try{
+    for(
+      let i = 0;
+      i < binary.length;
+      i++
+    ){
 
-if(!encoded){
-  return null;
-}
+      bytes[i] =
+        binary.charCodeAt(i);
 
-const base64 =
-  decodeURIComponent(encoded);
+    }
 
-const binary =
-  atob(base64);
+    const json =
+      new TextDecoder()
+        .decode(bytes);
 
-const bytes =
-  new Uint8Array(binary.length);
+    const data =
+      JSON.parse(json);
 
-for(
-  let i = 0;
-  i < binary.length;
-  i++
-){
+    if(
+      !data ||
+      typeof data !== "object"
+    ){
+      return null;
+    }
 
-  bytes[i] =
-    binary.charCodeAt(i);
+    const layout =
+      Number(data.layout || 1);
 
-}
+    return {
 
-const json =
-  new TextDecoder()
-    .decode(bytes);
+      firstName:
+        String(data.firstName || ""),
 
-const data =
-  JSON.parse(json);
+      lastName:
+        String(data.lastName || ""),
 
-return {
+      jobTitle:
+        String(data.jobTitle || ""),
 
-  firstName:data.firstName || "",
-  lastName:data.lastName || "",
-  jobTitle:data.jobTitle || "",
-  company:data.company || "",
-  department:data.department || "",
+      company:
+        String(data.company || ""),
 
-  email:data.email || "",
-  phone:data.phone || "",
-  mobile:data.mobile || "",
-  website:data.website || "",
-  address:data.address || "",
+      department:
+        String(data.department || ""),
 
-  logoUrl:data.logoUrl || "",
+      email:
+        String(data.email || ""),
 
-  mainDivider:
-    data.mainDivider || "none",
+      phone:
+        String(data.phone || ""),
 
-  socialDivider:
-    data.socialDivider || "none",
+      mobile:
+        String(data.mobile || ""),
 
-  layout:
-    Number(data.layout || 1),
+      website:
+        String(data.website || ""),
 
-  socials:
-    Array.isArray(data.socials)
-      ? data.socials
-      : [],
+      address:
+        String(data.address || ""),
 
-  uploadedLogo:""
+      logoUrl:
+        String(data.logoUrl || ""),
 
-};
+      mainDivider:
+        data.mainDivider === "line"
+          ? "line"
+          : "none",
 
-}catch(error){
+      socialDivider:
+        data.socialDivider === "line"
+          ? "line"
+          : "none",
 
-console.error(
-  "CLIENT LINK ERROR:",
-  error
-);
+      layout:
+        [1,2,3,4,5].includes(layout)
+          ? layout
+          : 1,
 
-return null;
+      socials:
+        Array.isArray(data.socials)
+          ? data.socials
+              .filter(item =>
+                item &&
+                typeof item === "object"
+              )
+              .map(item=>({
+                type:String(
+                  item.type || ""
+                ),
+                url:String(
+                  item.url || ""
+                )
+              }))
+          : [],
 
-}
+      uploadedLogo:""
 
+    };
+
+  }catch(error){
+
+    console.error(
+      "CLIENT LINK ERROR:",
+      error
+    );
+
+    return null;
+  }
 }
 
 /* ============================================================
-BUILD CLIENT URL
+   BUILD CLIENT URL
 ============================================================ */
 
 function getBaseApplicationUrl(){
 
-const url =
-new URL(
-window.location.href
-);
+  const url =
+    new URL(
+      window.location.href
+    );
 
-url.search = "";
-url.hash = "";
+  url.search = "";
+  url.hash = "";
 
-return url.toString();
+  return url.toString();
 }
 
 function createClientPage(){
 
-const data =
-getBuilderData();
+  const data =
+    getBuilderData();
 
-if(
-uploadedLogoData &&
-!data.logoUrl
-){
+  if(
+    !data.firstName &&
+    !data.lastName &&
+    !data.company &&
+    !data.email &&
+    !data.phone &&
+    !data.website
+  ){
 
-const proceed =
-  confirm(
-    "You uploaded a logo, but you did not provide a public Logo URL.\n\n" +
-    "The uploaded image cannot reliably be placed inside a shareable GitHub Pages link.\n\n" +
-    "The client link will be created without that uploaded image.\n\n" +
-    "Use a public HTTPS logo URL if the client must see the logo."
+    alert(
+      "Please enter some signature information before creating a client page."
+    );
+
+    return "";
+  }
+
+  if(
+    uploadedLogoData &&
+    !data.logoUrl
+  ){
+
+    const proceed =
+      confirm(
+        "You uploaded a logo, but you did not provide a public Logo URL.\n\n" +
+        "The uploaded image cannot reliably be placed inside a shareable link.\n\n" +
+        "The client link will be created without that uploaded image.\n\n" +
+        "Use a public HTTPS logo URL if the client must see the logo."
+      );
+
+    if(!proceed){
+      return "";
+    }
+  }
+
+  const encoded =
+    encodeClientData(data);
+
+  const base =
+    getBaseApplicationUrl();
+
+  const clientUrl =
+    base +
+    "#client=" +
+    encoded;
+
+  const clientLink =
+    $("clientLink");
+
+  if(clientLink){
+    clientLink.value =
+      clientUrl;
+  }
+
+  const clientBox =
+    $("clientBox");
+
+  if(clientBox){
+    clientBox.classList.add(
+      "visible"
+    );
+  }
+
+  showStatus(
+    "Client link created successfully.",
+    true
   );
 
-if(!proceed){
-  return;
-}
-
-}
-
-const encoded =
-encodeClientData(data);
-
-const base =
-getBaseApplicationUrl();
-
-const clientUrl =
-base +
-"#client=" +
-encoded;
-
-$("clientLink").value =
-clientUrl;
-
-$("clientBox")
-.classList
-.add("visible");
-
-showStatus(
-"Client link created successfully.",
-true
-);
-
-return clientUrl;
+  return clientUrl;
 }
 
 /* ============================================================
-COPY CLIENT LINK
+   COPY CLIENT LINK
 ============================================================ */
 
 async function copyClientLink(){
 
-let link =
-$("clientLink").value;
+  let link =
+    $("clientLink")?.value || "";
 
-if(!link){
+  if(!link){
 
-link =
-  createClientPage();
+    link =
+      createClientPage();
 
-}
+  }
 
-if(!link){
-return;
-}
+  if(!link){
+    return;
+  }
 
-try{
+  try{
 
-await navigator.clipboard
-  .writeText(link);
+    await copyPlainText(link);
 
-showStatus(
-  "Client link copied successfully.",
-  true
-);
+    showStatus(
+      "Client link copied successfully.",
+      true
+    );
 
-}catch(error){
+  }catch(error){
 
-const input =
-  $("clientLink");
+    console.error(error);
 
-input.focus();
-input.select();
+    const input =
+      $("clientLink");
 
-document.execCommand("copy");
+    if(input){
 
-showStatus(
-  "Client link copied.",
-  true
-);
+      input.focus();
+      input.select();
 
-}
+    }
 
+    showStatus(
+      "Unable to copy the client link.",
+      false
+    );
+  }
 }
 
 /* ============================================================
-OPEN CLIENT PAGE
+   OPEN CLIENT PAGE
 ============================================================ */
 
 function openClientPage(){
 
-let link =
-$("clientLink").value;
+  let link =
+    $("clientLink")?.value || "";
 
-if(!link){
+  if(!link){
 
-link =
-  createClientPage();
+    link =
+      createClientPage();
 
-}
+  }
 
-if(!link){
-return;
-}
+  if(!link){
+    return;
+  }
 
-window.open(
-link,
-"_blank"
-);
-
+  window.open(
+    link,
+    "_blank",
+    "noopener,noreferrer"
+  );
 }
 
 /* ============================================================
-DOWNLOAD HTML
+   DOWNLOAD SIGNATURE
 ============================================================ */
 
 function downloadSignature(){
 
-const data =
-getBuilderData();
+  const data =
+    getBuilderData();
 
-data.uploadedLogo =
-uploadedLogoData;
+  data.uploadedLogo =
+    uploadedLogoData;
 
-const signature =
-generateSignature(data);
+  const signature =
+    generateSignature(data);
 
-const fullHTML =
+  const fullHTML =
 `<!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -2200,328 +3212,446 @@ const fullHTML =
 <body>
 ${signature}
 </body>
-</html>`;const blob =
-new Blob(
-[fullHTML],
-{
-type:"text/html;charset=utf-8"
-}
-);
+</html>`;
 
-const url =
-URL.createObjectURL(blob);
+  const blob =
+    new Blob(
+      [fullHTML],
+      {
+        type:
+          "text/html;charset=utf-8"
+      }
+    );
 
-const a =
-document.createElement("a");
+  const url =
+    URL.createObjectURL(blob);
 
-a.href = url;
+  const a =
+    document.createElement("a");
 
-a.download =
-"email-signature.html";
+  a.href =
+    url;
 
-document.body.appendChild(a);
+  a.download =
+    "email-signature.html";
 
-a.click();
+  document.body.appendChild(a);
 
-a.remove();
+  a.click();
 
-setTimeout(()=>{
-URL.revokeObjectURL(url);
-},1000);
+  a.remove();
 
+  setTimeout(()=>{
+    URL.revokeObjectURL(url);
+  },1000);
 }
 
 /* ============================================================
-HTML MODAL
+   HTML MODAL
 ============================================================ */
 
 function openHtmlModal(){
 
-const data =
-getBuilderData();
+  const data =
+    getBuilderData();
 
-data.uploadedLogo =
-uploadedLogoData;
+  data.uploadedLogo =
+    uploadedLogoData;
 
-$("htmlOutput").value =
-generateSignature(data);
+  const output =
+    $("htmlOutput");
 
-$("htmlModal")
-.classList
-.add("open");
+  if(output){
 
+    output.value =
+      generateSignature(data);
+
+  }
+
+  $("htmlModal")
+    ?.classList
+    .add("open");
 }
 
 function closeHtmlModal(){
 
-$("htmlModal")
-.classList
-.remove("open");
-
+  $("htmlModal")
+    ?.classList
+    .remove("open");
 }
 
 /* ============================================================
-RESET
+   RESET
 ============================================================ */
 
 function resetBuilder(){
 
-if(
-!confirm(
-"Reset the signature builder?"
-)
-){
+  if(
+    !confirm(
+      "Reset the signature builder?"
+    )
+  ){
+    return;
+  }
 
-return;
+  document
+    .querySelectorAll(
+      "#app input:not([type=file]), #app textarea"
+    )
+    .forEach(el=>{
+      el.value = "";
+    });
 
-}
+  if($("mainDivider")){
+    $("mainDivider").value =
+      "none";
+  }
 
-document
-.querySelectorAll(
-"#app input:not([type=file]), #app textarea"
-)
-.forEach(el=>{
-el.value = "";
-});
+  if($("socialDivider")){
+    $("socialDivider").value =
+      "none";
+  }
 
-if($("mainDivider")){
-$("mainDivider").value =
-"none";
-}
+  if($("logoFile")){
+    $("logoFile").value =
+      "";
+  }
 
-if($("socialDivider")){
-$("socialDivider").value =
-"none";
-}
+  currentLayout = 1;
 
-currentLayout = 1;
+  uploadedLogoData = "";
 
-uploadedLogoData = "";
+  socials = [
+    {
+      type:"LinkedIn",
+      url:""
+    },
+    {
+      type:"Instagram",
+      url:""
+    },
+    {
+      type:"Facebook",
+      url:""
+    },
+    {
+      type:"X",
+      url:""
+    }
+  ];
 
-socials = [
-{type:"LinkedIn",url:""},
-{type:"Instagram",url:""},
-{type:"Facebook",url:""},
-{type:"X",url:""}
-];
+  document
+    .querySelectorAll(".layout-tab")
+    .forEach(btn=>{
+      btn.classList.remove(
+        "active"
+      );
+    });
 
-document
-.querySelectorAll(".layout-tab")
-.forEach(btn=>{
-btn.classList.remove("active");
-});
+  const first =
+    document.querySelector(
+      '.layout-tab[data-layout="1"]'
+    );
 
-const first =
-document.querySelector(
-'.layout-tab[data-layout="1"]'
-);
+  if(first){
+    first.classList.add(
+      "active"
+    );
+  }
 
-if(first){
-first.classList.add("active");
-}
+  if($("clientBox")){
+    $("clientBox")
+      .classList
+      .remove("visible");
+  }
 
-renderSocialEditor();
-renderPreview();
+  if($("clientLink")){
+    $("clientLink").value =
+      "";
+  }
 
+  if($("clientStatus")){
+    $("clientStatus").textContent =
+      "";
+
+    $("clientStatus").className =
+      "status";
+  }
+
+  renderSocialEditor();
+  renderPreview();
 }
 
 /* ============================================================
-BUILDER EVENTS
+   BUILDER EVENTS
 ============================================================ */
 
 function attachBuilderEvents(){
 
-document
-.querySelectorAll(
-"#app input, #app textarea, #app select"
-)
-.forEach(el=>{
+  document
+    .querySelectorAll(
+      "#app input, #app textarea, #app select"
+    )
+    .forEach(el=>{
 
-  if(el.id === "logoFile"){
-    return;
-  }
+      if(el.id === "logoFile"){
+        return;
+      }
 
-  el.addEventListener(
-    "input",
-    renderPreview
-  );
-
-  el.addEventListener(
-    "change",
-    renderPreview
-  );
-
-});
-
-$("logoFile")
-.addEventListener(
-"change",
-function(event){
-
-    const file =
-      event.target.files[0];
-
-    if(!file){
-      return;
-    }
-
-    if(
-      file.size >
-      2 * 1024 * 1024
-    ){
-
-      alert(
-        "Please use an image smaller than 2MB."
+      el.addEventListener(
+        "input",
+        renderPreview
       );
 
-      event.target.value = "";
+      el.addEventListener(
+        "change",
+        renderPreview
+      );
 
-      return;
-
-    }
-
-    const reader =
-      new FileReader();
-
-    reader.onload =
-      function(){
-
-        uploadedLogoData =
-          reader.result;
-
-        renderPreview();
-
-      };
-
-    reader.readAsDataURL(file);
-
-  }
-);
-
-attachLayoutEvents();
-
-$("addSocialBtn")
-.addEventListener(
-"click",
-function(){
-
-    socials.push({
-      type:"LinkedIn",
-      url:""
     });
 
-    renderSocialEditor();
+  const logoFile =
+    $("logoFile");
 
+  if(logoFile){
+
+    logoFile.addEventListener(
+      "change",
+      function(event){
+
+        const file =
+          event.target.files[0];
+
+        if(!file){
+          return;
+        }
+
+        if(
+          !file.type.startsWith(
+            "image/"
+          )
+        ){
+
+          alert(
+            "Please select a valid image file."
+          );
+
+          event.target.value =
+            "";
+
+          return;
+        }
+
+        if(
+          file.size >
+          2 * 1024 * 1024
+        ){
+
+          alert(
+            "Please use an image smaller than 2MB."
+          );
+
+          event.target.value =
+            "";
+
+          return;
+        }
+
+        const reader =
+          new FileReader();
+
+        reader.onload =
+          function(){
+
+            uploadedLogoData =
+              String(
+                reader.result || ""
+              );
+
+            renderPreview();
+
+          };
+
+        reader.onerror =
+          function(){
+
+            alert(
+              "Unable to read the selected image."
+            );
+
+            event.target.value =
+              "";
+
+          };
+
+        reader.readAsDataURL(file);
+
+      }
+    );
   }
-);
 
-$("copyHtmlBtn")
-.addEventListener(
-"click",
-copySignature
-);
+  attachLayoutEvents();
 
-$("headerCopyBtn")
-.addEventListener(
-"click",
-copySignature
-);
+  $("addSocialBtn")
+    ?.addEventListener(
+      "click",
+      function(){
 
-$("previewCopyBtn")
-.addEventListener(
-"click",
-copySignature
-);
+        socials.push({
+          type:"LinkedIn",
+          url:""
+        });
 
-$("viewHtmlBtn")
-.addEventListener(
-"click",
-openHtmlModal
-);
+        renderSocialEditor();
 
-$("previewCodeBtn")
-.addEventListener(
-"click",
-openHtmlModal
-);
+      }
+    );
 
-$("modalCopyBtn")
-.addEventListener(
-"click",
-async function(){
+  $("copyHtmlBtn")
+    ?.addEventListener(
+      "click",
+      copySignature
+    );
 
-    try{
+  $("headerCopyBtn")
+    ?.addEventListener(
+      "click",
+      copySignature
+    );
 
-      await navigator.clipboard
-        .writeText(
-          $("htmlOutput").value
-        );
+  $("previewCopyBtn")
+    ?.addEventListener(
+      "click",
+      copySignature
+    );
 
-      alert(
-        "HTML copied successfully."
-      );
+  $("viewHtmlBtn")
+    ?.addEventListener(
+      "click",
+      openHtmlModal
+    );
 
-    }catch(error){
+  $("previewCodeBtn")
+    ?.addEventListener(
+      "click",
+      openHtmlModal
+    );
 
-      $("htmlOutput").select();
+  $("modalCopyBtn")
+    ?.addEventListener(
+      "click",
+      async function(){
 
-      document.execCommand(
-        "copy"
-      );
+        const output =
+          $("htmlOutput");
 
-      alert(
-        "HTML copied."
-      );
+        if(!output){
+          return;
+        }
 
-    }
+        try{
 
-  }
-);
+          await copyPlainText(
+            output.value
+          );
 
-$("closeModalBtn")
-.addEventListener(
-"click",
-closeHtmlModal
-);
+          alert(
+            "HTML copied successfully."
+          );
 
-$("downloadBtn")
-.addEventListener(
-"click",
-downloadSignature
-);
+        }catch(error){
 
-$("resetBtn")
-.addEventListener(
-"click",
-resetBuilder
-);
+          output.focus();
+          output.select();
 
-$("createClientBtn")
-.addEventListener(
-"click",
-createClientPage
-);
+          try{
 
-$("copyClientBtn")
-.addEventListener(
-"click",
-copyClientLink
-);
+            document.execCommand(
+              "copy"
+            );
 
-$("openClientBtn")
-.addEventListener(
-"click",
-openClientPage
-);
+            alert(
+              "HTML copied."
+            );
 
-$("htmlModal")
-.addEventListener(
-"click",
-function(event){
+          }catch(copyError){
+
+            alert(
+              "Unable to copy HTML."
+            );
+
+          }
+        }
+      }
+    );
+
+  $("closeModalBtn")
+    ?.addEventListener(
+      "click",
+      closeHtmlModal
+    );
+
+  $("downloadBtn")
+    ?.addEventListener(
+      "click",
+      downloadSignature
+    );
+
+  $("resetBtn")
+    ?.addEventListener(
+      "click",
+      resetBuilder
+    );
+
+  $("createClientBtn")
+    ?.addEventListener(
+      "click",
+      createClientPage
+    );
+
+  $("copyClientBtn")
+    ?.addEventListener(
+      "click",
+      copyClientLink
+    );
+
+  $("openClientBtn")
+    ?.addEventListener(
+      "click",
+      openClientPage
+    );
+
+  $("htmlModal")
+    ?.addEventListener(
+      "click",
+      function(event){
+
+        if(
+          event.target ===
+          $("htmlModal")
+        ){
+
+          closeHtmlModal();
+
+        }
+
+      }
+    );
+}
+
+/* ============================================================
+   ESCAPE KEY FOR MODAL
+============================================================ */
+
+document.addEventListener(
+  "keydown",
+  function(event){
 
     if(
-      event.target ===
-      $("htmlModal")
+      event.key === "Escape" &&
+      $("htmlModal")?.classList.contains(
+        "open"
+      )
     ){
 
       closeHtmlModal();
@@ -2531,32 +3661,63 @@ function(event){
   }
 );
 
-}
-
 /* ============================================================
-CLIENT PAGE
+   CLIENT PAGE
 ============================================================ */
 
 function renderClientPage(data){
 
-const name =
-"${data.firstName} ${data.lastName}".trim();
+  const fullName =
+    `${data.firstName} ${data.lastName}`
+      .trim();
 
-document.title =
-name
-? "${name} — Email Signature"
-: "Email Signature";
+  /*
+    FIX:
+    The original code used:
+    "${data.firstName} ${data.lastName}"
+    inside normal JavaScript strings, which resulted in
+    the literal text being used instead of the actual name.
+  */
 
-document.body.innerHTML = `
+  document.title =
+    fullName
+      ? `${fullName} — Email Signature`
+      : "Email Signature";
 
-<div class="client-page"><div class="client-container"><div class="client-heading"><h1>
+  $("app").innerHTML = `
+
+<div class="client-page">
+
+<div class="client-container">
+
+<div class="client-heading">
+
+<h1>
 Email Signature
-</h1><p>
-Your professional email signature is ready.
+</h1>
+
+<p>
+${fullName
+  ? `Your professional email signature for
+     <strong>${escapeHTML(fullName)}</strong> is ready.`
+  : `Your professional email signature is ready.`
+}
 Copy it below and add it to your email account.
-</p></div><div class="client-signature" id="clientSignature">
+</p>
+
+</div>
+
+<div
+class="client-signature"
+id="clientSignature">
+
 ${generateSignature(data)}
-</div><div class="client-buttons"><button
+
+</div>
+
+<div class="client-buttons">
+
+<button
 class="btn btn-primary"
 id="clientCopySignature">
 Copy Signature
@@ -2568,139 +3729,112 @@ id="clientDownloadSignature">
 Download HTML
 </button>
 
-</div><div
+</div>
+
+<div
 class="client-message"
 id="clientMessage">
-</div><div class="client-instructions"><h3>
+</div>
+
+<div class="client-instructions">
+
+<h3>
 Gmail
-</h3><p>
-Open Gmail → Settings → See all settings → General → Signature.
-Create or select your signature and paste the copied signature.
-</p><h3>
+</h3>
+
+<p>
+Open Gmail → Settings → See all settings → General →
+Signature.
+Create or select your signature and paste the copied
+signature.
+</p>
+
+<h3>
 Outlook
-</h3><p>
-Open Outlook → Settings → Mail → Compose and reply → Email signature.
+</h3>
+
+<p>
+Open Outlook → Settings → Mail → Compose and reply →
+Email signature.
 Paste the signature into the editor.
-</p><h3>
+</p>
+
+<h3>
 Apple Mail
-</h3><p>
+</h3>
+
+<p>
 Open Mail → Settings → Signatures.
 Create a signature and paste the generated signature.
-</p></div></div></div>`;
+</p>
 
-$("clientCopySignature")
-.addEventListener(
-"click",
-async function(){
+</div>
 
-    const html =
-      generateSignature(data);
+</div>
 
-    const plain =
-      $("clientSignature")
-        .innerText;
+</div>
+`;
 
-    const message =
-      $("clientMessage");
+  $("clientCopySignature")
+    ?.addEventListener(
+      "click",
+      async function(){
 
-    try{
+        const html =
+          generateSignature(data);
 
-      if(
-        navigator.clipboard &&
-        window.ClipboardItem
-      ){
+        const plain =
+          $("clientSignature")
+            ?.innerText || "";
 
-        const htmlBlob =
-          new Blob(
-            [html],
-            {type:"text/html"}
-          );
+        const message =
+          $("clientMessage");
 
-        const textBlob =
-          new Blob(
-            [plain],
-            {type:"text/plain"}
-          );
+        try{
 
-        const item =
-          new ClipboardItem({
-            "text/html":htmlBlob,
-            "text/plain":textBlob
-          });
+          const success =
+            await copyRichSignature(
+              html,
+              plain
+            );
 
-        await navigator.clipboard
-          .write([item]);
+          if(!success){
+            throw new Error(
+              "Copy failed."
+            );
+          }
 
-      }else{
+          message.textContent =
+            "Signature copied successfully.";
 
-        const temp =
-          document.createElement("div");
+          message.style.color =
+            "#067647";
 
-        temp.innerHTML = html;
+        }catch(error){
 
-        temp.style.position =
-          "fixed";
+          console.error(error);
 
-        temp.style.left =
-          "-99999px";
+          message.textContent =
+            "Copy failed. Please select the signature manually.";
 
-        document.body.appendChild(temp);
+          message.style.color =
+            "#b42318";
 
-        const range =
-          document.createRange();
-
-        range.selectNodeContents(temp);
-
-        const selection =
-          window.getSelection();
-
-        selection.removeAllRanges();
-
-        selection.addRange(range);
-
-        document.execCommand(
-          "copy"
-        );
-
-        selection.removeAllRanges();
-
-        temp.remove();
+        }
 
       }
+    );
 
-      message.textContent =
-        "Signature copied successfully.";
+  $("clientDownloadSignature")
+    ?.addEventListener(
+      "click",
+      function(){
 
-      message.style.color =
-        "#067647";
+        const signature =
+          generateSignature(data);
 
-    }catch(error){
-
-      console.error(error);
-
-      message.textContent =
-        "Copy failed. Please select the signature manually.";
-
-      message.style.color =
-        "#b42318";
-
-    }
-
-  }
-);
-
-$("clientDownloadSignature")
-.addEventListener(
-"click",
-function(){
-
-    const signature =
-      generateSignature(data);
-
-    const fullHTML =
-
+        const fullHTML =
 `<!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -2710,122 +3844,139 @@ function(){
 <body>
 ${signature}
 </body>
-</html>`;    const blob =
-      new Blob(
-        [fullHTML],
-        {
-          type:
-            "text/html;charset=utf-8"
-        }
-      );
+</html>`;
 
-    const url =
-      URL.createObjectURL(blob);
+        const blob =
+          new Blob(
+            [fullHTML],
+            {
+              type:
+                "text/html;charset=utf-8"
+            }
+          );
 
-    const a =
-      document.createElement("a");
+        const url =
+          URL.createObjectURL(blob);
 
-    a.href = url;
+        const a =
+          document.createElement("a");
 
-    a.download =
-      "email-signature.html";
+        a.href =
+          url;
 
-    document.body.appendChild(a);
+        a.download =
+          "email-signature.html";
 
-    a.click();
+        document.body.appendChild(a);
 
-    a.remove();
+        a.click();
 
-    setTimeout(()=>{
-      URL.revokeObjectURL(url);
-    },1000);
+        a.remove();
 
-  }
-);
+        setTimeout(()=>{
+          URL.revokeObjectURL(url);
+        },1000);
 
+      }
+    );
 }
 
 /* ============================================================
-INVALID CLIENT PAGE
+   INVALID CLIENT PAGE
 ============================================================ */
 
 function renderInvalidClientPage(){
 
-document.title =
-"Invalid Client Link";
+  document.title =
+    "Invalid Client Link";
 
-document.body.innerHTML = `
+  document.body.innerHTML = `
 
-<div class="invalid-page"><div class="invalid-card"><h1>
+<div class="invalid-page">
+
+<div class="invalid-card">
+
+<h1>
 Invalid Client Link
-</h1><p>
-This client link is invalid, incomplete, or corrupted.
-Please return to the signature builder and create a new client link.
-</p></div></div>`;
+</h1>
 
+<p>
+This client link is invalid, incomplete, or corrupted.
+Please return to the signature builder and create a new
+client link.
+</p>
+
+<br>
+
+<button
+class="btn btn-primary"
+onclick="window.location.href=window.location.href.split('#')[0]">
+Return to Builder
+</button>
+
+</div>
+
+</div>
+`;
 }
 
 /* ============================================================
-DETECT CLIENT PAGE
+   DETECT CLIENT PAGE
 ============================================================ */
 
 function tryLoadClientPage(){
 
-const hash =
-window.location.hash;
+  const hash =
+    window.location.hash;
 
-if(
-!hash ||
-!hash.startsWith("#client=")
-){
+  if(
+    !hash ||
+    !hash.startsWith("#client=")
+  ){
 
-return false;
+    return false;
+  }
 
-}
+  const encoded =
+    hash.substring(
+      "#client=".length
+    );
 
-const encoded =
-hash.substring(
-"#client=".length
-);
+  if(!encoded){
 
-if(!encoded){
+    renderInvalidClientPage();
 
-renderInvalidClientPage();
+    return true;
+  }
 
-return true;
+  const data =
+    decodeClientData(encoded);
 
-}
+  if(!data){
 
-const data =
-decodeClientData(encoded);
+    renderInvalidClientPage();
 
-if(!data){
+    return true;
+  }
 
-renderInvalidClientPage();
+  renderClientPage(data);
 
-return true;
-
-}
-
-renderClientPage(data);
-
-return true;
-
+  return true;
 }
 
 /* ============================================================
-APPLICATION START
+   APPLICATION START
 ============================================================ */
 
 (function(){
 
-if(
-!tryLoadClientPage()
-){
+  if(
+    !tryLoadClientPage()
+  ){
 
-renderBuilder();
+    renderBuilder();
 
-}
+  }
 
 })();
 </script>
