@@ -2951,3 +2951,412 @@ function renderBuilder(){
           </button>
 
         </div>
+
+      </div>
+
+    </div>
+  `;
+
+  loadDraft();
+
+  renderSocials();
+  updateLayoutButtons();
+  renderPreview();
+
+  bindBuilderEvents();
+}
+
+/* ============================================================
+   LAYOUT BUTTONS
+============================================================ */
+
+function updateLayoutButtons(){
+
+  document
+    .querySelectorAll("[data-layout]")
+    .forEach(button => {
+
+      const layout =
+        Number(button.dataset.layout);
+
+      button.classList.toggle(
+        "active",
+        layout === currentLayout
+      );
+    });
+}
+
+function setLayout(layout){
+
+  const value = Number(layout);
+
+  if(value < 1 || value > 5){
+    return;
+  }
+
+  currentLayout = value;
+
+  updateLayoutButtons();
+  renderPreview();
+  saveDraft();
+}
+
+/* ============================================================
+   LOGO UPLOAD
+============================================================ */
+
+function handleLogoUpload(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file){
+    return;
+  }
+
+  if(!file.type.startsWith("image/")){
+    showStatus(
+      "Please select a valid image file.",
+      "error"
+    );
+    event.target.value = "";
+    return;
+  }
+
+  /*
+    Avoid excessively large data URLs.
+    2.5 MB is deliberately conservative for shareable URLs.
+  */
+  if(file.size > 2.5 * 1024 * 1024){
+    showStatus(
+      "Please use a logo smaller than 2.5 MB.",
+      "error"
+    );
+    event.target.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function(){
+
+    if(typeof reader.result !== "string"){
+      return;
+    }
+
+    uploadedLogoData =
+      reader.result;
+
+    if($("logoStatus")){
+      $("logoStatus").textContent =
+        "Uploaded logo ready.";
+    }
+
+    renderPreview();
+    saveDraft();
+  };
+
+  reader.onerror = function(){
+
+    uploadedLogoData = "";
+
+    showStatus(
+      "Unable to read the logo file.",
+      "error"
+    );
+  };
+
+  reader.readAsDataURL(file);
+}
+
+/* ============================================================
+   RESET
+============================================================ */
+
+function resetBuilder(){
+
+  const confirmed =
+    window.confirm(
+      "Reset the signature builder? All current information will be cleared."
+    );
+
+  if(!confirmed){
+    return;
+  }
+
+  const fields = [
+    "firstName",
+    "lastName",
+    "jobTitle",
+    "company",
+    "department",
+    "email",
+    "phone",
+    "mobile",
+    "website",
+    "address",
+    "logoUrl"
+  ];
+
+  fields.forEach(id => {
+    if($(id)){
+      $(id).value = "";
+    }
+  });
+
+  if($("logoFile")){
+    $("logoFile").value = "";
+  }
+
+  if($("mainDivider")){
+    $("mainDivider").value = "none";
+  }
+
+  if($("socialDivider")){
+    $("socialDivider").value = "none";
+  }
+
+  uploadedLogoData = "";
+
+  socials = [
+    {type:"LinkedIn",url:""},
+    {type:"Instagram",url:""},
+    {type:"Facebook",url:""},
+    {type:"X",url:""}
+  ];
+
+  currentLayout = 1;
+
+  try{
+    localStorage.removeItem(STORAGE_KEY);
+  }catch(e){}
+
+  if($("logoStatus")){
+    $("logoStatus").textContent = "";
+  }
+
+  if($("clientBox")){
+    $("clientBox").classList.remove("visible");
+  }
+
+  if($("clientLink")){
+    $("clientLink").value = "";
+  }
+
+  renderSocials();
+  updateLayoutButtons();
+  renderPreview();
+
+  showStatus(
+    "Builder reset.",
+    "success"
+  );
+}
+
+/* ============================================================
+   EVENT BINDING
+============================================================ */
+
+function bindBuilderEvents(){
+
+  const liveFields = [
+    "firstName",
+    "lastName",
+    "jobTitle",
+    "company",
+    "department",
+    "email",
+    "phone",
+    "mobile",
+    "website",
+    "address",
+    "logoUrl",
+    "mainDivider",
+    "socialDivider"
+  ];
+
+  liveFields.forEach(id => {
+
+    const field = $(id);
+
+    if(!field){
+      return;
+    }
+
+    field.addEventListener(
+      "input",
+      () => {
+        renderPreview();
+        saveDraft();
+      }
+    );
+
+    field.addEventListener(
+      "change",
+      () => {
+        renderPreview();
+        saveDraft();
+      }
+    );
+  });
+
+  document
+    .querySelectorAll("[data-layout]")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+          setLayout(button.dataset.layout);
+        }
+      );
+    });
+
+  $("addSocialBtn")?.addEventListener(
+    "click",
+    addSocial
+  );
+
+  $("logoFile")?.addEventListener(
+    "change",
+    handleLogoUpload
+  );
+
+  $("resetBtn")?.addEventListener(
+    "click",
+    resetBuilder
+  );
+
+  $("copyBtn")?.addEventListener(
+    "click",
+    copySignature
+  );
+
+  $("previewCopyBtn")?.addEventListener(
+    "click",
+    copySignature
+  );
+
+  $("htmlBtn")?.addEventListener(
+    "click",
+    () => {
+
+      const data = getBuilderData();
+
+      if(isSignatureEmpty(data)){
+        showStatus(
+          "Add some information before viewing the HTML.",
+          "error"
+        );
+        return;
+      }
+
+      openHTMLModal(
+        generateSignature(data)
+      );
+    }
+  );
+
+  $("modalCopyBtn")?.addEventListener(
+    "click",
+    copyModalHTML
+  );
+
+  $("closeModalBtn")?.addEventListener(
+    "click",
+    closeHTMLModal
+  );
+
+  $("clientBtn")?.addEventListener(
+    "click",
+    createClientLink
+  );
+
+  $("htmlModal")?.addEventListener(
+    "click",
+    event => {
+      if(event.target === $("htmlModal")){
+        closeHTMLModal();
+      }
+    }
+  );
+}
+
+/* ============================================================
+   KEYBOARD SUPPORT
+============================================================ */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(event.key === "Escape"){
+
+      const modal =
+        $("htmlModal");
+
+      if(
+        modal &&
+        modal.classList.contains("open")
+      ){
+        closeHTMLModal();
+      }
+    }
+  }
+);
+
+/* ============================================================
+   HASH ROUTING
+============================================================ */
+
+function boot(){
+
+  const hash =
+    window.location.hash || "";
+
+  if(hash.startsWith("#client=")){
+
+    const data =
+      getClientDataFromHash();
+
+    if(data){
+      renderClientPage(data);
+    }else{
+      renderInvalidClientPage();
+    }
+
+    return;
+  }
+
+  renderBuilder();
+}
+
+window.addEventListener(
+  "hashchange",
+  () => {
+
+    if(
+      window.location.hash.startsWith("#client=")
+    ){
+
+      const data =
+        getClientDataFromHash();
+
+      if(data){
+        renderClientPage(data);
+      }else{
+        renderInvalidClientPage();
+      }
+
+    }else{
+
+      window.location.reload();
+
+    }
+  }
+);
+
+boot();
+</script>
+</body>
+</html>
