@@ -2,3361 +2,2562 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="description" content="Professional email signature builder with shareable client pages.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Email Signature Builder</title>
 
 <style>
 *{box-sizing:border-box}
 
-:root{
-  --bg:#f4f6f8;
-  --card:#fff;
-  --text:#101828;
-  --muted:#667085;
-  --border:#dfe3e8;
-  --primary:#111827;
-  --primary-hover:#27303f;
-  --success:#067647;
-  --danger:#b42318;
-}
-
-html,body{
-  margin:0;
-  padding:0;
-  min-height:100%;
-}
-
 body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
+margin:0;
+padding:20px;
+background:#f3f4f6;
+font:14px Arial,Helvetica,sans-serif;
+color:#111827
 }
 
-button,input,textarea,select{
-  font:inherit;
+.wrap{
+max-width:1100px;
+margin:auto
 }
 
-button{
-  cursor:pointer;
+.grid{
+display:grid;
+grid-template-columns:360px 1fr;
+gap:20px
 }
 
-img{
-  max-width:100%;
+.box,.card{
+background:#fff;
+padding:22px;
+border-radius:12px;
+box-shadow:0 3px 15px #0001
 }
 
-.app{
-  min-height:100vh;
+h1{margin-top:0}
+
+label{
+display:block;
+font-weight:bold;
+font-size:12px;
+margin:10px 0 5px
 }
 
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:50;
-  background:#fff;
-  border-bottom:1px solid var(--border);
-  padding:15px 24px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
+input,select{
+width:100%;
+padding:10px;
+border:1px solid #ccc;
+border-radius:6px;
+background:#fff
 }
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:11px;
+input[type=color]{
+height:42px;
+padding:3px
 }
 
-.brand-icon{
-  width:40px;
-  height:40px;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#111827;
-  color:#fff;
-  font-weight:800;
+input[type=file]{
+padding:8px
 }
 
-.brand-title{
-  font-weight:800;
-  font-size:16px;
+.layouts{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:6px;
+margin-top:8px
 }
 
-.brand-subtitle{
-  font-size:11px;
-  color:var(--muted);
-  margin-top:2px;
+.layout{
+padding:10px;
+border:1px solid #ccc;
+background:white;
+border-radius:6px;
+cursor:pointer
+}
+
+.layout.active{
+background:#eff6ff;
+border:2px solid #2563eb;
+color:#1d4ed8
+}
+
+.blue{
+width:100%;
+padding:12px;
+background:#2563eb;
+color:white;
+border:0;
+border-radius:7px;
+font-weight:bold;
+margin-top:15px;
+cursor:pointer
+}
+
+.blue:hover{
+background:#1d4ed8
+}
+
+.dark{
+background:#111827;
+color:white;
+border:0;
+border-radius:7px;
+padding:11px;
+cursor:pointer;
+flex:1
+}
+
+.preview{
+padding:35px;
+border:1px solid #ddd;
+border-radius:8px;
+overflow:auto;
+min-height:220px;
+background:#fff
 }
 
 .actions{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
+display:flex;
+gap:8px
 }
 
-.btn{
-  border:0;
-  border-radius:8px;
-  padding:10px 14px;
-  font-weight:700;
-  font-size:13px;
+.actions button{
+flex:1;
+margin-top:8px
 }
 
-.btn-primary{
-  background:var(--primary);
-  color:#fff;
+.link{
+display:none;
+margin-top:15px;
+padding:14px;
+background:#eff6ff;
+border-radius:7px
 }
 
-.btn-primary:hover{
-  background:var(--primary-hover);
+.link input{
+margin-top:8px
 }
 
-.btn-secondary{
-  background:#fff;
-  color:#344054;
-  border:1px solid #d0d5dd;
+.client{
+display:none
 }
 
-.btn-success{
-  background:var(--success);
-  color:#fff;
+.client-wrap{
+max-width:800px;
+margin:30px auto
 }
 
-.btn-danger{
-  background:#fee4e2;
-  color:var(--danger);
+.sig{
+border:1px solid #ddd;
+padding:30px;
+overflow:auto;
+background:#fff;
+border-radius:8px
 }
 
-.container{
-  width:min(1450px,100%);
-  margin:auto;
-  padding:25px;
+.tabs{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:6px
 }
 
-.builder-grid{
-  display:grid;
-  grid-template-columns:420px minmax(0,1fr);
-  gap:22px;
-  align-items:start;
+.tab{
+padding:11px;
+border:1px solid #ccc;
+background:white;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold
 }
 
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:15px;
-  box-shadow:0 3px 16px rgba(16,24,40,.04);
+.tab.active{
+background:#111827;
+color:white
 }
 
-.builder-card{
-  position:sticky;
-  top:80px;
-  max-height:calc(100vh - 100px);
-  overflow-y:auto;
+.guide{
+background:#f9fafb;
+border:1px solid #ddd;
+padding:18px;
+margin-top:10px;
+border-radius:7px
 }
 
-.card-inner{
-  padding:20px;
+.guide li{
+margin-bottom:10px;
+line-height:1.5
 }
 
-.section{
-  margin-bottom:25px;
+.msg{
+text-align:center;
+color:#087f5b;
+display:none;
+margin-top:8px;
+font-weight:bold
 }
 
-.section:last-child{
-  margin-bottom:0;
+.logo-preview{
+max-width:180px;
+max-height:100px;
+display:none;
+margin:10px auto
 }
 
-.section-title{
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  margin-bottom:13px;
-  color:#344054;
+.small{
+font-size:12px;
+color:#6b7280;
+line-height:1.5
 }
 
-.field{
-  margin-bottom:11px;
-}
+/* SOCIAL BUILDER */
 
-.field:last-child{
-  margin-bottom:0;
-}
-
-label{
-  display:block;
-  font-size:12px;
-  font-weight:700;
-  margin-bottom:5px;
-  color:#344054;
-}
-
-input,
-textarea,
-select{
-  width:100%;
-  padding:10px 11px;
-  border:1px solid #d0d5dd;
-  border-radius:8px;
-  background:#fff;
-  color:#101828;
-  outline:none;
-}
-
-input:focus,
-textarea:focus,
-select:focus{
-  border-color:#667085;
-  box-shadow:0 0 0 3px rgba(17,24,39,.06);
-}
-
-textarea{
-  min-height:75px;
-  resize:vertical;
-}
-
-.two{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-}
-
-.layout-tabs{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:6px;
-}
-
-.layout-tab{
-  padding:9px 4px;
-  border:1px solid #d0d5dd;
-  background:#fff;
-  color:#344054;
-  border-radius:7px;
-  font-size:11px;
-  font-weight:700;
-}
-
-.layout-tab.active{
-  background:#111827;
-  border-color:#111827;
-  color:#fff;
+.social-builder{
+margin-top:10px
 }
 
 .social-item{
-  display:grid;
-  grid-template-columns:100px minmax(0,1fr) 34px;
-  gap:6px;
-  margin-bottom:7px;
+border:1px solid #ddd;
+border-radius:9px;
+padding:12px;
+margin-bottom:10px;
+background:#fafafa
 }
 
-.social-item button{
-  padding:0;
+.social-row{
+display:grid;
+grid-template-columns:70px 1fr 40px;
+gap:7px;
+align-items:end
+}
+
+.social-icon-input{
+font-size:20px;
+text-align:center;
+padding:7px
+}
+
+.remove-social{
+width:40px;
+height:40px;
+border:0;
+border-radius:6px;
+background:#fee2e2;
+color:#b91c1c;
+font-size:18px;
+cursor:pointer
+}
+
+.remove-social:hover{
+background:#fecaca
 }
 
 .add-social{
-  margin-top:3px;
+width:100%;
+padding:10px;
+border:1px dashed #2563eb;
+background:#eff6ff;
+color:#1d4ed8;
+border-radius:7px;
+font-weight:bold;
+cursor:pointer;
+margin-top:4px
 }
 
-.notice{
-  background:#f2f4f7;
-  border-radius:8px;
-  padding:11px;
-  color:#475467;
-  font-size:11px;
-  line-height:1.55;
+.add-social:hover{
+background:#dbeafe
 }
 
-.small-text{
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.5;
+.social-help{
+margin:7px 0 12px;
+font-size:11px;
+color:#6b7280;
+line-height:1.4
 }
 
-.client-box{
-  display:none;
-  margin-top:12px;
+.social-icons{
+white-space:nowrap
 }
 
-.client-box.visible{
-  display:block;
+.social-icon-link{
+display:inline-block;
+text-decoration:none;
+margin-right:6px;
+vertical-align:middle
 }
 
-.client-link{
-  font-size:11px;
+.social-icon-box{
+display:inline-block;
+width:30px;
+height:30px;
+line-height:30px;
+text-align:center;
+vertical-align:middle;
+border-radius:50%;
+font-family:Arial,Helvetica,sans-serif;
+font-size:14px;
+font-weight:bold
 }
 
-.status{
-  min-height:17px;
-  margin-top:6px;
-  font-size:11px;
+@media(max-width:800px){
+
+.grid{
+grid-template-columns:1fr
 }
 
-.status.success{
-  color:var(--success);
+.client-wrap{
+margin:10px auto
 }
 
-.status.error{
-  color:var(--danger);
+.social-row{
+grid-template-columns:55px 1fr 40px
 }
-
-.preview-card{
-  min-width:0;
-}
-
-.preview-header{
-  padding:16px 20px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-
-.preview-header h2{
-  margin:0;
-  font-size:16px;
-}
-
-.preview-area{
-  padding:40px;
-  min-height:500px;
-  background:#f8f9fa;
-  overflow:auto;
-  -webkit-overflow-scrolling:touch;
-}
-
-.signature-paper{
-  background:#fff;
-  border:1px solid #e4e7ec;
-  border-radius:9px;
-  padding:35px;
-  min-width:500px;
-  width:max-content;
-  max-width:none;
-  box-shadow:0 8px 25px rgba(16,24,40,.05);
-}
-
-.signature-empty{
-  width:100%;
-  min-width:0;
-  text-align:center;
-  padding:70px 25px;
-  color:#667085;
-}
-
-.signature-empty strong{
-  display:block;
-  color:#344054;
-  font-size:14px;
-  margin-bottom:5px;
-}
-
-.instructions{
-  margin-top:20px;
-}
-
-.instruction{
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:14px;
-  margin-bottom:9px;
-}
-
-.instruction:last-child{
-  margin-bottom:0;
-}
-
-.instruction h3{
-  margin:0 0 5px;
-  font-size:13px;
-}
-
-.instruction p{
-  margin:0;
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.55;
-}
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:100;
-  background:rgba(16,24,40,.6);
-  padding:20px;
-  align-items:center;
-  justify-content:center;
-}
-
-.modal.open{
-  display:flex;
-}
-
-.modal-content{
-  width:min(900px,100%);
-  max-height:90vh;
-  background:#fff;
-  border-radius:14px;
-  padding:20px;
-  overflow:auto;
-}
-
-.modal-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:12px;
-}
-
-.modal-header h2{
-  margin:0;
-  font-size:17px;
-}
-
-.code-output{
-  width:100%;
-  min-height:380px;
-  font-family:monospace;
-  font-size:11px;
-}
-
-.client-page{
-  min-height:100vh;
-  background:#f4f6f8;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:25px;
-}
-
-.client-container{
-  width:min(780px,100%);
-  background:#fff;
-  border:1px solid #dfe3e8;
-  border-radius:18px;
-  padding:30px;
-  box-shadow:0 12px 45px rgba(16,24,40,.08);
-}
-
-.client-heading{
-  margin-bottom:22px;
-}
-
-.client-heading h1{
-  margin:0;
-  font-size:23px;
-}
-
-.client-heading p{
-  margin:7px 0 0;
-  color:#667085;
-  font-size:13px;
-  line-height:1.5;
-}
-
-.client-signature{
-  background:#fff;
-  border:1px solid #e4e7ec;
-  border-radius:10px;
-  padding:28px;
-  overflow:auto;
-  -webkit-overflow-scrolling:touch;
-}
-
-.client-buttons{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:18px;
-}
-
-.client-instructions{
-  border-top:1px solid #e4e7ec;
-  margin-top:25px;
-  padding-top:22px;
-}
-
-.client-instructions h3{
-  font-size:14px;
-  margin:0 0 5px;
-}
-
-.client-instructions p{
-  color:#667085;
-  font-size:11px;
-  line-height:1.6;
-  margin:0 0 17px;
-}
-
-.client-message{
-  min-height:18px;
-  font-size:11px;
-  margin-top:7px;
-  color:#067647;
-}
-
-.invalid-page{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:#f4f6f8;
-}
-
-.invalid-card{
-  width:min(480px,100%);
-  background:#fff;
-  border:1px solid #dfe3e8;
-  border-radius:16px;
-  padding:30px;
-  text-align:center;
-}
-
-.invalid-card h1{
-  margin:0 0 8px;
-  font-size:21px;
-}
-
-.invalid-card p{
-  color:#667085;
-  font-size:13px;
-  line-height:1.6;
-  margin:0;
-}
-
-.hidden{
-  display:none!important;
-}
-
-@media(max-width:1000px){
-  .builder-grid{
-    grid-template-columns:1fr;
-  }
-
-  .builder-card{
-    position:relative;
-    top:auto;
-    max-height:none;
-  }
-}
-
-@media(max-width:650px){
-  .topbar{
-    padding:12px 15px;
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .actions{
-    width:100%;
-  }
-
-  .actions .btn{
-    flex:1 1 auto;
-  }
-
-  .container{
-    padding:12px;
-  }
-
-  .card-inner{
-    padding:15px;
-  }
-
-  .two{
-    grid-template-columns:1fr;
-  }
-
-  .layout-tabs{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .preview-area{
-    padding:10px;
-  }
-
-  .signature-paper{
-    min-width:500px;
-    padding:20px;
-  }
-
-  .client-page{
-    padding:10px;
-    align-items:flex-start;
-  }
-
-  .client-container{
-    padding:20px;
-    margin:10px 0;
-  }
-
-  .client-signature{
-    padding:18px;
-  }
 }
 </style>
 </head>
 
 <body>
-<div id="app"></div>
+
+
+<!-- =====================================================
+     BUILDER
+===================================================== -->
+
+<div id="builder" class="wrap">
+
+<h1>Email Signature Builder</h1>
+
+<p class="small">
+Create the client's signature here, then generate a private client page link.
+</p>
+
+<div class="grid">
+
+
+<!-- =====================================================
+     LEFT BUILDER
+===================================================== -->
+
+<div class="box">
+
+<h3>Client Information</h3>
+
+<label>Full Name</label>
+<input id="n" placeholder="John Ade">
+
+<label>Job Title</label>
+<input id="t" placeholder="Managing Director">
+
+<label>Company</label>
+<input id="c" placeholder="ABC Consulting">
+
+<label>Phone</label>
+<input id="p" placeholder="+234 800 123 4567">
+
+<label>Email</label>
+<input id="e" placeholder="john@abc.com">
+
+<label>Website</label>
+<input id="w" placeholder="https://abc.com">
+
+<label>Location</label>
+<input id="l" placeholder="Lagos, Nigeria">
+
+
+<!-- =====================================================
+     SOCIAL LINKS
+===================================================== -->
+
+<h3>Social Links</h3>
+
+<p class="social-help">
+Add as many social links as you want. Use any platform name,
+website URL, and emoji or initials as the icon.
+</p>
+
+<div id="socialBuilder" class="social-builder"></div>
+
+<button
+type="button"
+class="add-social"
+onclick="addSocial()"
+>
++ ADD SOCIAL LINK
+</button>
+
+
+<!-- =====================================================
+     LOGO
+===================================================== -->
+
+<h3>Company Logo</h3>
+
+<label>Upload Logo</label>
+
+<input
+type="file"
+id="logoFile"
+accept="image/png,image/jpeg,image/webp"
+>
+
+<img
+id="logoPreview"
+class="logo-preview"
+alt="Logo preview"
+>
+
+<label>OR Logo URL</label>
+
+<input
+id="logoUrl"
+placeholder="https://example.com/logo.png"
+>
+
+<p class="small">
+For the client's public link, use a public HTTPS logo URL.
+An uploaded local logo is available for preview/download on your computer.
+</p>
+
+<label>Logo Width</label>
+
+<input
+type="range"
+id="logoWidth"
+min="60"
+max="220"
+value="140"
+>
+
+<p class="small">
+Logo size:
+<strong>
+<span id="logoSize">140</span>px
+</strong>
+</p>
+
+
+<!-- =====================================================
+     APPEARANCE
+===================================================== -->
+
+<h3>Appearance</h3>
+
+<label>Primary Color</label>
+
+<input
+type="color"
+id="pc"
+value="#111827"
+>
+
+<label>Accent Color</label>
+
+<input
+type="color"
+id="ac"
+value="#2563eb"
+>
+
+<label>Font</label>
+
+<select id="font">
+
+<option value="Arial,Helvetica,sans-serif">
+Arial
+</option>
+
+<option value="Helvetica,Arial,sans-serif">
+Helvetica
+</option>
+
+<option value="Verdana,sans-serif">
+Verdana
+</option>
+
+<option value="Tahoma,sans-serif">
+Tahoma
+</option>
+
+<option value="Georgia,serif">
+Georgia
+</option>
+
+</select>
+
+
+<!-- =====================================================
+     LAYOUT
+===================================================== -->
+
+<label>Layout</label>
+
+<div class="layouts">
+
+<button
+type="button"
+class="layout active"
+data-x="classic"
+>
+Classic
+</button>
+
+<button
+type="button"
+class="layout"
+data-x="modern"
+>
+Modern
+</button>
+
+<button
+type="button"
+class="layout"
+data-x="minimal"
+>
+Minimal
+</button>
+
+<button
+type="button"
+class="layout"
+data-x="executive"
+>
+Executive
+</button>
+
+<button
+type="button"
+class="layout"
+data-x="compact"
+>
+Compact
+</button>
+
+</div>
+
+
+<button
+class="blue"
+onclick="makeClientLink()"
+>
+CREATE CLIENT PAGE
+</button>
+
+</div>
+
+
+<!-- =====================================================
+     PREVIEW
+===================================================== -->
+
+<div class="box">
+
+<h3>Live Preview</h3>
+
+<div
+id="preview"
+class="preview"
+></div>
+
+<div class="actions">
+
+<button
+class="dark"
+onclick="copySignature()"
+>
+COPY SIGNATURE
+</button>
+
+<button
+class="dark"
+onclick="downloadSignature()"
+>
+DOWNLOAD HTML
+</button>
+
+</div>
+
+<div
+id="notice"
+class="msg"
+></div>
+
+
+<div
+id="linkBox"
+class="link"
+>
+
+<strong>
+Client page is ready
+</strong>
+
+<p>
+Copy this link and send it to your client by email or WhatsApp.
+</p>
+
+<input
+id="clientLink"
+readonly
+>
+
+<button
+class="blue"
+onclick="copyClientLink()"
+>
+COPY CLIENT LINK
+</button>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+
+<!-- =====================================================
+     CLIENT PAGE
+===================================================== -->
+
+<div
+id="client"
+class="client"
+>
+
+<div class="client-wrap">
+
+<div class="card">
+
+<div style="text-align:center">
+
+<h2 id="clientBrand">
+YOUR BUSINESS NAME
+</h2>
+
+<p style="color:#777">
+Professional email signature
+</p>
+
+</div>
+
+
+<h1>
+Your email signature is ready
+</h1>
+
+<p>
+Copy your signature below and follow the installation guide
+for your email app.
+</p>
+
+
+<div
+id="clientSig"
+class="sig"
+></div>
+
+
+<button
+class="blue"
+onclick="copyClientSignature()"
+>
+COPY SIGNATURE
+</button>
+
+<div
+id="clientMessage"
+class="msg"
+>
+✓ Signature copied successfully
+</div>
+
+
+<!-- =====================================================
+     INSTALLATION GUIDE
+===================================================== -->
+
+<h2 style="margin-top:35px">
+How to install your signature
+</h2>
+
+<p class="small">
+Choose your email platform.
+</p>
+
+
+<div class="tabs">
+
+<button
+class="tab active"
+onclick="showGuide('gmail',this)"
+>
+Gmail
+</button>
+
+<button
+class="tab"
+onclick="showGuide('outlook',this)"
+>
+Outlook
+</button>
+
+<button
+class="tab"
+onclick="showGuide('apple',this)"
+>
+Apple Mail
+</button>
+
+</div>
+
+
+<!-- GMAIL -->
+
+<div
+id="gmail"
+class="guide"
+>
+
+<h3>Gmail</h3>
+
+<ol>
+
+<li>
+Open Gmail on your computer.
+</li>
+
+<li>
+Click the Settings gear.
+</li>
+
+<li>
+Click <strong>See all settings</strong>.
+</li>
+
+<li>
+Stay on the <strong>General</strong> tab.
+</li>
+
+<li>
+Scroll down to <strong>Signature</strong>.
+</li>
+
+<li>
+Create a new signature.
+</li>
+
+<li>
+Click inside the signature editor.
+</li>
+
+<li>
+Paste your copied signature.
+</li>
+
+<li>
+Choose when Gmail should automatically use the signature.
+</li>
+
+<li>
+Scroll down and click <strong>Save Changes</strong>.
+</li>
+
+</ol>
+
+<p class="small">
+<strong>Tip:</strong>
+Send yourself a test email after installation.
+</p>
+
+</div>
+
+
+<!-- OUTLOOK -->
+
+<div
+id="outlook"
+class="guide"
+style="display:none"
+>
+
+<h3>
+Microsoft Outlook
+</h3>
+
+<ol>
+
+<li>
+Open Outlook.
+</li>
+
+<li>
+Open <strong>Settings</strong>.
+</li>
+
+<li>
+Go to <strong>Mail → Compose and reply</strong>.
+</li>
+
+<li>
+Find the <strong>Email signature</strong> section.
+</li>
+
+<li>
+Create a new signature.
+</li>
+
+<li>
+Click inside the signature editor.
+</li>
+
+<li>
+Paste your copied signature.
+</li>
+
+<li>
+Select whether to automatically add it to new messages and replies.
+</li>
+
+<li>
+Save your changes.
+</li>
+
+</ol>
+
+<p class="small">
+<strong>Tip:</strong>
+Outlook web and desktop can have slightly different menus.
+</p>
+
+</div>
+
+
+<!-- APPLE -->
+
+<div
+id="apple"
+class="guide"
+style="display:none"
+>
+
+<h3>
+Apple Mail
+</h3>
+
+<ol>
+
+<li>
+Open <strong>Mail</strong> on your Mac.
+</li>
+
+<li>
+Click <strong>Mail → Settings</strong>.
+</li>
+
+<li>
+Open the <strong>Signatures</strong> tab.
+</li>
+
+<li>
+Select your email account.
+</li>
+
+<li>
+Click the <strong>+</strong> button.
+</li>
+
+<li>
+Create your signature.
+</li>
+
+<li>
+Paste your copied signature into the signature area.
+</li>
+
+<li>
+Select the signature for the appropriate account.
+</li>
+
+</ol>
+
+<p class="small">
+<strong>Tip:</strong>
+Send yourself a test email to confirm everything displays correctly.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 
 <script>
-"use strict";
 
-/* ============================================================
-   APPLICATION STATE
-============================================================ */
+/* =====================================================
+   VARIABLES
+===================================================== */
 
-let currentLayout = 1;
-let uploadedLogoData = "";
+let layout = "classic";
 
-let socials = [
-  {type:"LinkedIn",url:""},
-  {type:"Instagram",url:""},
-  {type:"Facebook",url:""},
-  {type:"X",url:""}
-];
+let uploadedLogo = "";
 
-/* ============================================================
-   BASIC HELPERS
-============================================================ */
+let socialLinks = [];
 
-function $(id){
-  return document.getElementById(id);
+let socialCounter = 0;
+
+
+/* =====================================================
+   HELPER
+===================================================== */
+
+const $ = id =>
+document.getElementById(id);
+
+
+function val(id){
+
+return $(id).value.trim();
+
 }
 
-function escapeHTML(value){
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#39;");
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function esc(text){
+
+return String(text || "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
 }
 
-function escapeAttribute(value){
-  return escapeHTML(value);
+
+/* =====================================================
+   SAFE URL
+===================================================== */
+
+function safeUrl(url){
+
+const value =
+String(url || "").trim();
+
+if(!value)
+return "";
+
+if(
+value.startsWith("https://") ||
+value.startsWith("http://") ||
+value.startsWith("mailto:") ||
+value.startsWith("tel:")
+){
+
+return value;
+
 }
 
-function isSafeHttpUrl(value){
-  try{
-    const url = new URL(String(value || "").trim());
-    return url.protocol === "http:" || url.protocol === "https:";
-  }catch(e){
-    return false;
-  }
+return "";
+
 }
 
-function normalizeUrl(value){
-  const raw = String(value || "").trim();
 
-  if(!raw){
-    return "";
-  }
+/* =====================================================
+   ADD SOCIAL
+===================================================== */
 
-  if(/^javascript:/i.test(raw) ||
-     /^data:/i.test(raw) ||
-     /^vbscript:/i.test(raw) ||
-     /^file:/i.test(raw)){
-    return "";
-  }
+function addSocial(
+name="",
+url="",
+icon="●"
+){
 
-  let candidate = raw;
+const id =
+++socialCounter;
 
-  if(!/^https?:\/\//i.test(candidate)){
-    candidate = "https://" + candidate;
-  }
+socialLinks.push({
 
-  return isSafeHttpUrl(candidate) ? candidate : "";
+id:id,
+name:name,
+url:url,
+icon:icon
+
+});
+
+renderSocialBuilder();
+
+preview();
+
 }
 
-function safeMailUrl(value){
-  const email = String(value || "").trim();
 
-  if(!email){
-    return "";
-  }
+/* =====================================================
+   REMOVE SOCIAL
+===================================================== */
 
-  /* Basic email validation */
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    return "";
-  }
+function removeSocial(id){
 
-  return "mailto:" + encodeURIComponent(email);
+socialLinks =
+socialLinks.filter(
+item => item.id !== id
+);
+
+renderSocialBuilder();
+
+preview();
+
 }
 
-function safeTelUrl(value){
-  const raw = String(value || "").trim();
 
-  if(!raw){
-    return "";
-  }
+/* =====================================================
+   UPDATE SOCIAL
+===================================================== */
 
-  const clean = raw.replace(/[^\d+().\-\s]/g,"");
+function updateSocial(
+id,
+field,
+value
+){
 
-  if(!clean || !/\d/.test(clean)){
-    return "";
-  }
+const item =
+socialLinks.find(
+x => x.id === id
+);
 
-  return "tel:" + clean.replace(/\s+/g,"");
+if(!item)
+return;
+
+item[field] = value;
+
+preview();
+
 }
 
-function safeWhatsAppUrl(value){
-  const raw = String(value || "").trim();
 
-  if(!raw){
-    return "";
-  }
+/* =====================================================
+   RENDER SOCIAL BUILDER
+===================================================== */
 
-  let number = raw.replace(/[^\d]/g,"");
+function renderSocialBuilder(){
 
-  if(!number){
-    return "";
-  }
+const container =
+$("socialBuilder");
 
-  /*
-    WhatsApp wa.me expects an international number.
-    We intentionally do not guess a country code.
-  */
-  return "https://wa.me/" + number;
+container.innerHTML = "";
+
+socialLinks.forEach(item=>{
+
+const wrapper =
+document.createElement("div");
+
+wrapper.className =
+"social-item";
+
+wrapper.innerHTML = `
+
+<div class="social-row">
+
+<div>
+
+<label>Icon</label>
+
+<input
+class="social-icon-input"
+value="${esc(item.icon)}"
+maxlength="4"
+oninput="
+updateSocial(
+${item.id},
+'icon',
+this.value
+)
+"
+>
+
+</div>
+
+<div>
+
+<label>Platform / Name</label>
+
+<input
+value="${esc(item.name)}"
+placeholder="Instagram, YouTube, Threads..."
+oninput="
+updateSocial(
+${item.id},
+'name',
+this.value
+)
+"
+>
+
+<label>URL</label>
+
+<input
+value="${esc(item.url)}"
+placeholder="https://..."
+oninput="
+updateSocial(
+${item.id},
+'url',
+this.value
+)
+"
+>
+
+</div>
+
+<div>
+
+<label>&nbsp;</label>
+
+<button
+type="button"
+class="remove-social"
+onclick="removeSocial(${item.id})"
+title="Remove social link"
+>
+×
+</button>
+
+</div>
+
+</div>
+
+`;
+
+container.appendChild(wrapper);
+
+});
+
 }
 
-function externalLinkAttrs(){
-  return 'target="_blank" rel="noopener noreferrer"';
-}
 
-function encodeBase64Unicode(value){
-  try{
-    return btoa(unescape(encodeURIComponent(value)));
-  }catch(e){
-    return "";
-  }
-}
+/* =====================================================
+   GET DATA
+===================================================== */
 
-function decodeBase64Unicode(value){
-  try{
-    return decodeURIComponent(escape(atob(value)));
-  }catch(e){
-    return "";
-  }
-}
+function getData(){
 
-/* ============================================================
-   GET BUILDER DATA
-============================================================ */
+return {
 
-function getBuilderData(){
+n:val("n"),
+t:val("t"),
+c:val("c"),
+p:val("p"),
+e:val("e"),
+w:val("w"),
+l:val("l"),
 
-  return {
-    firstName:$("firstName")?.value.trim() || "",
-    lastName:$("lastName")?.value.trim() || "",
-    jobTitle:$("jobTitle")?.value.trim() || "",
-    company:$("company")?.value.trim() || "",
-    department:$("department")?.value.trim() || "",
+socials:
+socialLinks.map(item=>({
 
-    email:$("email")?.value.trim() || "",
-    phone:$("phone")?.value.trim() || "",
-    mobile:$("mobile")?.value.trim() || "",
-    website:$("website")?.value.trim() || "",
-    address:$("address")?.value.trim() || "",
+name:item.name,
+url:item.url,
+icon:item.icon
 
-    logoUrl:$("logoUrl")?.value.trim() || "",
-    uploadedLogo:uploadedLogoData || "",
+})),
 
-    mainDivider:$("mainDivider")?.value || "none",
-    socialDivider:$("socialDivider")?.value || "none",
+pc:val("pc"),
+ac:val("ac"),
+font:val("font"),
 
-    layout:currentLayout,
+logo:
+val("logoUrl") ||
+uploadedLogo,
 
-    socials:socials
-      .filter(item => item.url.trim())
-      .map(item => ({
-        type:item.type,
-        url:item.url.trim()
-      }))
-  };
-}
+logoWidth:
+val("logoWidth")
 
-/* ============================================================
-   LOGO HANDLING
-============================================================ */
-
-function getLogoSource(data){
-
-  if(data.uploadedLogo){
-    return data.uploadedLogo;
-  }
-
-  if(data.logoUrl){
-    return normalizeUrl(data.logoUrl);
-  }
-
-  return "";
-}
-
-function logoHTML(data,style){
-
-  const src = getLogoSource(data);
-
-  if(!src){
-    return "";
-  }
-
-  return `
-    <img
-      src="${escapeAttribute(src)}"
-      alt="${escapeAttribute(data.company || "Company logo")}"
-      style="${style || "display:block;max-width:130px;max-height:80px;object-fit:contain;border:0;"}"
-    >
-  `;
-}
-
-/* ============================================================
-   DIVIDER
-============================================================ */
-
-function divider(type){
-
-  if(type !== "line"){
-    return "";
-  }
-
-  return `
-    <tr>
-      <td colspan="2" style="padding:10px 0;">
-        <div style="
-          height:1px;
-          background:#d0d5dd;
-          font-size:1px;
-          line-height:1px;
-        ">&nbsp;</div>
-      </td>
-    </tr>
-  `;
-}
-
-/* ============================================================
-   CONTACT ICONS
-============================================================ */
-
-const contactIcons = {
-
-  email: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="16" height="16" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round">
-      <rect x="3" y="5" width="18" height="14" rx="2"/>
-      <polyline points="3,7 12,13 21,7"/>
-    </svg>
-  `,
-
-  phone: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="16" height="16" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2
-      A19.79 19.79 0 0 1 3.08 5.18
-      A2 2 0 0 1 5.06 3h3
-      a2 2 0 0 1 2 1.72
-      c.12.9.33 1.78.62 2.63
-      a2 2 0 0 1-.45 2.11L9 10.73
-      a16 16 0 0 0 4.27 4.27l1.27-1.23
-      a2 2 0 0 1 2.11-.45
-      c.85.29 1.73.5 2.63.62
-      A2 2 0 0 1 22 16.92z"/>
-    </svg>
-  `,
-
-  mobile: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="16" height="16" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round">
-      <rect x="5" y="2" width="14" height="20" rx="2"/>
-      <line x1="12" y1="18" x2="12.01" y2="18"/>
-    </svg>
-  `,
-
-  website: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="16" height="16" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/>
-      <line x1="2" y1="12" x2="22" y2="12"/>
-      <path d="M12 2a15.3 15.3 0 0 1 0 20"/>
-      <path d="M12 2a15.3 15.3 0 0 0 0 20"/>
-    </svg>
-  `
 };
 
-/* ============================================================
-   CONTACT HTML
-============================================================ */
-
-function contactHTML(data){
-
-  let html = "";
-
-  const iconBox = `
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    width:30px;
-    height:30px;
-    border:1px solid #d0d5dd;
-    border-radius:6px;
-    color:#344054;
-    vertical-align:middle;
-  `;
-
-  if(data.email){
-    const href = safeMailUrl(data.email);
-
-    if(href){
-      html += `
-        <tr>
-          <td style="padding:3px 7px 3px 0;">
-            <a
-              href="${escapeAttribute(href)}"
-              title="${escapeAttribute(data.email)}"
-              style="text-decoration:none;color:#344054;"
-            >
-              <span style="${iconBox}">
-                ${contactIcons.email}
-              </span>
-            </a>
-          </td>
-          <td style="
-            font-family:Arial,Helvetica,sans-serif;
-            font-size:12px;
-            color:#475467;
-            padding:3px 0;
-          ">
-            <a
-              href="${escapeAttribute(href)}"
-              style="color:#475467;text-decoration:none;"
-            >${escapeHTML(data.email)}</a>
-          </td>
-        </tr>
-      `;
-    }
-  }
-
-  if(data.phone){
-    const href = safeTelUrl(data.phone);
-
-    if(href){
-      html += `
-        <tr>
-          <td style="padding:3px 7px 3px 0;">
-            <a
-              href="${escapeAttribute(href)}"
-              title="${escapeAttribute(data.phone)}"
-              style="text-decoration:none;color:#344054;"
-            >
-              <span style="${iconBox}">
-                ${contactIcons.phone}
-              </span>
-            </a>
-          </td>
-          <td style="
-            font-family:Arial,Helvetica,sans-serif;
-            font-size:12px;
-            color:#475467;
-            padding:3px 0;
-          ">
-            <a
-              href="${escapeAttribute(href)}"
-              style="color:#475467;text-decoration:none;"
-            >${escapeHTML(data.phone)}</a>
-          </td>
-        </tr>
-      `;
-    }
-  }
-
-  if(data.mobile){
-    const href = safeTelUrl(data.mobile);
-
-    if(href){
-      html += `
-        <tr>
-          <td style="padding:3px 7px 3px 0;">
-            <a
-              href="${escapeAttribute(href)}"
-              title="${escapeAttribute(data.mobile)}"
-              style="text-decoration:none;color:#344054;"
-            >
-              <span style="${iconBox}">
-                ${contactIcons.mobile}
-              </span>
-            </a>
-          </td>
-          <td style="
-            font-family:Arial,Helvetica,sans-serif;
-            font-size:12px;
-            color:#475467;
-            padding:3px 0;
-          ">
-            <a
-              href="${escapeAttribute(href)}"
-              style="color:#475467;text-decoration:none;"
-            >${escapeHTML(data.mobile)}</a>
-          </td>
-        </tr>
-      `;
-    }
-  }
-
-  if(data.website){
-    const href = normalizeUrl(data.website);
-
-    if(href){
-      html += `
-        <tr>
-          <td style="padding:3px 7px 3px 0;">
-            <a
-              href="${escapeAttribute(href)}"
-              ${externalLinkAttrs()}
-              title="${escapeAttribute(data.website)}"
-              style="text-decoration:none;color:#344054;"
-            >
-              <span style="${iconBox}">
-                ${contactIcons.website}
-              </span>
-            </a>
-          </td>
-          <td style="
-            font-family:Arial,Helvetica,sans-serif;
-            font-size:12px;
-            color:#475467;
-            padding:3px 0;
-          ">
-            <a
-              href="${escapeAttribute(href)}"
-              ${externalLinkAttrs()}
-              style="color:#475467;text-decoration:none;"
-            >${escapeHTML(data.website)}</a>
-          </td>
-        </tr>
-      `;
-    }
-  }
-
-  if(data.address){
-    html += `
-      <tr>
-        <td colspan="2" style="
-          font-family:Arial,Helvetica,sans-serif;
-          font-size:13px;
-          color:#667085;
-          padding:5px 0;
-          line-height:1.45;
-        ">
-          ${escapeHTML(data.address).replace(/\n/g,"<br>")}
-        </td>
-      </tr>
-    `;
-  }
-
-  return html;
 }
 
-/* ============================================================
-   SOCIAL ICONS
-============================================================ */
 
-const socialIcons = {
-
-  LinkedIn: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="17" height="17" viewBox="0 0 24 24"
-      fill="currentColor">
-      <path d="M20.45 20.45h-3.56v-5.58
-      c0-1.33-.03-3.04-1.85-3.04
-      -1.85 0-2.13 1.45-2.13 2.95v5.67H9.35V8.98h3.42v1.56h.05
-      c.48-.9 1.64-1.85 3.37-1.85
-      3.61 0 4.28 2.37 4.28 5.46v6.3zM5.34 7.43
-      a2.07 2.07 0 1 1 0-4.14
-      2.07 2.07 0 0 1 0 4.14zM3.56 8.98h3.56v11.47H3.56V8.98z"/>
-    </svg>
-  `,
-
-  Instagram: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="17" height="17" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="5"/>
-      <circle cx="12" cy="12" r="4"/>
-      <circle cx="17.5" cy="6.5" r="1"/>
-    </svg>
-  `,
-
-  Facebook: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="17" height="17" viewBox="0 0 24 24"
-      fill="currentColor">
-      <path d="M14 8h3V4h-3c-3.31 0-5 1.69-5 5v3H6v4h3v8h4v-8h3l1-4h-4V9c0-.67.33-1 1-1z"/>
-    </svg>
-  `,
-
-  X: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="17" height="17" viewBox="0 0 24 24"
-      fill="currentColor">
-      <path d="M18.9 2H22l-6.77 7.74L23.2 22h-6.25l-4.9-6.42L6.43 22H3.32l7.24-8.28L2.8 2h6.41l4.43 5.86L18.9 2zm-1.1 17.8h1.72L8.28 4.08H6.44L17.8 19.8z"/>
-    </svg>
-  `,
-
-  YouTube: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="18" height="18" viewBox="0 0 24 24"
-      fill="currentColor">
-      <path d="M23.5 6.2a3 3 0 0 0-2.1-2.12C19.55 3.5 12 3.5 12 3.5s-7.55 0-9.4.58A3 3 0 0 0 .5 6.2
-      C0 8.05 0 12 0 12s0 3.95.5 5.8a3 3 0 0 0 2.1 2.12
-      c1.85.58 9.4.58 9.4.58s7.55 0 9.4-.58
-      a3 3 0 0 0 2.1-2.12c.5-1.85.5-5.8.5-5.8
-      s0-3.95-.5-5.8zM9.55 15.5v-7L15.7 12l-6.15 3.5z"/>
-    </svg>
-  `,
-
-  TikTok: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="17" height="17" viewBox="0 0 24 24"
-      fill="currentColor">
-      <path d="M16.6 5.82A4.8 4.8 0 0 1 14.3 3h-3.4v12.13
-      a2.86 2.86 0 1 1-2-2.72V9a6.27 6.27 0 1 0 5.4 6.2V8.86
-      A8.17 8.17 0 0 0 19 10.3V6.93a4.8 4.8 0 0 1-2.4-1.11z"/>
-    </svg>
-  `,
-
-  WhatsApp: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="17" height="17" viewBox="0 0 24 24"
-      fill="currentColor">
-      <path d="M20.5 3.5A11.8 11.8 0 0 0 12.08 0
-      C5.55 0 .24 5.31.24 11.84
-      c0 2.09.55 4.13 1.6 5.93L.15 24l6.38-1.67
-      a11.8 11.8 0 0 0 5.55 1.41h.01
-      c6.52 0 11.83-5.31 11.83-11.84
-      0-3.17-1.23-6.15-3.42-8.4zM12.09 21.1
-      c-1.74 0-3.44-.47-4.93-1.36l-.35-.21-3.79.99 1.01-3.69-.23-.38
-      a9.25 9.25 0 0 1-1.42-4.92
-      c0-5.11 4.16-9.27 9.28-9.27
-      2.48 0 4.81.97 6.56 2.72
-      a9.22 9.22 0 0 1 2.71 6.56
-      c0 5.11-4.16 9.27-9.28 9.27z"/>
-      <path d="M17.16 13.92c-.28-.14-1.66-.82-1.92-.91
-      -.26-.1-.45-.14-.64.14
-      -.19.28-.73.91-.89 1.1
-      -.16.19-.33.21-.61.07
-      -.28-.14-1.17-.43-2.23-1.38
-      -.83-.74-1.39-1.65-1.55-1.93
-      -.16-.28-.02-.43.12-.57
-      .12-.12.28-.33.42-.49
-      .14-.16.19-.28.28-.47
-      .09-.19.05-.35-.02-.49
-      -.07-.14-.64-1.54-.87-2.11
-      -.23-.55-.46-.48-.64-.49
-      h-.55c-.19 0-.49.07-.75.35
-      -.26.28-.98.96-.98 2.35
-      0 1.39 1 2.72 1.14 2.91
-      .14.19 1.96 2.99 4.75 4.19
-      .66.29 1.18.46 1.58.59
-      .66.21 1.27.18 1.75.11
-      .53-.08 1.66-.68 1.9-1.34
-      .23-.66.23-1.22.16-1.34
-      -.07-.12-.26-.19-.54-.33z"/>
-    </svg>
-  `,
-
-  Website: `
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="17" height="17" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/>
-      <line x1="2" y1="12" x2="22" y2="12"/>
-      <path d="M12 2a15.3 15.3 0 0 1 0 20"/>
-      <path d="M12 2a15.3 15.3 0 0 0 0 20"/>
-    </svg>
-  `
-};
-
-/* ============================================================
-   SOCIAL URL HANDLING
-============================================================ */
-
-function getSocialUrl(item){
-
-  const raw = String(item.url || "").trim();
-
-  if(!raw){
-    return "";
-  }
-
-  if(item.type === "WhatsApp"){
-    return safeWhatsAppUrl(raw);
-  }
-
-  return normalizeUrl(raw);
-}
-
-/* ============================================================
-   SOCIAL HTML
-============================================================ */
-
-function socialHTML(data){
-
-  if(!data.socials.length){
-    return "";
-  }
-
-  const validSocials = data.socials
-    .map(item => ({
-      ...item,
-      safeUrl:getSocialUrl(item)
-    }))
-    .filter(item => item.safeUrl);
-
-  if(!validSocials.length){
-    return "";
-  }
-
-  return `
-    <table cellpadding="0" cellspacing="0" border="0"
-      style="border-collapse:collapse;">
-      <tr>
-        ${validSocials.map(item => `
-          <td style="padding-right:7px;">
-            <a
-              href="${escapeAttribute(item.safeUrl)}"
-              ${externalLinkAttrs()}
-              title="${escapeAttribute(item.type)}"
-              style="
-                display:inline-flex;
-                align-items:center;
-                justify-content:center;
-                width:30px;
-                height:30px;
-                font-family:Arial,Helvetica,sans-serif;
-                color:#344054;
-                text-decoration:none;
-                border:1px solid #d0d5dd;
-                border-radius:6px;
-              "
-            >
-              ${socialIcons[item.type] || socialIcons.Website}
-            </a>
-          </td>
-        `).join("")}
-      </tr>
-    </table>
-  `;
-}
-
-/* ============================================================
-   SIGNATURE GENERATOR
-============================================================ */
-
-function generateSignature(data){
-
-  const name = (
-    `${data.firstName} ${data.lastName}`
-  ).trim() || "Your Name";
-
-  const title = data.jobTitle || "Job Title";
-  const company = data.company || "";
-
-  const department = data.department
-    ? `
-      <div style="
-        font-family:Arial,Helvetica,sans-serif;
-        font-size:12px;
-        color:#667085;
-        margin-top:3px;
-      ">
-        ${escapeHTML(data.department)}
-      </div>
-    `
-    : "";
-
-  const logo = logoHTML(
-    data,
-    "display:block;max-width:125px;max-height:80px;object-fit:contain;border:0;"
-  );
-
-  const mainDivider = divider(data.mainDivider);
-  const socialDivider = divider(data.socialDivider);
-  const socialsHTML = socialHTML(data);
-  const contacts = contactHTML(data);
-
-  /* ==========================================================
-     LAYOUT 1
-  ========================================================== */
-
-  if(data.layout === 1){
-
-    return `
-      <table cellpadding="0" cellspacing="0" border="0"
-        style="border-collapse:collapse;">
-        <tr>
-
-          <td style="
-            vertical-align:top;
-            padding-right:20px;
-          ">
-            ${logo}
-          </td>
-
-          <td style="
-            vertical-align:top;
-            border-left:1px solid #d0d5dd;
-            padding-left:20px;
-          ">
-
-            <div style="
-              font-family:Arial,Helvetica,sans-serif;
-              font-size:19px;
-              font-weight:700;
-              color:#111827;
-            ">
-              ${escapeHTML(name)}
-            </div>
-
-            <div style="
-              font-family:Arial,Helvetica,sans-serif;
-              font-size:13px;
-              color:#475467;
-              margin-top:4px;
-            ">
-              ${escapeHTML(title)}
-              ${company ? " · " + escapeHTML(company) : ""}
-            </div>
-
-            ${department}
-
-            <table cellpadding="0" cellspacing="0" border="0"
-              style="border-collapse:collapse;margin-top:8px;">
-              ${mainDivider}
-              ${contacts}
-              ${socialDivider}
-
-              ${socialsHTML ? `
-                <tr>
-                  <td colspan="2" style="padding-top:5px;">
-                    ${socialsHTML}
-                  </td>
-                </tr>
-              ` : ""}
-            </table>
-
-          </td>
-        </tr>
-      </table>
-    `;
-  }
-
-  /* ==========================================================
-     LAYOUT 2
-  ========================================================== */
-
-  if(data.layout === 2){
-
-    return `
-      <table cellpadding="0" cellspacing="0" border="0"
-        style="border-collapse:collapse;">
-
-        <tr>
-
-          <td style="
-            vertical-align:top;
-            padding-right:22px;
-          ">
-            ${logo}
-          </td>
-
-          <td style="
-            vertical-align:top;
-          ">
-
-            <div style="
-              font-family:Arial,Helvetica,sans-serif;
-              font-size:20px;
-              font-weight:700;
-              color:#111827;
-            ">
-              ${escapeHTML(name)}
-            </div>
-
-            <div style="
-              font-family:Arial,Helvetica,sans-serif;
-              font-size:13px;
-              color:#475467;
-              margin-top:4px;
-            ">
-              ${escapeHTML(title)}
-            </div>
-
-            ${company ? `
-              <div style="
-                font-family:Arial,Helvetica,sans-serif;
-                font-size:13px;
-                color:#475467;
-                margin-top:2px;
-              ">
-                ${escapeHTML(company)}
-              </div>
-            ` : ""}
-
-            ${department}
-
-            <table cellpadding="0" cellspacing="0" border="0"
-              style="border-collapse:collapse;margin-top:8px;">
-              ${mainDivider}
-              ${contacts}
-              ${socialDivider}
-
-              ${socialsHTML ? `
-                <tr>
-                  <td colspan="2" style="padding-top:5px;">
-                    ${socialsHTML}
-                  </td>
-                </tr>
-              ` : ""}
-            </table>
-
-          </td>
-
-        </tr>
-      </table>
-    `;
-  }
-
-  /* ==========================================================
-     LAYOUT 3
-  ========================================================== */
-
-  if(data.layout === 3){
-
-    return `
-      <table cellpadding="0" cellspacing="0" border="0"
-        style="border-collapse:collapse;">
-
-        <tr>
-
-          <td colspan="2" style="
-            padding-bottom:12px;
-          ">
-
-            ${logo}
-
-            <div style="
-              font-family:Arial,Helvetica,sans-serif;
-              font-size:20px;
-              font-weight:700;
-              color:#111827;
-              margin-top:12px;
-            ">
-              ${escapeHTML(name)}
-            </div>
-
-            <div style="
-              font-family:Arial,Helvetica,sans-serif;
-              font-size:13px;
-              color:#475467;
-              margin-top:4px;
-            ">
-              ${escapeHTML(title)}
-              ${company ? " · " + escapeHTML(company) : ""}
-            </div>
-
-            ${department}
-
-          </td>
-
-        </tr>
-
-        ${mainDivider}
-
-        <tr>
-
-          <td style="
-            vertical-align:top;
-            padding-right:20px;
-          ">
-
-            <table cellpadding="0" cellspacing="0" border="0"
-              style="border-collapse:collapse;">
-              ${contacts}
-            </table>
-
-          </td>
-
-          <td style="
-            vertical-align:top;
-            border-left:1px solid #d0d5dd;
-            padding-left:20px;
-          ">
-
-            ${socialsHTML || ""}
-
-          </td>
-
-        </tr>
-
-      </table>
-    `;
-  }
-
-  /* ==========================================================
-     LAYOUT 4
-  ========================================================== */
-
-  if(data.layout === 4){
-
-    return `
-      <table cellpadding="0" cellspacing="0" border="0"
-        style="border-collapse:collapse;">
-
-        <tr>
-
-          <td style="
-            vertical-align:middle;
-            padding-right:20px;
-          ">
-            ${logo}
-          </td>
-
-          <td style="
-            vertical-align:middle;
-            padding-right:20px;
-          ">
-
-            <div style="
-              font-family:Arial,Helvetica,sans-serif;
-              font-size:19px;
-              font-weight:700;
-              color:#111827;
-            ">
-              ${escapeHTML(name)}
-            </div>
-
-            <div style="
-              font-family:Arial,Helvetica,sans-serif;
-              font-size:13px;
-              color:#475467;
-              margin-top:4px;
-            ">
-              ${escapeHTML(title)}
-            </div>
-
-            ${company ? `
-              <div style="
-                font-family:Arial,Helvetica,sans-serif;
-                font-size:12px;
-                color:#667085;
-                margin-top:2px;
-              ">
-                ${escapeHTML(company)}
-              </div>
-            ` : ""}
-
-            ${department}
-
-          </td>
-
-          <td style="
-            vertical-align:middle;
-            border-left:1px solid #d0d5dd;
-            padding-left:20px;
-          ">
-
-            <table cellpadding="0" cellspacing="0" border="0"
-              style="border-collapse:collapse;">
-              ${contacts}
-            </table>
-
-          </td>
-
-        </tr>
-
-        ${socialDivider}
-
-        ${socialsHTML ? `
-          <tr>
-            <td colspan="3" style="padding-top:4px;">
-              ${socialsHTML}
-            </td>
-          </tr>
-        ` : ""}
-
-      </table>
-    `;
-  }
-
-  /* ==========================================================
-     LAYOUT 5
-  ========================================================== */
-
-  return `
-    <table cellpadding="0" cellspacing="0" border="0"
-      style="border-collapse:collapse;">
-
-      <tr>
-
-        <td style="
-          vertical-align:top;
-          width:130px;
-          padding-right:20px;
-        ">
-          ${logo}
-        </td>
-
-        <td style="
-          vertical-align:top;
-        ">
-
-          <div style="
-            font-family:Arial,Helvetica,sans-serif;
-            font-size:21px;
-            font-weight:700;
-            color:#111827;
-          ">
-            ${escapeHTML(name)}
-          </div>
-
-          <div style="
-            font-family:Arial,Helvetica,sans-serif;
-            font-size:13px;
-            color:#475467;
-            margin-top:5px;
-          ">
-            ${escapeHTML(title)}
-            ${company ? " · " + escapeHTML(company) : ""}
-          </div>
-
-          ${department}
-
-        </td>
-
-      </tr>
-
-      ${mainDivider}
-
-      <tr>
-
-        <td colspan="2">
-
-          <table cellpadding="0" cellspacing="0" border="0"
-            style="border-collapse:collapse;">
-
-            ${contacts}
-
-          </table>
-
-        </td>
-
-      </tr>
-
-      ${socialDivider}
-
-      ${socialsHTML ? `
-        <tr>
-          <td colspan="2" style="padding-top:5px;">
-            ${socialsHTML}
-          </td>
-        </tr>
-      ` : ""}
-
-    </table>
-  `;
-}
-
-/* ============================================================
-   EMPTY SIGNATURE
-============================================================ */
-
-function isSignatureEmpty(data){
-
-  return !(
-    data.firstName ||
-    data.lastName ||
-    data.jobTitle ||
-    data.company ||
-    data.department ||
-    data.email ||
-    data.phone ||
-    data.mobile ||
-    data.website ||
-    data.address ||
-    data.logoUrl ||
-    data.uploadedLogo ||
-    data.socials.length
-  );
-}
-
-function renderPreview(){
-
-  const data = getBuilderData();
-  const preview = $("signaturePreview");
-
-  if(!preview){
-    return;
-  }
-
-  if(isSignatureEmpty(data)){
-    preview.innerHTML = `
-      <div class="signature-empty">
-        <strong>Your signature preview will appear here</strong>
-        Start by entering your name, job title, company, or contact details.
-      </div>
-    `;
-    return;
-  }
-
-  preview.innerHTML = generateSignature(data);
-}
-
-/* ============================================================
-   SOCIAL UI
-============================================================ */
-
-function renderSocials(){
-
-  const container = $("socialsContainer");
-
-  if(!container){
-    return;
-  }
-
-  container.innerHTML = socials.map((item,index) => `
-    <div class="social-item">
-
-      <select
-        data-social-type="${index}"
-        aria-label="Social network"
-      >
-        ${[
-          "LinkedIn",
-          "Instagram",
-          "Facebook",
-          "X",
-          "YouTube",
-          "TikTok",
-          "WhatsApp",
-          "Website"
-        ].map(type => `
-          <option
-            value="${escapeAttribute(type)}"
-            ${item.type === type ? "selected" : ""}
-          >
-            ${escapeHTML(type)}
-          </option>
-        `).join("")}
-      </select>
-
-      <input
-        type="text"
-        data-social-url="${index}"
-        value="${escapeAttribute(item.url)}"
-        placeholder="${
-          item.type === "WhatsApp"
-            ? "International phone number"
-            : "https://..."
-        }"
-        aria-label="${escapeAttribute(item.type)} URL"
-      >
-
-      <button
-        type="button"
-        class="btn btn-danger"
-        data-remove-social="${index}"
-        title="Remove social link"
-        aria-label="Remove social link"
-      >×</button>
-
-    </div>
-  `).join("");
-
-  container.querySelectorAll("[data-social-type]").forEach(select => {
-    select.addEventListener("change",function(){
-      const index = Number(this.dataset.socialType);
-      socials[index].type = this.value;
-      renderSocials();
-      renderPreview();
-      saveDraft();
-    });
-  });
-
-  container.querySelectorAll("[data-social-url]").forEach(input => {
-    input.addEventListener("input",function(){
-      const index = Number(this.dataset.socialUrl);
-      socials[index].url = this.value;
-      renderPreview();
-      saveDraft();
-    });
-  });
-
-  container.querySelectorAll("[data-remove-social]").forEach(button => {
-    button.addEventListener("click",function(){
-      const index = Number(this.dataset.removeSocial);
-      socials.splice(index,1);
-      renderSocials();
-      renderPreview();
-      saveDraft();
-    });
-  });
-}
-
-function addSocial(){
-
-  if(socials.length >= 12){
-    showStatus("You can add up to 12 social links.","error");
-    return;
-  }
-
-  socials.push({
-    type:"Website",
-    url:""
-  });
-
-  renderSocials();
-  saveDraft();
-}
-
-/* ============================================================
-   LOCAL STORAGE
-============================================================ */
-
-const STORAGE_KEY = "emailSignatureBuilderDraftV2";
-
-function saveDraft(){
-
-  try{
-    const data = getBuilderData();
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(data)
-    );
-  }catch(e){
-    /* Storage may be unavailable in private browsing. */
-  }
-}
-
-function loadDraft(){
-
-  try{
-
-    const raw = localStorage.getItem(STORAGE_KEY);
-
-    if(!raw){
-      return false;
-    }
-
-    const data = JSON.parse(raw);
-
-    if(!data || typeof data !== "object"){
-      return false;
-    }
-
-    currentLayout = Number(data.layout) || 1;
-
-    const fields = [
-      "firstName",
-      "lastName",
-      "jobTitle",
-      "company",
-      "department",
-      "email",
-      "phone",
-      "mobile",
-      "website",
-      "address",
-      "logoUrl",
-      "mainDivider",
-      "socialDivider"
-    ];
-
-    fields.forEach(id => {
-      if($(id) && typeof data[id] === "string"){
-        $(id).value = data[id];
-      }
-    });
-
-    uploadedLogoData =
-      typeof data.uploadedLogo === "string"
-        ? data.uploadedLogo
-        : "";
-
-    if(Array.isArray(data.socials)){
-      socials = data.socials
-        .filter(item =>
-          item &&
-          typeof item.type === "string" &&
-          typeof item.url === "string"
-        )
-        .map(item => ({
-          type:item.type,
-          url:item.url
-        }));
-    }
-
-    return true;
-
-  }catch(e){
-    return false;
-  }
-}
-
-/* ============================================================
-   STATUS
-============================================================ */
-
-let statusTimer = null;
-
-function showStatus(message,type="success"){
-
-  const status = $("status");
-
-  if(!status){
-    return;
-  }
-
-  clearTimeout(statusTimer);
-
-  status.textContent = message;
-  status.className = "status " + type;
-
-  statusTimer = setTimeout(() => {
-    status.textContent = "";
-    status.className = "status";
-  },4000);
-}
-
-/* ============================================================
-   COPY HELPER
-============================================================ */
-
-async function copyText(text){
-
-  if(!text){
-    return false;
-  }
-
-  if(
-    navigator.clipboard &&
-    window.isSecureContext &&
-    typeof navigator.clipboard.writeText === "function"
-  ){
-
-    try{
-      await navigator.clipboard.writeText(text);
-      return true;
-    }catch(e){
-      /* Continue to fallback. */
-    }
-  }
-
-  try{
-
-    const textarea = document.createElement("textarea");
-
-    textarea.value = text;
-    textarea.setAttribute("readonly","");
-    textarea.style.position = "fixed";
-    textarea.style.left = "-9999px";
-    textarea.style.top = "0";
-    textarea.style.opacity = "0";
-
-    document.body.appendChild(textarea);
-
-    textarea.focus();
-    textarea.select();
-    textarea.setSelectionRange(0,textarea.value.length);
-
-    const successful =
-      document.execCommand("copy");
-
-    textarea.remove();
-
-    return successful;
-
-  }catch(e){
-    return false;
-  }
-}
-
-/* ============================================================
-   COPY SIGNATURE HTML
-============================================================ */
-
-async function copySignature(){
-
-  const data = getBuilderData();
-  const html = generateSignature(data);
-
-  if(isSignatureEmpty(data)){
-    showStatus("Add some information before copying your signature.","error");
-    return;
-  }
-
-  const success = await copyText(html);
-
-  if(success){
-    showStatus("Signature HTML copied to clipboard.","success");
-  }else{
-    openHTMLModal(html);
-  }
-}
-
-/* ============================================================
-   HTML MODAL
-============================================================ */
-
-function openHTMLModal(html){
-
-  const modal = $("htmlModal");
-  const output = $("htmlOutput");
-
-  if(!modal || !output){
-    return;
-  }
-
-  output.value = html;
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden","false");
-
-  setTimeout(() => {
-    output.focus();
-    output.select();
-  },50);
-}
-
-function closeHTMLModal(){
-
-  const modal = $("htmlModal");
-
-  if(!modal){
-    return;
-  }
-
-  modal.classList.remove("open");
-  modal.setAttribute("aria-hidden","true");
-}
-
-async function copyModalHTML(){
-
-  const output = $("htmlOutput");
-
-  if(!output){
-    return;
-  }
-
-  const success = await copyText(output.value);
-
-  if(success){
-    showStatus("HTML copied to clipboard.","success");
-    closeHTMLModal();
-  }else{
-    showStatus(
-      "Copy failed. Select the HTML manually and copy it.",
-      "error"
-    );
-  }
-}
-
-/* ============================================================
-   CLIENT LINK
-============================================================ */
-
-function buildClientUrl(){
-
-  const data = getBuilderData();
-
-  /*
-    We store the complete signature data in the URL.
-    This keeps the client page independent of localStorage.
-  */
-
-  const cleanData = {
-    firstName:data.firstName,
-    lastName:data.lastName,
-    jobTitle:data.jobTitle,
-    company:data.company,
-    department:data.department,
-    email:data.email,
-    phone:data.phone,
-    mobile:data.mobile,
-    website:data.website,
-    address:data.address,
-    logoUrl:data.logoUrl,
-    uploadedLogo:data.uploadedLogo,
-    mainDivider:data.mainDivider,
-    socialDivider:data.socialDivider,
-    layout:data.layout,
-    socials:data.socials
-  };
-
-  const encoded =
-    encodeBase64Unicode(JSON.stringify(cleanData));
-
-  if(!encoded){
-    return "";
-  }
-
-  const base =
-    window.location.href.split("#")[0];
-
-  return base + "#client=" +
-    encodeURIComponent(encoded);
-}
-
-async function createClientLink(){
-
-  const data = getBuilderData();
-
-  if(isSignatureEmpty(data)){
-    showStatus(
-      "Add signature information before creating a client link.",
-      "error"
-    );
-    return;
-  }
-
-  const url = buildClientUrl();
-
-  if(!url){
-    showStatus(
-      "Unable to create the client link.",
-      "error"
-    );
-    return;
-  }
-
-  const box = $("clientBox");
-  const input = $("clientLink");
-
-  if(box){
-    box.classList.add("visible");
-  }
-
-  if(input){
-    input.value = url;
-  }
-
-  const copied = await copyText(url);
-
-  showStatus(
-    copied
-      ? "Client link created and copied."
-      : "Client link created. Copy it from the field below.",
-    "success"
-  );
-}
-
-/* ============================================================
-   READ CLIENT DATA
-============================================================ */
-
-function getClientDataFromHash(){
-
-  const hash = window.location.hash || "";
-
-  if(!hash.startsWith("#client=")){
-    return null;
-  }
-
-  try{
-
-    const encoded =
-      decodeURIComponent(hash.substring(8));
-
-    const json =
-      decodeBase64Unicode(encoded);
-
-    if(!json){
-      return null;
-    }
-
-    const data = JSON.parse(json);
-
-    if(!data || typeof data !== "object"){
-      return null;
-    }
-
-    data.layout = Number(data.layout) || 1;
-
-    data.socials =
-      Array.isArray(data.socials)
-        ? data.socials.filter(item =>
-            item &&
-            typeof item.type === "string" &&
-            typeof item.url === "string"
-          )
-        : [];
-
-    data.firstName =
-      String(data.firstName || "");
-
-    data.lastName =
-      String(data.lastName || "");
-
-    data.jobTitle =
-      String(data.jobTitle || "");
-
-    data.company =
-      String(data.company || "");
-
-    data.department =
-      String(data.department || "");
-
-    data.email =
-      String(data.email || "");
-
-    data.phone =
-      String(data.phone || "");
-
-    data.mobile =
-      String(data.mobile || "");
-
-    data.website =
-      String(data.website || "");
-
-    data.address =
-      String(data.address || "");
-
-    data.logoUrl =
-      String(data.logoUrl || "");
-
-    data.uploadedLogo =
-      String(data.uploadedLogo || "");
-
-    data.mainDivider =
-      data.mainDivider === "line"
-        ? "line"
-        : "none";
-
-    data.socialDivider =
-      data.socialDivider === "line"
-        ? "line"
-        : "none";
-
-    return data;
-
-  }catch(e){
-    return null;
-  }
-}
-
-/* ============================================================
-   CLIENT PAGE RENDER
-============================================================ */
-
-function renderClientPage(data){
-
-  const name = (
-    `${data.firstName} ${data.lastName}`
-  ).trim() || "Email Signature";
-
-  const titleParts = [];
-
-  if(data.jobTitle){
-    titleParts.push(data.jobTitle);
-  }
-
-  if(data.company){
-    titleParts.push(data.company);
-  }
-
-  /*
-    Correct document-title interpolation.
-  */
-  document.title =
-    name + " — Email Signature";
-
-  const signature = generateSignature(data);
-
-  document.body.innerHTML = `
-    <div class="client-page">
-
-      <main class="client-container">
-
-        <div class="client-heading">
-
-          <h1>
-            ${escapeHTML(name)}
-          </h1>
-
-          <p>
-            ${titleParts.length
-              ? escapeHTML(titleParts.join(" · "))
-              : "Email signature"}
-          </p>
-
-        </div>
-
-        <div class="client-signature">
-          ${signature}
-        </div>
-
-        <div class="client-buttons">
-
-          <button
-            type="button"
-            class="btn btn-primary"
-            id="clientCopyBtn"
-          >
-            Copy Signature HTML
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-secondary"
-            id="clientBackBtn"
-          >
-            Open Builder
-          </button>
-
-        </div>
-
-        <div
-          id="clientMessage"
-          class="client-message"
-        ></div>
-
-        <div class="client-instructions">
-
-          <h3>How to use your signature</h3>
-
-          <p>
-            Copy the signature HTML and paste it into the
-            signature settings of your email application.
-            The links and logo are included in the signature.
-          </p>
-
-          <h3>Important</h3>
-
-          <p>
-            If your email provider changes the formatting when
-            pasting, use the HTML output from the builder instead.
-          </p>
-
-        </div>
-
-      </main>
-
-    </div>
-  `;
-
-  $("clientCopyBtn")?.addEventListener(
-    "click",
-    async () => {
-
-      const success =
-        await copyText(signature);
-
-      const message =
-        $("clientMessage");
-
-      if(message){
-        message.textContent =
-          success
-            ? "Signature HTML copied."
-            : "Copy failed. Please use the builder's HTML option.";
-      }
-    }
-  );
-
-  $("clientBackBtn")?.addEventListener(
-    "click",
-    () => {
-      window.location.hash = "";
-      window.location.reload();
-    }
-  );
-}
-
-/* ============================================================
-   INVALID CLIENT PAGE
-============================================================ */
-
-function renderInvalidClientPage(){
-
-  document.title = "Invalid Signature Link";
-
-  document.body.innerHTML = `
-    <div class="invalid-page">
-
-      <div class="invalid-card">
-
-        <h1>Invalid Signature Link</h1>
-
-        <p>
-          This client signature link is missing, expired,
-          or contains invalid data.
-        </p>
-
-        <br>
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          onclick="window.location.hash='';window.location.reload();"
-        >
-          Open Signature Builder
-        </button>
-
-      </div>
-
-    </div>
-  `;
-}
-
-/* ============================================================
-   BUILDER HTML
-============================================================ */
-
-function renderBuilder(){
-
-  document.title = "Email Signature Builder";
-
-  document.body.innerHTML = `
-    <div class="app">
-
-      <header class="topbar">
-
-        <div class="brand">
-
-          <div class="brand-icon">
-            ES
-          </div>
-
-          <div>
-            <div class="brand-title">
-              Email Signature Builder
-            </div>
-
-            <div class="brand-subtitle">
-              Create professional signatures and shareable client pages
-            </div>
-          </div>
-
-        </div>
-
-        <div class="actions">
-
-          <button
-            type="button"
-            class="btn btn-secondary"
-            id="resetBtn"
-          >
-            Reset
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-secondary"
-            id="htmlBtn"
-          >
-            View HTML
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-primary"
-            id="copyBtn"
-          >
-            Copy HTML
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-success"
-            id="clientBtn"
-          >
-            Create Client Link
-          </button>
-
-        </div>
-
-      </header>
-
-      <main class="container">
-
-        <div class="builder-grid">
-
-          <!-- BUILDER -->
-
-          <section class="card builder-card">
-
-            <div class="card-inner">
-
-              <div class="section">
-
-                <div class="section-title">
-                  Personal Information
-                </div>
-
-                <div class="two">
-
-                  <div class="field">
-                    <label for="firstName">First Name</label>
-                    <input
-                      id="firstName"
-                      type="text"
-                      autocomplete="given-name"
-                      placeholder="John"
-                    >
-                  </div>
-
-                  <div class="field">
-                    <label for="lastName">Last Name</label>
-                    <input
-                      id="lastName"
-                      type="text"
-                      autocomplete="family-name"
-                      placeholder="Doe"
-                    >
-                  </div>
-
-                </div>
-
-                <div class="field">
-                  <label for="jobTitle">Job Title</label>
-                  <input
-                    id="jobTitle"
-                    type="text"
-                    placeholder="Creative Director"
-                  >
-                </div>
-
-                <div class="two">
-
-                  <div class="field">
-                    <label for="company">Company</label>
-                    <input
-                      id="company"
-                      type="text"
-                      placeholder="Acme Ltd"
-                    >
-                  </div>
-
-                  <div class="field">
-                    <label for="department">Department</label>
-                    <input
-                      id="department"
-                      type="text"
-                      placeholder="Marketing"
-                    >
-                  </div>
-
-                </div>
-
-              </div>
-
-              <div class="section">
-
-                <div class="section-title">
-                  Contact Information
-                </div>
-
-                <div class="field">
-                  <label for="email">Email</label>
-                  <input
-                    id="email"
-                    type="email"
-                    autocomplete="email"
-                    placeholder="john@example.com"
-                  >
-                </div>
-
-                <div class="two">
-
-                  <div class="field">
-                    <label for="phone">Phone</label>
-                    <input
-                      id="phone"
-                      type="tel"
-                      autocomplete="tel"
-                      placeholder="+234 800 000 0000"
-                    >
-                  </div>
-
-                  <div class="field">
-                    <label for="mobile">Mobile</label>
-                    <input
-                      id="mobile"
-                      type="tel"
-                      autocomplete="tel"
-                      placeholder="+234 800 000 0000"
-                    >
-                  </div>
-
-                </div>
-
-                <div class="field">
-                  <label for="website">Website</label>
-                  <input
-                    id="website"
-                    type="text"
-                    placeholder="example.com"
-                  >
-                </div>
-
-                <div class="field">
-                  <label for="address">Address</label>
-                  <textarea
-                    id="address"
-                    placeholder="123 Business Street&#10;Lagos, Nigeria"
-                  ></textarea>
-                </div>
-
-              </div>
-
-              <div class="section">
-
-                <div class="section-title">
-                  Logo
-                </div>
-
-                <div class="field">
-
-                  <label for="logoUrl">
-                    Public Logo URL
-                  </label>
-
-                  <input
-                    id="logoUrl"
-                    type="text"
-                    placeholder="https://example.com/logo.png"
-                  >
-
-                  <div class="small-text">
-                    Use a publicly accessible HTTPS image URL.
-                  </div>
-
-                </div>
-
-                <div class="field">
-
-                  <label for="logoFile">
-                    Or Upload Logo
-                  </label>
-
-                  <input
-                    id="logoFile"
-                    type="file"
-                    accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml"
-                  >
-
-                  <div
-                    id="logoStatus"
-                    class="small-text"
-                  ></div>
-
-                </div>
-
-              </div>
-
-              <div class="section">
-
-                <div class="section-title">
-                  Layout
-                </div>
-
-                <div class="layout-tabs">
-
-                  <button
-                    type="button"
-                    class="layout-tab"
-                    data-layout="1"
-                  >1</button>
-
-                  <button
-                    type="button"
-                    class="layout-tab"
-                    data-layout="2"
-                  >2</button>
-
-                  <button
-                    type="button"
-                    class="layout-tab"
-                    data-layout="3"
-                  >3</button>
-
-                  <button
-                    type="button"
-                    class="layout-tab"
-                    data-layout="4"
-                  >4</button>
-
-                  <button
-                    type="button"
-                    class="layout-tab"
-                    data-layout="5"
-                  >5</button>
-
-                </div>
-
-              </div>
-
-              <div class="section">
-
-                <div class="section-title">
-                  Dividers
-                </div>
-
-                <div class="two">
-
-                  <div class="field">
-
-                    <label for="mainDivider">
-                      Main Divider
-                    </label>
-
-                    <select id="mainDivider">
-                      <option value="none">None</option>
-                      <option value="line">Line</option>
-                    </select>
-
-                  </div>
-
-                  <div class="field">
-
-                    <label for="socialDivider">
-                      Social Divider
-                    </label>
-
-                    <select id="socialDivider">
-                      <option value="none">None</option>
-                      <option value="line">Line</option>
-                    </select>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-              <div class="section">
-
-                <div class="section-title">
-                  Social Links
-                </div>
-
-                <div id="socialsContainer"></div>
-
-                <button
-                  type="button"
-                  class="btn btn-secondary add-social"
-                  id="addSocialBtn"
-                >
-                  + Add Social Link
-                </button>
-
-              </div>
-
-              <div class="section">
-
-                <div class="notice">
-                  <strong>Tip:</strong>
-                  Use HTTPS URLs for logos and social profiles.
-                  Phone, email, website, and WhatsApp links are
-                  automatically converted into clickable links.
-                </div>
-
-                <div
-                  id="status"
-                  class="status"
-                ></div>
-
-                <div
-                  id="clientBox"
-                  class="client-box"
-                >
-
-                  <label for="clientLink">
-                    Shareable Client Link
-                  </label>
-
-                  <input
-                    id="clientLink"
-                    class="client-link"
-                    readonly
-                  >
-
-                  <div class="small-text">
-                    This link contains the signature data in the URL,
-                    so the client page works without a server database.
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </section>
-
-          <!-- PREVIEW -->
-
-          <section class="card preview-card">
-
-            <div class="preview-header">
-
-              <h2>
-                Signature Preview
-              </h2>
-
-              <button
-                type="button"
-                class="btn btn-secondary"
-                id="previewCopyBtn"
-              >
-                Copy
-              </button>
-
-            </div>
-
-            <div class="preview-area">
-
-              <div
-                id="signaturePreview"
-                class="signature-paper"
-              >
-                <div class="signature-empty">
-                  <strong>Your signature preview will appear here</strong>
-                  Start by entering your name, job title, company,
-                  or contact details.
-                </div>
-              </div>
-
-            </div>
-
-            <div class="card-inner instructions">
-
-              <div class="instruction">
-
-                <h3>
-                  Gmail
-                </h3>
-
-                <p>
-                  Open Gmail settings, go to Signature, create or edit
-                  your signature, then paste the copied rendered
-                  signature.
-                </p>
-
-              </div>
-
-              <div class="instruction">
-
-                <h3>
-                  Outlook
-                </h3>
-
-                <p>
-                  Open Outlook signature settings and paste the
-                  rendered signature into the signature editor.
-                </p>
-
-              </div>
-
-              <div class="instruction">
-
-                <h3>
-                  Client Page
-                </h3>
-
-                <p>
-                  Create a client link to give another person access
-                  to their own signature page without requiring a
-                  database or backend.
-                </p>
-
-              </div>
-
-            </div>
-
-          </section>
-
-        </div>
-
-      </main>
-
-    </div>
-
-    <!-- HTML MODAL -->
-
-    <div
-      class="modal"
-      id="htmlModal"
-      aria-hidden="true"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="htmlModalTitle"
-    >
-
-      <div class="modal-content">
-
-        <div class="modal-header">
-
-          <h2 id="htmlModalTitle">
-            Signature HTML
-          </h2>
-
-          <button
-            type="button"
-            class="btn btn-secondary"
-            id="closeModalBtn"
-            aria-label="Close"
-          >
-            Close
-          </button>
-
-        </div>
-
-        <textarea
-          id="htmlOutput"
-          class="code-output"
-          spellcheck="false"
-        ></textarea>
-
-        <div class="actions" style="margin-top:10px;">
-
-          <button
-            type="button"
-            class="btn btn-primary"
-            id="modalCopyBtn"
-          >
-            Copy HTML
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-  `;
-
-  loadDraft();
-
-  renderSocials();
-  updateLayoutButtons();
-  renderPreview();
-
-  bindBuilderEvents();
-}
-
-/* ============================================================
-   LAYOUT BUTTONS
-============================================================ */
-
-function updateLayoutButtons(){
-
-  document
-    .querySelectorAll("[data-layout]")
-    .forEach(button => {
-
-      const layout =
-        Number(button.dataset.layout);
-
-      button.classList.toggle(
-        "active",
-        layout === currentLayout
-      );
-    });
-}
-
-function setLayout(layout){
-
-  const value = Number(layout);
-
-  if(value < 1 || value > 5){
-    return;
-  }
-
-  currentLayout = value;
-
-  updateLayoutButtons();
-  renderPreview();
-  saveDraft();
-}
-
-/* ============================================================
+/* =====================================================
    LOGO UPLOAD
-============================================================ */
+===================================================== */
 
-function handleLogoUpload(event){
+$("logoFile")
+.addEventListener(
+"change",
+function(){
 
-  const file =
-    event.target.files?.[0];
+const file =
+this.files[0];
 
-  if(!file){
-    return;
-  }
+if(!file)
+return;
 
-  if(!file.type.startsWith("image/")){
-    showStatus(
-      "Please select a valid image file.",
-      "error"
-    );
-    event.target.value = "";
-    return;
-  }
+const reader =
+new FileReader();
 
-  /*
-    Avoid excessively large data URLs.
-    2.5 MB is deliberately conservative for shareable URLs.
-  */
-  if(file.size > 2.5 * 1024 * 1024){
-    showStatus(
-      "Please use a logo smaller than 2.5 MB.",
-      "error"
-    );
-    event.target.value = "";
-    return;
-  }
+reader.onload =
+function(e){
 
-  const reader = new FileReader();
+uploadedLogo =
+e.target.result;
 
-  reader.onload = function(){
+$("logoPreview").src =
+uploadedLogo;
 
-    if(typeof reader.result !== "string"){
-      return;
-    }
+$("logoPreview").style.display =
+"block";
 
-    uploadedLogoData =
-      reader.result;
+preview();
 
-    if($("logoStatus")){
-      $("logoStatus").textContent =
-        "Uploaded logo ready.";
-    }
+};
 
-    renderPreview();
-    saveDraft();
-  };
+reader.readAsDataURL(file);
 
-  reader.onerror = function(){
+});
 
-    uploadedLogoData = "";
 
-    showStatus(
-      "Unable to read the logo file.",
-      "error"
-    );
-  };
+/* =====================================================
+   LOGO SIZE
+===================================================== */
 
-  reader.readAsDataURL(file);
-}
+$("logoWidth")
+.addEventListener(
+"input",
+function(){
 
-/* ============================================================
-   RESET
-============================================================ */
+$("logoSize").textContent =
+this.value;
 
-function resetBuilder(){
+preview();
 
-  const confirmed =
-    window.confirm(
-      "Reset the signature builder? All current information will be cleared."
-    );
+});
 
-  if(!confirmed){
-    return;
-  }
 
-  const fields = [
-    "firstName",
-    "lastName",
-    "jobTitle",
-    "company",
-    "department",
-    "email",
-    "phone",
-    "mobile",
-    "website",
-    "address",
-    "logoUrl"
-  ];
+/* =====================================================
+   INPUT UPDATES
+===================================================== */
 
-  fields.forEach(id => {
-    if($(id)){
-      $(id).value = "";
-    }
-  });
+document
+.querySelectorAll(
+"input,select"
+)
+.forEach(input=>{
 
-  if($("logoFile")){
-    $("logoFile").value = "";
-  }
-
-  if($("mainDivider")){
-    $("mainDivider").value = "none";
-  }
-
-  if($("socialDivider")){
-    $("socialDivider").value = "none";
-  }
-
-  uploadedLogoData = "";
-
-  socials = [
-    {type:"LinkedIn",url:""},
-    {type:"Instagram",url:""},
-    {type:"Facebook",url:""},
-    {type:"X",url:""}
-  ];
-
-  currentLayout = 1;
-
-  try{
-    localStorage.removeItem(STORAGE_KEY);
-  }catch(e){}
-
-  if($("logoStatus")){
-    $("logoStatus").textContent = "";
-  }
-
-  if($("clientBox")){
-    $("clientBox").classList.remove("visible");
-  }
-
-  if($("clientLink")){
-    $("clientLink").value = "";
-  }
-
-  renderSocials();
-  updateLayoutButtons();
-  renderPreview();
-
-  showStatus(
-    "Builder reset.",
-    "success"
-  );
-}
-
-/* ============================================================
-   EVENT BINDING
-============================================================ */
-
-function bindBuilderEvents(){
-
-  const liveFields = [
-    "firstName",
-    "lastName",
-    "jobTitle",
-    "company",
-    "department",
-    "email",
-    "phone",
-    "mobile",
-    "website",
-    "address",
-    "logoUrl",
-    "mainDivider",
-    "socialDivider"
-  ];
-
-  liveFields.forEach(id => {
-
-    const field = $(id);
-
-    if(!field){
-      return;
-    }
-
-    field.addEventListener(
-      "input",
-      () => {
-        renderPreview();
-        saveDraft();
-      }
-    );
-
-    field.addEventListener(
-      "change",
-      () => {
-        renderPreview();
-        saveDraft();
-      }
-    );
-  });
-
-  document
-    .querySelectorAll("[data-layout]")
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-          setLayout(button.dataset.layout);
-        }
-      );
-    });
-
-  $("addSocialBtn")?.addEventListener(
-    "click",
-    addSocial
-  );
-
-  $("logoFile")?.addEventListener(
-    "change",
-    handleLogoUpload
-  );
-
-  $("resetBtn")?.addEventListener(
-    "click",
-    resetBuilder
-  );
-
-  $("copyBtn")?.addEventListener(
-    "click",
-    copySignature
-  );
-
-  $("previewCopyBtn")?.addEventListener(
-    "click",
-    copySignature
-  );
-
-  $("htmlBtn")?.addEventListener(
-    "click",
-    () => {
-
-      const data = getBuilderData();
-
-      if(isSignatureEmpty(data)){
-        showStatus(
-          "Add some information before viewing the HTML.",
-          "error"
-        );
-        return;
-      }
-
-      openHTMLModal(
-        generateSignature(data)
-      );
-    }
-  );
-
-  $("modalCopyBtn")?.addEventListener(
-    "click",
-    copyModalHTML
-  );
-
-  $("closeModalBtn")?.addEventListener(
-    "click",
-    closeHTMLModal
-  );
-
-  $("clientBtn")?.addEventListener(
-    "click",
-    createClientLink
-  );
-
-  $("htmlModal")?.addEventListener(
-    "click",
-    event => {
-      if(event.target === $("htmlModal")){
-        closeHTMLModal();
-      }
-    }
-  );
-}
-
-/* ============================================================
-   KEYBOARD SUPPORT
-============================================================ */
-
-document.addEventListener(
-  "keydown",
-  event => {
-
-    if(event.key === "Escape"){
-
-      const modal =
-        $("htmlModal");
-
-      if(
-        modal &&
-        modal.classList.contains("open")
-      ){
-        closeHTMLModal();
-      }
-    }
-  }
+input.addEventListener(
+"input",
+preview
 );
 
-/* ============================================================
-   HASH ROUTING
-============================================================ */
-
-function boot(){
-
-  const hash =
-    window.location.hash || "";
-
-  if(hash.startsWith("#client=")){
-
-    const data =
-      getClientDataFromHash();
-
-    if(data){
-      renderClientPage(data);
-    }else{
-      renderInvalidClientPage();
-    }
-
-    return;
-  }
-
-  renderBuilder();
-}
-
-window.addEventListener(
-  "hashchange",
-  () => {
-
-    if(
-      window.location.hash.startsWith("#client=")
-    ){
-
-      const data =
-        getClientDataFromHash();
-
-      if(data){
-        renderClientPage(data);
-      }else{
-        renderInvalidClientPage();
-      }
-
-    }else{
-
-      window.location.reload();
-
-    }
-  }
+input.addEventListener(
+"change",
+preview
 );
 
-boot();
+});
+
+
+/* =====================================================
+   LAYOUT BUTTONS
+===================================================== */
+
+document
+.querySelectorAll(".layout")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+()=>{
+
+document
+.querySelectorAll(".layout")
+.forEach(x=>
+x.classList.remove("active")
+);
+
+button.classList.add("active");
+
+layout =
+button.dataset.x;
+
+preview();
+
+});
+
+});
+
+
+/* =====================================================
+   SOCIAL ICON HTML
+===================================================== */
+
+function customSocialIcon(
+icon,
+accent
+){
+
+const safeIcon =
+esc(
+icon ||
+"●"
+);
+
+return `
+
+<span
+class="social-icon-box"
+style="
+background:${esc(accent)};
+color:#fff;
+"
+>
+${safeIcon}
+</span>
+
+`;
+
+}
+
+
+/* =====================================================
+   SOCIAL OUTPUT
+===================================================== */
+
+function social(s){
+
+if(
+!s.socials ||
+!s.socials.length
+){
+
+return "";
+
+}
+
+let icons = "";
+
+s.socials.forEach(item=>{
+
+const url =
+safeUrl(item.url);
+
+if(!url)
+return;
+
+const label =
+item.name ||
+"Social";
+
+icons += `
+
+<a
+href="${esc(url)}"
+target="_blank"
+class="social-icon-link"
+title="${esc(label)}"
+style="
+display:inline-block;
+text-decoration:none;
+margin-right:6px;
+vertical-align:middle;
+"
+>
+
+${customSocialIcon(
+item.icon || "●",
+s.ac
+)}
+
+</a>
+
+`;
+
+});
+
+if(!icons)
+return "";
+
+return `
+
+<table
+cellpadding="0"
+cellspacing="0"
+border="0"
+style="
+margin-top:12px;
+"
+>
+
+<tr>
+
+<td
+style="
+height:1px;
+font-size:0;
+line-height:0;
+background:${esc(s.ac)};
+"
+>
+&nbsp;
+</td>
+
+</tr>
+
+<tr>
+
+<td
+style="
+padding-top:9px;
+white-space:nowrap;
+"
+>
+
+${icons}
+
+</td>
+
+</tr>
+
+</table>
+
+`;
+
+}
+
+
+/* =====================================================
+   CONTACT
+===================================================== */
+
+function contact(s){
+
+let html = "";
+
+
+if(s.p){
+
+html += `
+
+<div
+style="
+font-size:12px;
+line-height:20px;
+"
+>
+
+<a
+href="tel:${esc(s.p)}"
+style="
+color:#555;
+text-decoration:none;
+"
+>
+
+${esc(s.p)}
+
+</a>
+
+</div>
+
+`;
+
+}
+
+
+if(s.e){
+
+html += `
+
+<div
+style="
+font-size:12px;
+line-height:20px;
+"
+>
+
+<a
+href="mailto:${esc(s.e)}"
+style="
+color:#555;
+text-decoration:none;
+"
+>
+
+${esc(s.e)}
+
+</a>
+
+</div>
+
+`;
+
+}
+
+
+if(s.w){
+
+const website =
+safeUrl(s.w);
+
+if(website){
+
+html += `
+
+<div
+style="
+font-size:12px;
+line-height:20px;
+"
+>
+
+<a
+href="${esc(website)}"
+target="_blank"
+style="
+color:${esc(s.ac)};
+text-decoration:none;
+"
+>
+
+${esc(s.w)}
+
+</a>
+
+</div>
+
+`;
+
+}
+
+}
+
+
+if(s.l){
+
+html += `
+
+<div
+style="
+font-size:12px;
+line-height:20px;
+color:#777;
+"
+>
+
+${esc(s.l)}
+
+</div>
+
+`;
+
+}
+
+
+return html;
+
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+function logo(s){
+
+if(!s.logo)
+return "";
+
+return `
+
+<td
+valign="middle"
+style="
+vertical-align:middle;
+padding-right:20px;
+"
+>
+
+<img
+src="${esc(s.logo)}"
+width="${esc(s.logoWidth)}"
+alt="${esc(
+s.c ||
+"Company Logo"
+)}"
+style="
+display:block;
+width:${esc(s.logoWidth)}px;
+max-width:${esc(s.logoWidth)}px;
+height:auto;
+border:0;
+outline:none;
+text-decoration:none;
+"
+>
+
+</td>
+
+`;
+
+}
+
+
+/* =====================================================
+   MAIN DIVIDER
+===================================================== */
+
+function mainDivider(s){
+
+return `
+
+<td
+style="
+width:1px;
+background:${esc(s.ac)};
+font-size:0;
+line-height:0;
+"
+>
+&nbsp;
+</td>
+
+`;
+
+}
+
+
+/* =====================================================
+   CLASSIC
+===================================================== */
+
+function classic(s){
+
+return `
+
+<table
+cellpadding="0"
+cellspacing="0"
+border="0"
+style="
+font-family:${esc(s.font)};
+color:${esc(s.pc)};
+"
+>
+
+<tr>
+
+${logo(s)}
+
+${s.logo ? mainDivider(s) : ""}
+
+<td
+valign="top"
+style="
+vertical-align:top;
+padding-left:${s.logo ? "20px" : "0"};
+"
+>
+
+<div
+style="
+font-size:20px;
+line-height:25px;
+font-weight:bold;
+color:${esc(s.pc)};
+"
+>
+${esc(
+s.n ||
+"Your Name"
+)}
+</div>
+
+<div
+style="
+font-size:13px;
+color:#666;
+margin-top:3px;
+"
+>
+${esc(s.t)}
+</div>
+
+<div
+style="
+font-size:14px;
+font-weight:bold;
+margin-top:3px;
+color:${esc(s.pc)};
+"
+>
+${esc(s.c)}
+</div>
+
+<div
+style="
+height:2px;
+width:55px;
+background:${esc(s.ac)};
+margin:9px 0;
+font-size:0;
+line-height:0;
+"
+>
+&nbsp;
+</div>
+
+${contact(s)}
+
+${social(s)}
+
+</td>
+
+</tr>
+
+</table>
+
+`;
+
+}
+
+
+/* =====================================================
+   MODERN
+===================================================== */
+
+function modern(s){
+
+return `
+
+<table
+cellpadding="0"
+cellspacing="0"
+border="0"
+style="
+font-family:${esc(s.font)};
+"
+>
+
+<tr>
+
+${logo(s)}
+
+${s.logo ? mainDivider(s) : ""}
+
+<td
+style="
+padding-left:${s.logo ? "20px" : "0"};
+padding-right:25px;
+vertical-align:top;
+"
+>
+
+<div
+style="
+font-size:21px;
+font-weight:bold;
+color:${esc(s.pc)};
+"
+>
+${esc(
+s.n ||
+"Your Name"
+)}
+</div>
+
+<div
+style="
+font-size:13px;
+color:${esc(s.ac)};
+margin-top:4px;
+"
+>
+
+${esc(s.t)}
+
+${s.c
+? " · "+esc(s.c)
+: ""}
+
+</div>
+
+</td>
+
+<td
+style="
+border-left:2px solid ${esc(s.ac)};
+padding-left:20px;
+vertical-align:top;
+"
+>
+
+${contact(s)}
+
+${social(s)}
+
+</td>
+
+</tr>
+
+</table>
+
+`;
+
+}
+
+
+/* =====================================================
+   MINIMAL
+===================================================== */
+
+function minimal(s){
+
+return `
+
+<table
+cellpadding="0"
+cellspacing="0"
+border="0"
+style="
+font-family:${esc(s.font)};
+"
+>
+
+<tr>
+
+${logo(s)}
+
+${s.logo ? mainDivider(s) : ""}
+
+<td
+style="
+padding-left:${s.logo ? "20px" : "0"};
+"
+>
+
+<div
+style="
+font-size:17px;
+font-weight:bold;
+color:${esc(s.pc)};
+"
+>
+${esc(
+s.n ||
+"Your Name"
+)}
+</div>
+
+<div
+style="
+font-size:12px;
+color:#777;
+margin-top:3px;
+"
+>
+
+${esc(s.t)}
+
+${s.c
+? " · "+esc(s.c)
+: ""}
+
+</div>
+
+${contact(s)}
+
+${social(s)}
+
+</td>
+
+</tr>
+
+</table>
+
+`;
+
+}
+
+
+/* =====================================================
+   EXECUTIVE
+===================================================== */
+
+function executive(s){
+
+return `
+
+<table
+cellpadding="0"
+cellspacing="0"
+border="0"
+style="
+font-family:${esc(s.font)};
+"
+>
+
+<tr>
+
+${logo(s)}
+
+${s.logo ? mainDivider(s) : ""}
+
+<td
+style="
+padding-left:${s.logo ? "20px" : "0"};
+"
+>
+
+<div
+style="
+font-size:24px;
+line-height:28px;
+font-weight:bold;
+color:${esc(s.pc)};
+"
+>
+${esc(
+s.n ||
+"Your Name"
+)}
+</div>
+
+<div
+style="
+font-size:13px;
+color:${esc(s.ac)};
+margin-top:4px;
+"
+>
+${esc(s.t)}
+</div>
+
+<div
+style="
+font-size:14px;
+font-weight:bold;
+color:${esc(s.pc)};
+margin-top:2px;
+"
+>
+${esc(s.c)}
+</div>
+
+<div
+style="
+height:3px;
+width:70px;
+background:${esc(s.ac)};
+margin:12px 0;
+font-size:0;
+line-height:0;
+"
+>
+&nbsp;
+</div>
+
+${contact(s)}
+
+${social(s)}
+
+</td>
+
+</tr>
+
+</table>
+
+`;
+
+}
+
+
+/* =====================================================
+   COMPACT
+===================================================== */
+
+function compact(s){
+
+return `
+
+<table
+cellpadding="0"
+cellspacing="0"
+border="0"
+style="
+font-family:${esc(s.font)};
+"
+>
+
+<tr>
+
+${logo(s)}
+
+${s.logo ? mainDivider(s) : ""}
+
+<td
+style="
+padding-left:${s.logo ? "15px" : "0"};
+"
+>
+
+<div
+style="
+font-size:15px;
+color:${esc(s.pc)};
+"
+>
+
+<strong>
+${esc(
+s.n ||
+"Your Name"
+)}
+</strong>
+
+${s.t
+? `<span style="color:#777">
+&nbsp;|&nbsp;${esc(s.t)}
+</span>`
+: ""}
+
+</div>
+
+<div
+style="
+font-size:11px;
+color:#666;
+margin-top:5px;
+"
+>
+
+${esc(s.c)}
+
+${s.p
+? " · "+esc(s.p)
+: ""}
+
+${s.e
+? " · "+esc(s.e)
+: ""}
+
+</div>
+
+${social(s)}
+
+</td>
+
+</tr>
+
+</table>
+
+`;
+
+}
+
+
+/* =====================================================
+   BUILD SIGNATURE
+===================================================== */
+
+function buildSignature(s){
+
+if(layout==="modern")
+return modern(s);
+
+if(layout==="minimal")
+return minimal(s);
+
+if(layout==="executive")
+return executive(s);
+
+if(layout==="compact")
+return compact(s);
+
+return classic(s);
+
+}
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+function preview(){
+
+$("preview").innerHTML =
+buildSignature(
+getData()
+);
+
+}
+
+
+/* =====================================================
+   COPY HTML
+===================================================== */
+
+async function copyHTML(
+element,
+message
+){
+
+const html =
+element.innerHTML;
+
+const text =
+element.innerText;
+
+try{
+
+if(
+navigator.clipboard &&
+window.ClipboardItem
+){
+
+await navigator.clipboard.write([
+
+new ClipboardItem({
+
+"text/html":
+new Blob(
+[html],
+{
+type:"text/html"
+}
+),
+
+"text/plain":
+new Blob(
+[text],
+{
+type:"text/plain"
+}
+)
+
+})
+
+]);
+
+}else{
+
+throw new Error(
+"Clipboard unavailable"
+);
+
+}
+
+message.style.display =
+"block";
+
+setTimeout(()=>{
+message.style.display =
+"none";
+},2500);
+
+}catch(error){
+
+const range =
+document.createRange();
+
+range.selectNodeContents(
+element
+);
+
+const selection =
+window.getSelection();
+
+selection.removeAllRanges();
+
+selection.addRange(
+range
+);
+
+document.execCommand(
+"copy"
+);
+
+selection.removeAllRanges();
+
+message.style.display =
+"block";
+
+setTimeout(()=>{
+message.style.display =
+"none";
+},2500);
+
+}
+
+}
+
+
+/* =====================================================
+   COPY SIGNATURE
+===================================================== */
+
+function copySignature(){
+
+copyHTML(
+$("preview"),
+$("notice")
+);
+
+}
+
+
+/* =====================================================
+   COPY CLIENT SIGNATURE
+===================================================== */
+
+function copyClientSignature(){
+
+copyHTML(
+$("clientSig"),
+$("clientMessage")
+);
+
+}
+
+
+/* =====================================================
+   DOWNLOAD HTML
+===================================================== */
+
+function downloadSignature(){
+
+const signature =
+buildSignature(
+getData()
+);
+
+const html = `
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+Email Signature
+</title>
+
+</head>
+
+<body>
+
+${signature}
+
+</body>
+
+</html>
+
+`;
+
+const blob =
+new Blob(
+[html],
+{
+type:"text/html"
+}
+);
+
+const url =
+URL.createObjectURL(
+blob
+);
+
+const a =
+document.createElement(
+"a"
+);
+
+a.href = url;
+
+a.download =
+"email-signature.html";
+
+document.body.appendChild(a);
+
+a.click();
+
+a.remove();
+
+URL.revokeObjectURL(
+url
+);
+
+}
+
+
+/* =====================================================
+   CREATE CLIENT LINK
+===================================================== */
+
+function makeClientLink(){
+
+const data = {
+
+d:getData(),
+
+x:layout
+
+};
+
+try{
+
+const encoded =
+btoa(
+encodeURIComponent(
+JSON.stringify(data)
+)
+);
+
+const base =
+window.location.href
+.split("?")[0];
+
+const url =
+base +
+"?client=" +
+encodeURIComponent(
+encoded
+);
+
+$("clientLink").value =
+url;
+
+$("linkBox").style.display =
+"block";
+
+}catch(error){
+
+alert(
+"Could not create client link."
+);
+
+}
+
+}
+
+
+/* =====================================================
+   COPY CLIENT LINK
+===================================================== */
+
+async function copyClientLink(){
+
+const link =
+$("clientLink").value;
+
+try{
+
+await navigator.clipboard
+.writeText(link);
+
+$("notice").textContent =
+"✓ Client link copied";
+
+$("notice").style.display =
+"block";
+
+setTimeout(()=>{
+
+$("notice").style.display =
+"none";
+
+},2500);
+
+}catch(error){
+
+$("clientLink").select();
+
+document.execCommand(
+"copy"
+);
+
+$("notice").textContent =
+"✓ Client link copied";
+
+$("notice").style.display =
+"block";
+
+setTimeout(()=>{
+
+$("notice").style.display =
+"none";
+
+},2500);
+
+}
+
+}
+
+
+/* =====================================================
+   GUIDE TABS
+===================================================== */
+
+function showGuide(
+id,
+button
+){
+
+document
+.querySelectorAll(".guide")
+.forEach(x=>{
+x.style.display =
+"none";
+});
+
+$(id).style.display =
+"block";
+
+document
+.querySelectorAll(".tab")
+.forEach(x=>{
+x.classList.remove(
+"active"
+);
+});
+
+button.classList.add(
+"active"
+);
+
+}
+
+
+/* =====================================================
+   LOAD CLIENT PAGE
+===================================================== */
+
+function loadClient(){
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const encoded =
+params.get("client");
+
+if(!encoded)
+return;
+
+try{
+
+const decoded =
+decodeURIComponent(
+atob(encoded)
+);
+
+const saved =
+JSON.parse(decoded);
+
+layout =
+saved.x ||
+"classic";
+
+
+$("builder").style.display =
+"none";
+
+$("client").style.display =
+"block";
+
+
+$("clientSig").innerHTML =
+buildSignature(
+saved.d
+);
+
+
+if(saved.d.c){
+
+$("clientBrand")
+.textContent =
+saved.d.c;
+
+}
+
+
+document.title =
+(saved.d.c || "Client") +
+" - Email Signature";
+
+
+}catch(error){
+
+document.body.innerHTML = `
+
+<div
+style="
+max-width:600px;
+margin:80px auto;
+padding:30px;
+background:white;
+border-radius:12px;
+font-family:Arial;
+text-align:center;
+"
+>
+
+<h2>
+Client link is invalid
+</h2>
+
+<p>
+Please ask the sender to generate a new client link.
+</p>
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =====================================================
+   SAMPLE SOCIAL LINKS
+===================================================== */
+
+/*
+   Start with no social links.
+   Uncomment the examples below if you want
+   the builder to start with sample links.
+
+addSocial("LinkedIn",
+"https://linkedin.com/in/example",
+"in");
+
+addSocial("Instagram",
+"https://instagram.com/example",
+"ig");
+
+addSocial("YouTube",
+"https://youtube.com/@example",
+"▶");
+
+*/
+
+
+/* =====================================================
+   START
+===================================================== */
+
+preview();
+
+loadClient();
+
 </script>
+
 </body>
 </html>
